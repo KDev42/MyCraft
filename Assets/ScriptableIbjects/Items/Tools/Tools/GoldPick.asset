@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a35be6491813c941bf592e86c132a2a, type: 3}
+  m_Name: GoldPick
+  m_EditorClassIdentifier: 
+  icon: {fileID: 1018024516, guid: c6af537e9a7253746a642705b76e4236, type: 3}
+  itemForme: 2
+  itemType: 1000
+  maxNumberStacks: 3
+  prefab: {fileID: -6248451235004799691, guid: 50dd2443712980943afc7f7cd4008b3f, type: 3}
+  toolType: -1
+  accelerationMining: 5
+  baseOffset: {x: 3, y: 5}
+  offset: {x: 3, y: 5}

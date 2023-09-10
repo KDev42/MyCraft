@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c40ce26dbf1352243a99cdcea64c7a70, type: 3}
+  m_Name: GoldOre
+  m_EditorClassIdentifier: 
+  icon: {fileID: 1568442622, guid: 2541805204bfe5740b3150205aef7e4f, type: 3}
+  itemForme: 3
+  itemType: 1103
+  maxNumberStacks: 64
+  prefab: {fileID: 6269800413348974730, guid: 90ecd229c3bedcc409442182904e3371, type: 3}
