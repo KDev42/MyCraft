@@ -34,7 +34,7 @@ public class ItemCube : ItemObject
 
     private void GenerateBlock(BlockInfo blockInfo)
     {
-        Vector3Int blockOffset = new Vector3Int(0, 0, 0);
+        Vector3 blockOffset = new Vector3(-0.5f,0 , -0.5f);
 
         CubeTexturing.GenerateRightSide(blockOffset, ref vertiecies, ref triangles);
         CubeTexturing.AddUvs(blockInfo, Vector3Int.right, ref uvs);

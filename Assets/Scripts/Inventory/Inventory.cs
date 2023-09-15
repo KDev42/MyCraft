@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class Inventory 
 {
-    public ItemStack[] items;
+    public ItemStack[] Items { get; private set; }
 
     public Inventory(int lengh)
     {
-        items = new ItemStack[lengh];
+        Items = new ItemStack[lengh];
     }
 
     public bool HasFreeIndex(ref int freeIndex)
     {
-        for(int i=0; i < items.Length; i++)
+        for(int i=0; i < Items.Length; i++)
         {
-            if(items[i] == null)
+            if(Items[i] == null)
             {
                 freeIndex = i;
                 return true;
@@ -27,9 +27,9 @@ public class Inventory
 
     public bool CanAddItem(ref int index, Item item)
     {
-        for (int i = 0; i < items.Length; i++)
+        for (int i = 0; i < Items.Length; i++)
         {
-            if (items[i] != null && items[i].itemType == item.itemType && items[i].amount < item.maxNumberStacks)
+            if (Items[i] != null && Items[i].itemType == item.itemType && Items[i].amount < item.maxNumberStacks)
             {
                 index = i;
                 return true;
@@ -41,21 +41,71 @@ public class Inventory
 
     public void AddItem(int index, Item item, int amount)
     {
-        if (items[index] == null)
+        if (Items[index] == null)
         {
             ItemStack itemStack = new ItemStack(item.itemType, amount);
-            items[index] = itemStack;
+            Items[index] = itemStack;
         }
         else
         {
-            items[index].amount++;
+            Items[index].amount++;
         }
+    }
+
+    public void RemoveItem(int index, int amount, out int removedAmount)
+    {
+        ItemStack item = Items[index];
+        if (item.amount - amount <= 0)
+        {
+            removedAmount = item.amount;
+            RemoveAllItem(index);
+        }
+        else
+        {
+            removedAmount = amount;
+            item.amount -= amount;
+        }
+    }
+
+    public void RemoveAllItem(int index)
+    {
+        Items[index] = null;
     }
 
     public void SwapItems(int index, ItemStack itemStack)
     {
         //ItemStack cloneItemStack = new ItemStack(itemStack.itemType, itemStack.amount);
 
-        items[index] = itemStack;
+        Items[index] = itemStack;
+    }
+
+    public int AmountItem(ItemType itemType)
+    {
+        int amount = 0;
+
+        foreach (ItemStack item in Items)
+        {
+            if (item != null && item.itemType == itemType)
+            {
+                amount += item.amount;
+            }
+        }
+
+        return amount;
+    }
+
+    public bool HasItemType(ItemType itemType, out int index)
+    {
+        index = 0;
+        for (int i = 0; i < Items.Length; i++)
+        {
+            if (Items[i] != null && Items[i].itemType == itemType)
+            {
+                index = i;
+                return true;
+            }
+        }
+
+        return false;
     }
 }

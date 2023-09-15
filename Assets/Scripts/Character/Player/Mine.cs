@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Zenject;
+using FMODUnity;
 
 public class Mine : MonoBehaviour
 {
@@ -67,6 +68,8 @@ public class Mine : MonoBehaviour
 
     public void MineBlock()
     {
+        if(!miningBlock.blockInfo.mineAudio.IsNull)
+            RuntimeManager.PlayOneShot(miningBlock.blockInfo.mineAudio);
         CalculateRotation(miningBlock.directionType);
         ActivateCracks();
         particlesFactory.SpawnParticles(particlePosition, particleRotation, miningBlock.blockInfo);

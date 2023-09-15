@@ -17,7 +17,6 @@ public class ParticlesFactory : MonoBehaviour
         GameObject particle = GetObject(brokeBlockParticle);
         ParticleSystem particleSystem = particle.GetComponent<ParticleSystem>();
         particle.transform.position = spawnPosition;
-        Debug.Log(spawnRotation);
         particle.transform.rotation = spawnRotation;
 
         Vector2 textureOffset = blockInfo.GetPixelsOffset(Vector3Int.up)/ tileSize;
@@ -34,7 +33,7 @@ public class ParticlesFactory : MonoBehaviour
             itemsPool.Add(objectPrefab, new Pool(objectPrefab, 4, container, false));
         }
 
-        return itemsPool[objectPrefab].GetFreeElement(false).gameObject;
+        return itemsPool[objectPrefab].GetFreeElement(false, false).gameObject;
     }
 
     private void SetTexture(int x, int y, ParticleSystemRenderer particleSystem)

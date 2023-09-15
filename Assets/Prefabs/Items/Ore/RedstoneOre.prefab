@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4223634943751636265}
   - component: {fileID: 6720210568715805725}
   - component: {fileID: 7205863368130185258}
+  - component: {fileID: 3480124738436570306}
   m_Layer: 6
   m_Name: RedstoneOre
   m_TagString: Untagged
@@ -30,8 +31,8 @@ Transform:
   m_GameObject: {fileID: 2151603675240926163}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 57.816307, y: 41.1, z: 49.827}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -110,8 +111,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60c8de254251f264fabdd13080728913, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotateSpeed: 1
+  rotateSpeed: 3
   moveSpeed: 1
+  dropSpeed: 2
   item: {fileID: 11400000, guid: 9703f09e188d6524dbfd6a79eb346f84, type: 2}
 --- !u!65 &7205863368130185258
 BoxCollider:
@@ -126,3 +128,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2, y: 2, z: 2}
   m_Center: {x: 0, y: 0.171875, z: 0}
+--- !u!114 &3480124738436570306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2151603675240926163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fc1858db275a484494155484a629da3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterWidth: 0.2
+  characterHeight: 0.2
+  boundsTolerance: 0
+  world: {fileID: 0}
+  distanceBetweenPoints: 0.05

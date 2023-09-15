@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 [RequireComponent(typeof(Move))]
 public class Player : MonoBehaviour
@@ -35,6 +36,14 @@ public class Player : MonoBehaviour
     private  BlockType selectedBlockType = BlockType.grass; //test
     private DirectionType directionType;
 
+    private Database database;
+
+    [Inject]
+    private void Construct(Database database)
+    {
+        this.database = database;
+    }
+
     private void Awake()
     {
         EventsHolder.moveInput += GetMotionInput;
@@ -58,6 +67,10 @@ public class Player : MonoBehaviour
         //if (Input.GetMouseButtonDown(1))
         //    world.DestroyBlock(highlightBlock.position);
 
+        velocity = move.CalculateVelocity(direction, lookDirection, world);
+
+        transform.Translate(velocity, Space.World);
+
         move.CheckPosition();
         PlaceCursorBlocks();
         CheckMinigBlock();
@@ -71,9 +84,6 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        velocity = move.CalculateVelocity(direction, lookDirection, world);
-
-        transform.Translate(velocity, Space.World);
     }
 
     private void GetMotionInput(Vector2 direction)
@@ -92,7 +102,19 @@ public class Player : MonoBehaviour
         {
             // Place block.
             //if (Input.GetMouseButtonDown(1))
-            world.AddBlock(placeBlock.position, selectedBlockType);
+            SpawnBlock();
+        }
+    }
+
+    private void SpawnBlock()
+    {
+        Item item = database.itemDatabase.GetItem(hand.itemType);
+        if (item !=null && item.itemForme == ItemForme.block)
+        {
+            ItemBlock itemBlock = item as ItemBlock;
+            world.AddBlock(placeBlock.position, itemBlock.blockType);
+
+            PlayerData.RemoveItem(hand.itemType, 1);
         }
     }
 
@@ -190,11 +212,9 @@ public class Player : MonoBehaviour
         if(((1 << other.gameObject.layer) & itemLayer) != 0)
         {
             ItemObject itemObject = other.GetComponent<ItemObject>();
-            int index = 0;
-            if (PlayerData.handInventory.CanAddItem(ref index, itemObject.item))
+            PlayerData.AddToHandInventory( itemObject.item, out bool canAdd);
+            if (canAdd)
             {
-                PlayerData.handInventory.AddItem(index, itemObject.item, 1);
-                EventsHolder.ChangeToolbar(index);
                 other.GetComponent<PoolObject>().ReturnToPool();
             }
         }

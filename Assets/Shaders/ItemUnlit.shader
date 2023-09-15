@@ -9,7 +9,8 @@ Shader "Custom/ItemUnlit" {
     Properties{
         _MainTex("Base (RGB)", 2D) = "white" {}
         _TileSize("Tile Size", Float) = 16
-        _TextureSize("Texture Size", Float) = 256
+        _TextureSizeX("Texture Size X", Float) = 256
+        _TextureSizeY("Texture Size Y", Float) = 256
         _BaseColor("Base Color", Color) = (1, 1, 1, 1)
         [HideInInspector] _Offsets("Offsets", Vector) = (0,0,0,0)
     }
@@ -27,7 +28,8 @@ Shader "Custom/ItemUnlit" {
         CBUFFER_START(UnityPerMaterial)
 
             float _TileSize;
-            float _TextureSize; 
+            float _TextureSizeX;
+            float _TextureSizeY;
             float4 _BaseColor;
             float4 _Offsets;
 
@@ -67,8 +69,8 @@ Shader "Custom/ItemUnlit" {
                 VertexOutput o;
                 o.position = TransformObjectToHClip(i.position.xyz);
 
-                float2 localOffset = float2(_Offsets.x - _Offsets.z, _Offsets.y  - _Offsets.w);
-                float2 localUV = i.uv + localOffset*(_TileSize/ _TextureSize);
+                float2 localOffset = float2(_Offsets.x + _Offsets.z, _Offsets.y  - _Offsets.w);
+                float2 localUV = i.uv + float2(localOffset.x*(_TileSize/ _TextureSizeX), localOffset.y * (_TileSize / _TextureSizeY)) ;
 
                 o.uv = localUV;
                 return o;

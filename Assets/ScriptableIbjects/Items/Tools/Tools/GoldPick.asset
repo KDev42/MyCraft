@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a35be6491813c941bf592e86c132a2a, type: 3}
   m_Name: GoldPick
   m_EditorClassIdentifier: 
-  icon: {fileID: 1018024516, guid: c6af537e9a7253746a642705b76e4236, type: 3}
+  icon: {fileID: 1272697118, guid: 2541805204bfe5740b3150205aef7e4f, type: 3}
+  ingredientsCraft: []
   itemForme: 2
   itemType: 1000
   maxNumberStacks: 3
   prefab: {fileID: -6248451235004799691, guid: 50dd2443712980943afc7f7cd4008b3f, type: 3}
   toolType: -1
   accelerationMining: 5
-  baseOffset: {x: 3, y: 5}
-  offset: {x: 3, y: 5}
+  baseOffset: {x: 0, y: 10}
+  offset: {x: 3, y: 10}

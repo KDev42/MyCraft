@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
+using System;
 
 public class ResourceDrop : MonoBehaviour
 {
@@ -38,12 +39,30 @@ public class ResourceDrop : MonoBehaviour
     private void DropItem(DropDownResources resource, Vector3Int dropCoordinate)
     {
         bool isDrop = UnityEngine.Random.Range(0f, 100f)< resource.percent;
+
         if (isDrop)
         {
-            int numberStacks = UnityEngine.Random.Range(resource.minNumber, resource.maxNumber + 1);
+            float randomPercent = UnityEngine.Random.Range(0f, 100f);
+            int numberStacks = NumberDrop( resource.maxNumber + 1, randomPercent);
 
-            Vector3 spawnPosition =  dropCoordinate + new Vector3(0.5f, 0.2f, 0.5f);
-            itemFactory.SpawnItem(resource.itemType, spawnPosition, numberStacks);
+            for(int i = 0; i < numberStacks; i++)
+            {
+                Vector3 spawnPosition = dropCoordinate + new Vector3(0.5f, 0.5f, 0.5f);
+                itemFactory.SpawnItem(resource.itemType, spawnPosition, numberStacks, ItemStates.inGround);
+            }
         }
+    }
+
+    private int NumberDrop( int maxLevel, float value)
+    {
+        float startValue = 50f;
+        float maxValue =95f;
+
+        if (value <= startValue)
+            return 1;
+
+        double q = Math.Pow((maxValue / startValue), 1.0d / (maxLevel - 1.0d));
+
+        return (int)(Math.Log(value / startValue, q) )+1;
     }
 }

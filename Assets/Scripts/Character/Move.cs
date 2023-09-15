@@ -37,18 +37,18 @@ public class Move : MonoBehaviour
         this.gameWorld = gameWorld;
         // Affect vertical momentum with gravity.
         if (verticalMomentum > gravity)
-            verticalMomentum += Time.fixedDeltaTime * gravity;
+            verticalMomentum += Time.deltaTime * gravity;
 
         // if we're sprinting, use the sprint multiplier.
         if (isSprinting)
-            velocity = ((transform.forward * directionMove.y) + (transform.right * directionMove.x)) * Time.fixedDeltaTime * sprintSpeed;
+            velocity = ((transform.forward * directionMove.y) + (transform.right * directionMove.x)) * Time.deltaTime * sprintSpeed;
         else
-            velocity = ((transform.forward * directionMove.y) + (transform.right * directionMove.x)) * Time.fixedDeltaTime * walkSpeed;
+            velocity = ((transform.forward * directionMove.y) + (transform.right * directionMove.x)) * Time.deltaTime * walkSpeed;
 
         // Apply vertical momentum (falling/jumping).
 
-        if(!isFly)
-        velocity += Vector3.up * verticalMomentum * Time.fixedDeltaTime;
+        if (!isFly)
+            velocity += Vector3.up * verticalMomentum * Time.deltaTime;
 
         //if ((velocity.z > 0 && Front) 
         //    || (velocity.z < 0 && Back))
@@ -66,10 +66,10 @@ public class Move : MonoBehaviour
         Vector3 vel;
 
         //if (directionMove.x != 0 || directionMove.y != 0)
-            vel = hitBox.GetHitSides(velocity, ref isGrounded);
+        vel = hitBox.GetHitSides(velocity, ref isGrounded);
         //else
         //    vel = new Vector3(0, 0, 0);
-
+        AutoJump(velocity, vel);
         return MultiplayVectors(velocity, vel);
     }
 
@@ -85,6 +85,20 @@ public class Move : MonoBehaviour
             verticalMomentum = jumpForce;
             isGrounded = false;
             //jumpRequest = false;
+        }
+    }
+
+    private void AutoJump(Vector3 velocity, Vector3 direction)
+    {
+        if (isGrounded && (
+            (velocity.x != 0 && direction.x == 0)||
+            (velocity.z != 0 && direction.z == 0)))
+        {
+            velocity.y = 1.1f;
+            //if (directionMove.x != 0 || directionMove.y != 0)
+           
+            if (hitBox.CanPlacePosition(velocity))
+                Jump();
         }
     }
 

@@ -81,4 +81,14 @@ public class PCInput : PlayerInput
         }
         waitClickCoroutine = null;
     }
+
+    public override bool OpenInventory()
+    {
+        return Input.GetKeyDown(KeyCode.I);
+    }
+
+    public override bool OpenCraft()
+    {
+        return Input.GetKeyDown(KeyCode.C);
+    }
 }

@@ -9,6 +9,7 @@ public class Installer : MonoInstaller
     [SerializeField] ItemFactory itemFactory;
     [SerializeField] Database database;
     [SerializeField] ParticlesFactory particlesFactory;
+    [SerializeField] UIFactory uIFactory;
 
     public override void InstallBindings()
     {
@@ -23,6 +24,9 @@ public class Installer : MonoInstaller
 
         Container.Bind<ParticlesFactory>().FromInstance(particlesFactory).AsSingle();
         Container.QueueForInject(particlesFactory);
+
+        Container.Bind<UIFactory>().FromInstance(uIFactory).AsSingle();
+        Container.QueueForInject(uIFactory);
         //Container.Bind<GameWorld>().FromNew().AsSingle();
     }
 }

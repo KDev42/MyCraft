@@ -1,0 +1,282 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7276740097915681627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Mine.bank
+  m_EditorClassIdentifier: 
+  Path: ../../Desktop/MiniGames/MyCraft/Sounds/Fmod/Build/Desktop/Mine.bank
+  Name: Mine
+  StudioPath: bank:/Mine
+  lastModified: 638302001114342203
+  FileSizes:
+  - Name: Desktop
+    Value: 51872
+  Exists: 1
+--- !u!114 &-6768461011868454424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SoundEvents/MineEvents/MineWood
+  m_EditorClassIdentifier: 
+  Path: event:/SoundEvents/MineEvents/MineWood
+  Guid:
+    Data1: 1675623839
+    Data2: 1125609192
+    Data3: 953319848
+    Data4: -1551841971
+  Banks:
+  - {fileID: -7276740097915681627}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-5497729823847188353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.strings.bank
+  m_EditorClassIdentifier: 
+  Path: ../../Desktop/MiniGames/MyCraft/Sounds/Fmod/Build/Desktop/Master.strings.bank
+  Name: Master.strings
+  StudioPath: bank:/Master.strings
+  lastModified: 638302001114089302
+  FileSizes:
+  - Name: Desktop
+    Value: 1088
+  Exists: 1
+--- !u!114 &-3648811371041843894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SoundEvents/MineEvents/MineCloth
+  m_EditorClassIdentifier: 
+  Path: event:/SoundEvents/MineEvents/MineCloth
+  Guid:
+    Data1: -1595321595
+    Data2: 1172399391
+    Data3: -28241497
+    Data4: 1310013413
+  Banks:
+  - {fileID: -7276740097915681627}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-3643455030904819815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SoundEvents/MineEvents/MineStone
+  m_EditorClassIdentifier: 
+  Path: event:/SoundEvents/MineEvents/MineStone
+  Guid:
+    Data1: 1038426861
+    Data2: 1225939030
+    Data3: -1686293070
+    Data4: 365327039
+  Banks:
+  - {fileID: -7276740097915681627}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d32cf7c32a3ed8347bac48ef5ed56d82, type: 3}
+  m_Name: FMODStudioCache
+  m_EditorClassIdentifier: 
+  EditorBanks:
+  - {fileID: -5497729823847188353}
+  - {fileID: 1485159084905032786}
+  - {fileID: -7276740097915681627}
+  EditorEvents:
+  - {fileID: -3648811371041843894}
+  - {fileID: 6166503980468096716}
+  - {fileID: 3749737418063662557}
+  - {fileID: 804516479087406077}
+  - {fileID: -6768461011868454424}
+  - {fileID: 5793016991919507599}
+  - {fileID: -3643455030904819815}
+  EditorParameters: []
+  MasterBanks:
+  - {fileID: 1485159084905032786}
+  StringsBanks:
+  - {fileID: -5497729823847188353}
+  cacheTime: 638302001114342203
+  cacheVersion: 131607
+--- !u!114 &804516479087406077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SoundEvents/MineEvents/MineGrass
+  m_EditorClassIdentifier: 
+  Path: event:/SoundEvents/MineEvents/MineGrass
+  Guid:
+    Data1: -1344203886
+    Data2: 1120178214
+    Data3: -59471188
+    Data4: 227964097
+  Banks:
+  - {fileID: -7276740097915681627}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &1485159084905032786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: ../../Desktop/MiniGames/MyCraft/Sounds/Fmod/Build/Desktop/Master.bank
+  Name: Master
+  StudioPath: bank:/Master
+  lastModified: 638302001114069285
+  FileSizes:
+  - Name: Desktop
+    Value: 1036
+  Exists: 1
+--- !u!114 &3749737418063662557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SoundEvents/MineEvents/MineGravel
+  m_EditorClassIdentifier: 
+  Path: event:/SoundEvents/MineEvents/MineGravel
+  Guid:
+    Data1: -1588837245
+    Data2: 1121097951
+    Data3: 349572512
+    Data4: 1003649554
+  Banks:
+  - {fileID: -7276740097915681627}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &5793016991919507599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SoundEvents/MineEvents/MineSend
+  m_EditorClassIdentifier: 
+  Path: event:/SoundEvents/MineEvents/MineSend
+  Guid:
+    Data1: 262342827
+    Data2: 1121502214
+    Data3: -331018623
+    Data4: 73469007
+  Banks:
+  - {fileID: -7276740097915681627}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &6166503980468096716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SoundEvents/MineEvents/DropOrb
+  m_EditorClassIdentifier: 
+  Path: event:/SoundEvents/MineEvents/DropOrb
+  Guid:
+    Data1: 850231102
+    Data2: 1336164558
+    Data3: 1056397458
+    Data4: 1245742710
+  Banks:
+  - {fileID: -7276740097915681627}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0

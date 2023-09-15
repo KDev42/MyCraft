@@ -9,7 +9,9 @@ public class Hand : MonoBehaviour
     [SerializeField] Mine mine;
     [SerializeField] ItemObject defaultItem;
     public ItemObject ItemObj { get; set; }
+    public ItemType itemType;
 
+    private int indexActiveSlot;
     private ItemFactory itemFactory;
 
     [Inject]
@@ -21,11 +23,13 @@ public class Hand : MonoBehaviour
     private void OnEnable()
     {
         EventsHolder.changeActiveSlot += ChangeItemObject;
+        EventsHolder.changeToolbar += ChangeHandInventory;
     }
 
     private void OnDisable()
     {
         EventsHolder.changeActiveSlot -= ChangeItemObject;
+        EventsHolder.changeToolbar -= ChangeHandInventory;
     }
 
     public void StartMine(Action callback,  MiningBlock miningBlock)
@@ -57,18 +61,27 @@ public class Hand : MonoBehaviour
 
     }
 
+    private void ChangeHandInventory(int index)
+    {
+        if(index == indexActiveSlot)
+        {
+            ChangeItemObject(index);
+        }
+    }
+
     private void ChangeItemObject(int slotIndex)
     {
-        ItemStack itemStack = PlayerData.handInventory.items[slotIndex];
+        indexActiveSlot = slotIndex;
+        ItemStack itemStack = PlayerData.HandInventory.Items[slotIndex];
         if(itemStack != null)
         {
-            ItemType itemType = itemStack.itemType;
+            itemType = itemStack.itemType;
             if (ItemObj != null)
             {
                 ItemObj.GetComponent<PoolObject>().ReturnToPool();
             }
 
-            ItemObj = itemFactory.SpawnItem(itemType, transform.position, 1, transform);
+            ItemObj = itemFactory.SpawnItem(itemType, transform.position, 1, ItemStates.inHand, transform);
         }
         else
         {
@@ -77,6 +90,7 @@ public class Hand : MonoBehaviour
 
             defaultItem.gameObject.SetActive(true);
             ItemObj = defaultItem;
+            itemType = ItemType.emptyHand;
         }
     }
 }

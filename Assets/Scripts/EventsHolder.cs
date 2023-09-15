@@ -14,6 +14,11 @@ public static class EventsHolder
     public static Action jump;
     public static Action<int> changeActiveSlot;
     public static Action<int> changeToolbar;
+    public static Action openInventory;
+    public static Action openCraft;
+    public static Action closeInventory;
+    public static Action closeCraft;
+    public static Action updateCraftInfo;
 
     public static void BrokenBlock(BlockType blockType, Vector3Int coordinate)
     {
@@ -60,5 +65,30 @@ public static class EventsHolder
     public static void ChangeToolbar(int index)
     {
         changeToolbar?.Invoke(index);
+    }
+
+    public static void OpenInventory()
+    {
+        openInventory?.Invoke();
+    }
+
+    public static void OpenCraft()
+    {
+        openCraft?.Invoke();
+    }
+
+    public static void CloseInventory()
+    {
+        closeInventory?.Invoke();
+    }
+
+    public static void CloseCraft()
+    {
+        closeCraft?.Invoke();
+    }
+
+    public static void UpdateCraftInfo()
+    {
+        updateCraftInfo?.Invoke();
     }
 }

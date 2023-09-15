@@ -15,4 +15,6 @@ public class ItemTool : Item
 public enum ToolType
 {
     pick =1,
+    axe =2,
+    shovel=3,
 }

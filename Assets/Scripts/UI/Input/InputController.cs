@@ -10,6 +10,8 @@ public class InputController : MonoBehaviour
 	private PlayerInput playerInput;
 	private int slotIndex;
 	private bool inUI;
+	private bool inventoryIsOpen;
+	private bool craftIsOpen;
 
 	private void Awake()
     {
@@ -26,12 +28,39 @@ public class InputController : MonoBehaviour
 
 	private void Update()
 	{
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-			inUI = !inUI;
+        if (playerInput.OpenInventory())
+		{
+			if (!inventoryIsOpen)
+			{
+				inventoryIsOpen = true;
+				inUI = true;
+				CloseCraft();
+				EventsHolder.OpenInventory();
+			}
+			else
+			{
+				inUI = false;
+				CloseInvenoty();
+			}
 		}
 
-        if (!inUI)
+		if (playerInput.OpenCraft())
+		{
+			if (!craftIsOpen)
+			{
+				craftIsOpen = true;
+				inUI = true;
+				CloseInvenoty();
+				EventsHolder.OpenCraft();
+			}
+			else
+			{
+				inUI = false;
+				CloseCraft();
+			}
+		}
+
+		if (!inUI)
 		{
 			Cursor.lockState = CursorLockMode.Locked;
 			Cursor.visible = false;
@@ -70,42 +99,18 @@ public class InputController : MonoBehaviour
 			Cursor.lockState = CursorLockMode.None;
 			Cursor.visible = true;
 		}
-		//if (Input.mousePresent)
-		//{
-		//	_moveDelta = Vector2.zero;
+	}
 
-		//	if (Input.GetKey(KeyCode.W))
-		//		_moveDelta += Vector2.up;
+	private void CloseInvenoty()
+	{
+		inventoryIsOpen = false;
+		EventsHolder.CloseInventory();
+	}
 
-		//	if (Input.GetKey(KeyCode.S))
-		//		_moveDelta += Vector2.down;
 
-		//	if (Input.GetKey(KeyCode.A))
-		//		_moveDelta += Vector2.left;
-
-		//	if (Input.GetKey(KeyCode.D))
-		//		_moveDelta += Vector2.right;
-
-		//	Vector3 mousePos = Input.mousePosition;
-
-		//	RaycastHit hit;
-		//	Ray ray = Camera.main.ScreenPointToRay(mousePos);
-
-		//	Vector3 mouseCollisionPoint = Vector3.zero;
-		//	// Raycast towards the mouse collider box in the world
-		//	if (Physics.Raycast(ray, out hit, Mathf.Infinity, _mouseRayMask))
-		//	{
-		//		if (hit.collider != null)
-		//		{
-		//			mouseCollisionPoint = hit.point;
-		//		}
-		//	}
-
-		//	Vector3 aimDirection = mouseCollisionPoint - _player.turretPosition;
-		//	_aimDelta = new Vector2(aimDirection.x, aimDirection.z);
-		//}
-		//else if (Input.touchSupported)
-		//{ 
-		//}
+	private void CloseCraft()
+	{
+		craftIsOpen = false;
+		EventsHolder.CloseCraft();
 	}
 }

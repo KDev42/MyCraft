@@ -15,5 +15,5 @@ public static class WorldConstants
 
     public const int handSlotsAmount = 9;
 
-    public const float dropedCubeSize = 0.4f;
+    public const float dropedCubeSize = 0.2f;
 }

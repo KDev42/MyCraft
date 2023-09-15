@@ -3,26 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEditor;
+using Zenject;
 
 public class HitBox : MonoBehaviour
 {
     [SerializeField] float characterWidth = 0.25f;
     [SerializeField] float characterHeight = 2;
     [SerializeField] float boundsTolerance = 0.1f;
-    [SerializeField] int pointsOnEdge;
     [SerializeField] GameWorld world;
     [SerializeField] float distanceBetweenPoints;
 
-    public RectangleVertex verticesForward;
-    public RectangleVertex verticesBack;
-    public RectangleVertex verticesRight;
-    public RectangleVertex verticesLeft;
-    public RectangleVertex verticesUp;
-    public RectangleVertex verticesDown;
+    public RectangleVertex verticesForward { get; set; }
+    public RectangleVertex verticesBack { get; set; }
+    public RectangleVertex verticesRight { get; set; }
+    public RectangleVertex verticesLeft { get; set; }
+    public RectangleVertex verticesUp { get; set; }
+    public RectangleVertex verticesDown { get; set; }
 
     private int pointsOnEdgeX;
     private int pointsOnEdgeY;
     private int pointsOnEdgeZ;
+
+    [Inject]
+    private void Consturct(GameWorld world)
+    {
+        this.world = world;
+    }
 
     private void Awake()
     {
@@ -42,14 +48,7 @@ public class HitBox : MonoBehaviour
         float y = direction.y;
         float z = direction.z;
 
-        verticesUp = CalculateUpBottomRectangle(characterWidth, characterWidth, characterHeight);
-        verticesDown = CalculateUpBottomRectangle(characterWidth, characterWidth, -boundsTolerance*2);
-
-        verticesRight = CalculateSideRectangle(characterWidth , characterWidth + boundsTolerance * 2, characterHeight - boundsTolerance, transform.right);
-        verticesLeft = CalculateSideRectangle(characterWidth , characterWidth + boundsTolerance * 2, characterHeight - boundsTolerance, -transform.right);
-
-        verticesForward = CalculateSideRectangle(characterWidth , characterWidth + boundsTolerance * 2, characterHeight - boundsTolerance, transform.forward);
-        verticesBack = CalculateSideRectangle(characterWidth, characterWidth + boundsTolerance * 2, characterHeight - boundsTolerance, -transform.forward);
+        CalculateVertices();
 
         if (y != 0)
         {
@@ -57,7 +56,7 @@ public class HitBox : MonoBehaviour
             {
                 //verticesUp = CalculateUpBottomRectangle(characterWidth, characterWidth, characterHeight);
 
-                if (RectangleHit(verticesUp, pointsOnEdgeZ, pointsOnEdgeX, new Vector3(0, direction.x, 0))) //нижн€€ грань
+                if (RectangleHit(verticesUp, pointsOnEdgeZ, pointsOnEdgeX, new Vector3(0, direction.x, 0))) //верхн€€ грань
                 {
                     y = 0;
                 }
@@ -140,6 +139,49 @@ public class HitBox : MonoBehaviour
         }
 
         return new Vector3(x, y, z);
+    }
+
+    public bool CanPlacePosition(Vector3 direction)
+    {
+        CalculateVertices();
+
+        if (RectangleHit(verticesUp, pointsOnEdgeZ, pointsOnEdgeX, direction)) //верхн€€ грань
+        {
+            return false;
+        }
+        if (RectangleHit(verticesDown, pointsOnEdgeZ, pointsOnEdgeX, direction)) //нижн€€ грань
+        {
+            return false;
+        }
+        if (RectangleHit(verticesRight, pointsOnEdgeZ, pointsOnEdgeY, direction)) //права€ грань
+        {
+            return false;
+        }
+        if (RectangleHit(verticesLeft, pointsOnEdgeZ, pointsOnEdgeY, direction))  //лева€ грань
+        {
+            return false;
+        }
+        if (RectangleHit(verticesForward, pointsOnEdgeX, pointsOnEdgeY,direction)) //передн€€ грань
+        {
+            return false;
+        }
+        if (RectangleHit(verticesBack, pointsOnEdgeX, pointsOnEdgeY, direction))  //задн€€ грань
+        {
+            return false;
+        }
+        return true;
+    }
+
+    private void CalculateVertices()
+    {
+        verticesUp = CalculateUpBottomRectangle(characterWidth, characterWidth, characterHeight);
+        verticesDown = CalculateUpBottomRectangle(characterWidth, characterWidth, -boundsTolerance * 2);
+
+        verticesRight = CalculateSideRectangle(characterWidth, characterWidth + boundsTolerance * 2, characterHeight - boundsTolerance, transform.right);
+        verticesLeft = CalculateSideRectangle(characterWidth, characterWidth + boundsTolerance * 2, characterHeight - boundsTolerance, -transform.right);
+
+        verticesForward = CalculateSideRectangle(characterWidth, characterWidth + boundsTolerance * 2, characterHeight - boundsTolerance, transform.forward);
+        verticesBack = CalculateSideRectangle(characterWidth, characterWidth + boundsTolerance * 2, characterHeight - boundsTolerance, -transform.forward);
     }
 
     private bool RectangleHit(RectangleVertex rectangle, int numberPointsI, int numberPointsJ, Vector3 direction)

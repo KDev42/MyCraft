@@ -95,7 +95,6 @@ public class GameWorld : MonoBehaviour
         Vector3Int blockCoordinate = GetBlockLocalCoordinate(chunkCoordinate, position);
 
         activeChunkDatas[chunkCoordinate].chunkRenderer.SpawnBlock(blockCoordinate, blockType);
-
     }
 
     public void DestroyBlock(Vector3 position)

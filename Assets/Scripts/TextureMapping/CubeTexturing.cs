@@ -35,7 +35,7 @@ public static class CubeTexturing
         }
     }
 
-    public static void GenerateRightSide(Vector3Int blockPosition, ref List<Vector3> vertiecies, ref List<int> triangles)
+    public static void GenerateRightSide(Vector3 blockPosition, ref List<Vector3> vertiecies, ref List<int> triangles)
     {
         vertiecies.Add(new Vector3(1, 0, 0) + blockPosition);
         vertiecies.Add(new Vector3(1, 1, 0) + blockPosition);
@@ -45,7 +45,7 @@ public static class CubeTexturing
         AddLastVerticiesSquare(ref triangles, ref vertiecies);
     }
 
-    public static void GenerateLeftSide(Vector3Int blockPosition, ref List<Vector3> vertiecies, ref List<int> triangles)
+    public static void GenerateLeftSide(Vector3 blockPosition, ref List<Vector3> vertiecies, ref List<int> triangles)
     {
 
         vertiecies.Add(new Vector3(0, 0, 0) + blockPosition);
@@ -56,7 +56,7 @@ public static class CubeTexturing
         AddLastVerticiesSquare(ref triangles, ref vertiecies);
     }
 
-    public static void GenerateFrontSide(Vector3Int blockPosition, ref List<Vector3> vertiecies, ref List<int> triangles)
+    public static void GenerateFrontSide(Vector3 blockPosition, ref List<Vector3> vertiecies, ref List<int> triangles)
     {
         vertiecies.Add(new Vector3(0, 0, 1) + blockPosition);
         vertiecies.Add(new Vector3(1, 0, 1) + blockPosition);
@@ -66,7 +66,7 @@ public static class CubeTexturing
         AddLastVerticiesSquare(ref triangles, ref vertiecies);
     }
 
-    public static void GenerateBackSide(Vector3Int blockPosition, ref List<Vector3> vertiecies, ref List<int> triangles)
+    public static void GenerateBackSide(Vector3 blockPosition, ref List<Vector3> vertiecies, ref List<int> triangles)
     {
         vertiecies.Add(new Vector3(0, 0, 0) + blockPosition);
         vertiecies.Add(new Vector3(0, 1, 0) + blockPosition);
@@ -76,7 +76,7 @@ public static class CubeTexturing
         AddLastVerticiesSquare(ref triangles, ref vertiecies);
     }
 
-    public static void GenerateTopSide(Vector3Int blockPosition, ref List<Vector3> vertiecies, ref List<int> triangles)
+    public static void GenerateTopSide(Vector3 blockPosition, ref List<Vector3> vertiecies, ref List<int> triangles)
     {
         vertiecies.Add(new Vector3(0, 1, 0) + blockPosition);
         vertiecies.Add(new Vector3(0, 1, 1) + blockPosition);
@@ -86,7 +86,7 @@ public static class CubeTexturing
         AddLastVerticiesSquare(ref triangles, ref vertiecies);
     }
 
-    public static void GenerateBottomSide(Vector3Int blockPosition, ref List<Vector3> vertiecies, ref List<int> triangles)
+    public static void GenerateBottomSide(Vector3 blockPosition, ref List<Vector3> vertiecies, ref List<int> triangles)
     {
         vertiecies.Add(new Vector3(0, 0, 0) + blockPosition);
         vertiecies.Add(new Vector3(1, 0, 0) + blockPosition);

@@ -32,6 +32,10 @@ public abstract class PlayerInput : MonoBehaviour
 
     public abstract bool SlotIsChanged(ref int slotIndex);
 
+    public abstract bool OpenInventory();
+
+    public abstract bool OpenCraft();
+
     protected abstract void Press();
 
     protected abstract void Unpress();
