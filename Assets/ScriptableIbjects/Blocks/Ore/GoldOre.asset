@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b61fd0e312b20c40acc80b825248a89, type: 3}
+  m_Name: GoldOre
+  m_EditorClassIdentifier: 
+  blockType: 100
+  isSolid: 1
+  isTransparent: 0
+  isReplaceable: 0
+  isDestroyed: 1
+  miningTime: 0
+  acceleratingTool: 2
+  dropDownResources:
+  - itemType: 1103
+    percent: 100
+    minNumber: 1
+    maxNumber: 6
+  mineAudio:
+    Guid:
+      Data1: -1588837245
+      Data2: 1121097951
+      Data3: 349572512
+      Data4: 1003649554
+    Path: event:/SoundEvents/MineEvents/MineGravel
+  textureIndex: {x: 5, y: 14}

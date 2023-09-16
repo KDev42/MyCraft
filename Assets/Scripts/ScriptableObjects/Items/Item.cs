@@ -23,8 +23,10 @@ public enum ItemForme
 
 public enum ItemType
 {
-    stoneBlock =1,
     grassBlock =2,
+    sandBlock =3,
+    redSandBlock =4,
+    dirtBlock =5,
 
     // -- Wood --
     // -- Log -- 
@@ -55,8 +57,42 @@ public enum ItemType
     strippedCrimsonStemBlock = 158,
     strippedWarpedStemBlock = 159,
 
+    // -- Ore Blocks --
+    coalBlock = 508,
+    copperBlock = 509,
+    oxidezedCopperBlock = 510,
+    cutCopperBlock = 511,
+    oxizedCutCopperBlock = 512,
+    ironBlock = 513,
+    redstoneBlock = 514,
+    lapisLazuliBlock = 515,
+    goldBlock = 516,
+    emeraldBlock = 517,
+    diamondBlock = 518,
+    quartzBlock = 519,
+    chiseledQuartzBlock = 520,
+    quartzPillarBlock = 521,
+    quartzBrickBlock = 522,
+    smoothQuartzBlock = 523,
+
+    // -- Stone -- 
+    stoneBlock = 400,
     brickBlock = 401,
     stoneBrickBlock = 402,
+    smoothStoneBlock =403,
+    smoothStoneSlabBlock =404,
+    crackedStoneBrickBlock =405,
+    mossyStoneBrickBlock = 406,
+    chiseledStoneBrickBlock =407,
+    cobblestoneBlock =408,
+    mossyCobblestone=409,
+    sandstoneBlock = 410,
+    cutSandstoneBlock = 411,
+    chiseledSandstoneBlock =412,
+    redSandstoneBlock = 413,
+    cutRedSandstoneBlock = 414,
+    chiseledRedSandstoneBlock = 415,
+    endStoneBrickBlock = 416,
 
     emptyHand =999,
     goldPick =1000,

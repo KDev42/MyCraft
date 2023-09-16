@@ -17,10 +17,10 @@ MonoBehaviour:
   isTransparent: 0
   isReplaceable: 0
   isDestroyed: 1
-  miningTime: 0.2
+  miningTime: 4
   acceleratingTool: -1
   dropDownResources:
-  - itemType: 1
+  - itemType: 2
     percent: 100
     minNumber: 1
     maxNumber: 1

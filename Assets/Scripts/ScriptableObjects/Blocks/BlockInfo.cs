@@ -31,12 +31,10 @@ public enum BlockType : byte
 {
     air =0,
     bedrock = 1,
-    stone = 2,
     grass =3,
     dirt =4,
-    cobblestone =9,
-    brick =10,
-    stoneBrick=11,
+    sand =32,
+    redSand =33,
 
     // -- Wood --
     // -- Log -- 
@@ -67,9 +65,9 @@ public enum BlockType : byte
     strippedCrimsonStem =22,
     strippedWarpedStem =23,
 
-    //31 - last index
+    //33 - last index
 
-    // Minerals
+    // -- Ore --
     goldOre =100,
     coalOre =101,
     copperOre =102,
@@ -78,6 +76,42 @@ public enum BlockType : byte
     ironOre =105,
     lapisLazuliOre =106,
     redstoneOre=107,
+    // -- Ore Blocks --
+    coal = 108,
+    copper = 109,
+    oxidezedCopper =110,
+    cutCopper =111,
+    oxizedCutCopper =112,
+    iron =113,
+    redstone =114,
+    lapisLazuli =115,
+    gold =116,
+    emerald =117,
+    diamond =118,
+    quartz = 119,
+    chiseledQuartz =120,
+    quartzPillar =121,
+    quartzBrick =122,
+    smoothQuartz = 123,
+
+    // -- Stone -- 
+    stone = 200,
+    brick = 201,
+    stoneBrick = 202,
+    smoothStone = 203,
+    smoothStoneSlab = 204,
+    crackedStoneBrick = 205,
+    mossyStoneBrick = 206,
+    chiseledStoneBrick = 207,
+    cobblestone = 208,
+    mossyCobble = 209,
+    sandstone = 210,
+    cutSandstone = 211,
+    chiseledSandstone = 212,
+    redSandstone = 213,
+    cutRedSandstone = 214,
+    chiseledRedSandstone = 215,
+    endStoneBrick = 216,
 
     none = 255,
 }

@@ -14,7 +14,7 @@ public class ItemTool : Item
 [System.Flags]
 public enum ToolType
 {
-    pick =1,
-    axe =2,
-    shovel=3,
+    pick = 1 << 1,
+    axe = 1 << 2,
+    shovel= 1 << 3,
 }

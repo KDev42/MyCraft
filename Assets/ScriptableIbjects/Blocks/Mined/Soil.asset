@@ -18,10 +18,17 @@ MonoBehaviour:
   isReplaceable: 0
   isDestroyed: 1
   miningTime: 2
-  acceleratingTool: 0
+  acceleratingTool: 8
   dropDownResources:
   - itemType: 1001
     percent: 100
     minNumber: 1
     maxNumber: 1
+  mineAudio:
+    Guid:
+      Data1: -1588837245
+      Data2: 1121097951
+      Data3: 349572512
+      Data4: 1003649554
+    Path: event:/SoundEvents/MineEvents/MineGravel
   textureIndex: {x: 4, y: 15}

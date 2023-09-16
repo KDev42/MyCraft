@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1080d59064b9d9649a3f0f48fde40321, type: 3}
   m_Name: GrassBlock
   m_EditorClassIdentifier: 
-  icon: {fileID: -69529696, guid: 2541805204bfe5740b3150205aef7e4f, type: 3}
+  icon: {fileID: -970293658, guid: 2541805204bfe5740b3150205aef7e4f, type: 3}
   ingredientsCraft: []
   itemForme: 1
   itemType: 2
