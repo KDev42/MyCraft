@@ -9,6 +9,8 @@ public class Mine : MonoBehaviour
 {
     [SerializeField] Animator anim;
     [SerializeField] Cracks cracks;
+    [SerializeField] PoolObject brokeBlockParticle;
+    [SerializeField] PoolObject mineBlockParticle;
 
     private Vector3 particlePosition;
     private Vector3 minedBlockPosition;
@@ -29,6 +31,9 @@ public class Mine : MonoBehaviour
 
     public bool CanMine(BlockInfo blockInfo, Item item)
     {
+        if (blockInfo.blockType == BlockType.air || blockInfo.blockType == BlockType.bedrock)
+            return false;
+
         return true;
     }
 
@@ -72,11 +77,15 @@ public class Mine : MonoBehaviour
             RuntimeManager.PlayOneShot(miningBlock.blockInfo.mineAudio);
         CalculateRotation(miningBlock.directionType);
         ActivateCracks();
-        particlesFactory.SpawnParticles(particlePosition, particleRotation, miningBlock.blockInfo);
 
         if (Time.time - startMinedBlock >= blockMiningTime)
         {
             MineIsFinish();
+            particlesFactory.SpawnParticles(brokeBlockParticle, minedBlockPosition + new Vector3(0.5f, 0.5f, 0.5f), particleRotation, miningBlock.blockInfo);
+        }
+        else
+        {
+            particlesFactory.SpawnParticles(mineBlockParticle, particlePosition, particleRotation, miningBlock.blockInfo);
         }
     }
 

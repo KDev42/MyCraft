@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ParticlesFactory : MonoBehaviour
 {
-    [SerializeField] PoolObject brokeBlockParticle;
     [SerializeField] Transform container;
     [SerializeField] Texture2D blocksTexture;
     [SerializeField] int tileSize =16;
@@ -12,7 +11,7 @@ public class ParticlesFactory : MonoBehaviour
 
     private Dictionary<PoolObject, Pool> itemsPool = new Dictionary<PoolObject, Pool>();
 
-    public void SpawnParticles(Vector3 spawnPosition, Quaternion spawnRotation, BlockInfo blockInfo)
+    public void SpawnParticles(PoolObject brokeBlockParticle, Vector3 spawnPosition, Quaternion spawnRotation, BlockInfo blockInfo)
     {
         GameObject particle = GetObject(brokeBlockParticle);
         ParticleSystem particleSystem = particle.GetComponent<ParticleSystem>();

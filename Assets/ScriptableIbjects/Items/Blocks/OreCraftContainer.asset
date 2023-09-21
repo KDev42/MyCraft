@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d796ac795f4d8714289f75ed174def96, type: 3}
+  m_Name: OreCraftContainer
+  m_EditorClassIdentifier: 
+  items:
+  - {fileID: 11400000, guid: 7e19fc8ab6753354cb2f3af5b40e2a30, type: 2}
+  - {fileID: 11400000, guid: 17de8a547cc7afa47a96a5965f5edc54, type: 2}
+  - {fileID: 11400000, guid: c8ae6dac3fd7d6a41b2b1b362bad136f, type: 2}
+  - {fileID: 11400000, guid: 7a10b94eb55d6e4459e75c3ae03205f7, type: 2}
+  - {fileID: 11400000, guid: 78176ec27a00de44a85cf2782a7293b2, type: 2}
+  - {fileID: 11400000, guid: 2d49adba501cb894db4ffef3744bfd5e, type: 2}
+  - {fileID: 11400000, guid: bbf3fedc7cb4a2646a863214bb0d77fa, type: 2}
+  - {fileID: 11400000, guid: 7cfee8da5208e5d4a8b0f007999a3739, type: 2}
+  - {fileID: 11400000, guid: ef196a83ca250504687d7a5734f65582, type: 2}
+  - {fileID: 11400000, guid: 326f5dd2bd7ea204687c061adac19c41, type: 2}
+  - {fileID: 11400000, guid: 225a367e052050c4394b719ac8fdb38e, type: 2}
+  - {fileID: 11400000, guid: ce4e9f7c4de6bff44a551a8ff4c780fe, type: 2}
+  - {fileID: 11400000, guid: 6d0726fd53253d34c9fa3c1ba37fea90, type: 2}
+  - {fileID: 11400000, guid: 8abb63a2473349745afae3a74805fec0, type: 2}

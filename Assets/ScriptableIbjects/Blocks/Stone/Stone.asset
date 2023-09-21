@@ -19,7 +19,11 @@ MonoBehaviour:
   isDestroyed: 1
   miningTime: 5
   acceleratingTool: 2
-  dropDownResources: []
+  dropDownResources:
+  - itemType: 400
+    percent: 100
+    minNumber: 1
+    maxNumber: 1
   mineAudio:
     Guid:
       Data1: 1038426861

@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 3342540153634534054}
   - component: {fileID: 6819169902859815642}
   - component: {fileID: 4878022667997663519}
-  - component: {fileID: 5067310258568055199}
   - component: {fileID: 6515559201841865008}
+  - component: {fileID: -4936170321422157867}
   m_Layer: 6
   m_Name: DiamondOre
   m_TagString: Untagged
@@ -111,23 +111,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60c8de254251f264fabdd13080728913, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotateSpeed: 3
+  rotateSpeed: 10
   moveSpeed: 1
-  dropSpeed: 2
+  dropSpeed: 3
   item: {fileID: 11400000, guid: 0a266046fe31d964b97d1c9a7e09ed42, type: 2}
---- !u!65 &5067310258568055199
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3847176889226630003}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2, y: 2, z: 2}
-  m_Center: {x: 0, y: 0.20312501, z: 0}
 --- !u!114 &6515559201841865008
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,3 +132,16 @@ MonoBehaviour:
   boundsTolerance: 0
   world: {fileID: 0}
   distanceBetweenPoints: 0.05
+--- !u!135 &-4936170321422157867
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3847176889226630003}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0.2, z: 0}

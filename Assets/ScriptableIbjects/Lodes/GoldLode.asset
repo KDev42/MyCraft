@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: GoldLode
   m_EditorClassIdentifier: 
   blockType: 100
-  minHeight: 21
-  maxHeight: 27
-  scale: 0.1
-  threshold: 0
+  minHeight: 20
+  maxHeight: 25
+  scale: 1
+  threshold: 0.5
   noiseOffset: 500

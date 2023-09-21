@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blockType: 104
   minHeight: 11
-  maxHeight: 17
-  scale: 0.1
-  threshold: 0
+  maxHeight: 16
+  scale: 0.8
+  threshold: 0.55
   noiseOffset: 500

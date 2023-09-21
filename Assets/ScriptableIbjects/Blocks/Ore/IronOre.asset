@@ -23,7 +23,7 @@ MonoBehaviour:
   - itemType: 1101
     percent: 100
     minNumber: 1
-    maxNumber: 6
+    maxNumber: 4
   mineAudio:
     Guid:
       Data1: -1588837245

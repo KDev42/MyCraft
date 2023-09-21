@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c40ce26dbf1352243a99cdcea64c7a70, type: 3}
   m_Name: RedstoneOre
   m_EditorClassIdentifier: 
-  icon: {fileID: -1541979410, guid: 2541805204bfe5740b3150205aef7e4f, type: 3}
+  icon: {fileID: 1998934044, guid: 2541805204bfe5740b3150205aef7e4f, type: 3}
+  ingredientsCraft: []
   itemForme: 3
   itemType: 1104
   maxNumberStacks: 64

@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1080d59064b9d9649a3f0f48fde40321, type: 3}
   m_Name: BrickBlock
   m_EditorClassIdentifier: 
-  icon: {fileID: -1970522785, guid: 2541805204bfe5740b3150205aef7e4f, type: 3}
+  icon: {fileID: -1876512113, guid: 2541805204bfe5740b3150205aef7e4f, type: 3}
   ingredientsCraft:
-  - itemType: 1
+  - itemType: 400
     amount: 1
-  - itemType: 1100
-    amount: 2
+  - itemType: 4
+    amount: 1
   itemForme: 1
   itemType: 401
   maxNumberStacks: 64
   prefab: {fileID: 1218343180336816550, guid: 4f7cd7673bd642241a59bd2173f0a364, type: 3}
-  blockType: 10
+  blockType: 201

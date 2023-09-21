@@ -5,11 +5,11 @@ using Zenject;
 
 public class CraftWindow : MonoBehaviour
 {
-    [SerializeField] List<Item> blocks;
-    [SerializeField] List<Item> tools;
     [SerializeField] PoolObject craftPanelPrefab;
     [SerializeField] Transform container;
+    [SerializeField] TabCraftButton selectedButton;
 
+    //private TabCraftButton currentButton;
     private UIFactory uIFactory;
     private List<CraftItem> craftItems =new List<CraftItem>();
 
@@ -21,15 +21,22 @@ public class CraftWindow : MonoBehaviour
 
     private void OnEnable()
     {
-        ActivateImes(blocks);
+        ChangeButton(selectedButton);
+    }
+
+    public void ChangeButton(TabCraftButton newButton)
+    {
+        if(craftItems!=null)
+            DeactivationItems();
+        selectedButton.DeselectButton();
+        selectedButton = newButton;
+        selectedButton.SelectButton();
+        ActivateImes(selectedButton.craftItems.items);
     }
 
     private void OnDisable()
     {
-        foreach(CraftItem craft in craftItems)
-        {
-            craft.GetComponent<PoolObject>().ReturnToPool();
-        }
+        DeactivationItems();
     }
 
     private void ActivateImes(List<Item> items)
@@ -40,6 +47,14 @@ public class CraftWindow : MonoBehaviour
             CraftItem craftItem = uIFactory.SpawnUIElement(craftPanelPrefab, container).GetComponent<CraftItem>();
             craftItem.Activation(items[i]);
             craftItems.Add(craftItem);
+        }
+    }
+
+    private void DeactivationItems()
+    {
+        foreach (CraftItem craft in craftItems)
+        {
+            craft.GetComponent<PoolObject>().ReturnToPool();
         }
     }
 }

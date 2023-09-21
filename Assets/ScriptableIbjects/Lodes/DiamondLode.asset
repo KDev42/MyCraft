@@ -15,6 +15,6 @@ MonoBehaviour:
   blockType: 103
   minHeight: 7
   maxHeight: 13
-  scale: 0.1
-  threshold: 0
+  scale: 0.9
+  threshold: 0.55
   noiseOffset: 500

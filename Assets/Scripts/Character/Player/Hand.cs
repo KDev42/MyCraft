@@ -36,8 +36,8 @@ public class Hand : MonoBehaviour
     {
         if (ItemObj == null)
             ItemObj = defaultItem;
-        //if(mine.CanMine(blockInfo, ItemObj.item))
-
+        
+        if(mine.CanMine(miningBlock.blockInfo, ItemObj.item))
         mine.StartMine( callback, ItemObj.item, miningBlock);
     }
 

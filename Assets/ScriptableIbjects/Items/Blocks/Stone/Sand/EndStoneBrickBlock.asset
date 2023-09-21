@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 557621044, guid: 2541805204bfe5740b3150205aef7e4f, type: 3}
   ingredientsCraft:
-  - itemType: 400
-    amount: 1
+  - itemType: 3
+    amount: 4
   itemForme: 1
   itemType: 416
   maxNumberStacks: 64

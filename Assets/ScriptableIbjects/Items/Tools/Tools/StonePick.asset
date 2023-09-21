@@ -18,7 +18,7 @@ MonoBehaviour:
   itemType: 1001
   maxNumberStacks: 2
   prefab: {fileID: -6248451235004799691, guid: 50dd2443712980943afc7f7cd4008b3f, type: 3}
-  toolType: -1
-  accelerationMining: 2
+  toolType: 2
+  accelerationMining: 20
   baseOffset: {x: 0, y: 10}
   offset: {x: 1, y: 10}

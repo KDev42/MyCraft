@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 8895061126064243213}
   - component: {fileID: 2816209937312920566}
   - component: {fileID: 6269800413348974730}
-  - component: {fileID: 6690325765359058488}
   - component: {fileID: 5645092815446889631}
+  - component: {fileID: 6414852876673871019}
   m_Layer: 6
   m_Name: GoaldOre
   m_TagString: Untagged
@@ -111,23 +111,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60c8de254251f264fabdd13080728913, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotateSpeed: 3
+  rotateSpeed: 10
   moveSpeed: 1
-  dropSpeed: 2
+  dropSpeed: 3
   item: {fileID: 11400000, guid: 4c5e299e89056c24a88eef12b84f7974, type: 2}
---- !u!65 &6690325765359058488
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6949448431708251096}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2, y: 2, z: 2}
-  m_Center: {x: 0, y: 0.20312499, z: 0}
 --- !u!114 &5645092815446889631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,3 +132,16 @@ MonoBehaviour:
   boundsTolerance: 0
   world: {fileID: 0}
   distanceBetweenPoints: 0.05
+--- !u!135 &6414852876673871019
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6949448431708251096}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0.2, z: 0}

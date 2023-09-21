@@ -118,6 +118,7 @@ MonoBehaviour:
       distance: 0
       padding: 0
       height: 0
+      isTwoDirection: 0
     blocks:
     - position: {x: 0, y: 0, z: 0}
       blockType: 2

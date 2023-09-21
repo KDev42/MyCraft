@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: SmoothStoneSlabBlock
   m_EditorClassIdentifier: 
   icon: {fileID: 1764417452, guid: 2541805204bfe5740b3150205aef7e4f, type: 3}
-  ingredientsCraft: []
+  ingredientsCraft:
+  - itemType: 400
+    amount: 0
   itemForme: 1
   itemType: 404
   maxNumberStacks: 64

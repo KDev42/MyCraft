@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: IronLode
   m_EditorClassIdentifier: 
   blockType: 105
-  minHeight: 31
-  maxHeight: 37
-  scale: 0.1
-  threshold: 0
+  minHeight: 29
+  maxHeight: 34
+  scale: 1
+  threshold: 0.5
   noiseOffset: 500

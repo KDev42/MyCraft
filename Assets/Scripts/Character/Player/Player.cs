@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
     public Transform highlightBlock;
     public Transform placeBlock;
 
+    private bool canMine;
     private bool canContinueMine;
     private float xRotation = 0.0f;
     private float yRotation = 0.0f;
@@ -131,15 +132,18 @@ public class Player : MonoBehaviour
 
     private void StartMine()
     {
-        canContinueMine = true;
-        minedBlockCoordinate = world.GetBlockCoordinate(highlightBlock.position);
-        BlockInfo blockInfo = world.GetBlockInfo(highlightBlock.position);
+        if (canMine)
+        {
+            canContinueMine = true;
+            minedBlockCoordinate = world.GetBlockCoordinate(highlightBlock.position);
+            BlockInfo blockInfo = world.GetBlockInfo(highlightBlock.position);
 
-        miningBlock.blockInfo = blockInfo;
-        miningBlock.blocPosition = highlightBlock.position;
-        miningBlock.directionType = directionType;
+            miningBlock.blockInfo = blockInfo;
+            miningBlock.blocPosition = highlightBlock.position;
+            miningBlock.directionType = directionType;
 
-        hand.StartMine(BlockBroken, miningBlock);
+            hand.StartMine(BlockBroken, miningBlock);
+        }
     }
 
     private void StopMine()
@@ -191,8 +195,9 @@ public class Player : MonoBehaviour
                 highlightBlock.position = new Vector3(Mathf.FloorToInt(impactPoint.x), Mathf.FloorToInt(impactPoint.y), Mathf.FloorToInt(impactPoint.z));
                 placeBlock.position = lastPos;
 
+                canMine = true;
                 highlightBlock.gameObject.SetActive(true);
-                placeBlock.gameObject.SetActive(true);
+                //placeBlock.gameObject.SetActive(true);
 
                 return;
             }
@@ -202,8 +207,9 @@ public class Player : MonoBehaviour
             step += checkIncrement;
         }
 
+        canMine = false;
         highlightBlock.gameObject.SetActive(false);
-        placeBlock.gameObject.SetActive(false);
+        //placeBlock.gameObject.SetActive(false);
     }
 
 

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 1338895097, guid: 2541805204bfe5740b3150205aef7e4f, type: 3}
   ingredientsCraft:
-  - itemType: 400
+  - itemType: 4
     amount: 1
   itemForme: 1
   itemType: 413

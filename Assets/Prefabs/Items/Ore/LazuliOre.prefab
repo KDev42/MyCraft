@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 537956952072828769}
   - component: {fileID: 8957911071360935803}
   - component: {fileID: 7892390877757127939}
-  - component: {fileID: 8264647549253514810}
   - component: {fileID: 3634498040375877127}
+  - component: {fileID: -4391740523137978299}
   m_Layer: 6
   m_Name: LazuliOre
   m_TagString: Untagged
@@ -111,23 +111,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60c8de254251f264fabdd13080728913, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotateSpeed: 3
+  rotateSpeed: 10
   moveSpeed: 1
-  dropSpeed: 2
+  dropSpeed: 3
   item: {fileID: 11400000, guid: 46611453a169b6443b99abd04c8c67d7, type: 2}
---- !u!65 &8264647549253514810
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2051328673380767412}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2, y: 2, z: 2}
-  m_Center: {x: 0, y: 0.1875, z: 0}
 --- !u!114 &3634498040375877127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,3 +132,16 @@ MonoBehaviour:
   boundsTolerance: 0
   world: {fileID: 0}
   distanceBetweenPoints: 0.05
+--- !u!135 &-4391740523137978299
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2051328673380767412}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0.2, z: 0}
