@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class GameWorld : MonoBehaviour
 {
@@ -13,6 +14,14 @@ public class GameWorld : MonoBehaviour
     public Dictionary<Vector2Int, ChunkData> disableChunkDatas = new Dictionary<Vector2Int, ChunkData>();
 
     public Dictionary<Vector2Int, List<PositionType>> needToFillChunk = new Dictionary<Vector2Int, List<PositionType>>();
+
+    private SaveLoad saveLoad;
+
+    [Inject]
+    private void Construct(SaveLoad saveLoad)
+    {
+        this.saveLoad = saveLoad;
+    }
 
     public bool HasObstacles(Vector3 position, DirectionType directionType, int heinght, int width)
     {
@@ -95,6 +104,8 @@ public class GameWorld : MonoBehaviour
         Vector3Int blockCoordinate = GetBlockLocalCoordinate(chunkCoordinate, position);
 
         activeChunkDatas[chunkCoordinate].chunkRenderer.SpawnBlock(blockCoordinate, blockType);
+
+        saveLoad.AddBlockToSave(chunkCoordinate, MyMath.GetBlockCoordinate(blockCoordinate), blockType);
     }
 
     public void DestroyBlock(Vector3 position)
@@ -110,6 +121,8 @@ public class GameWorld : MonoBehaviour
             activeChunkDatas[chunkCoordinate].chunkRenderer.SpawnBlock(blockCoordinate, BlockType.air);
 
             EventsHolder.BrokenBlock(blockType, GetBlockCoordinate(position));
+
+            saveLoad.AddBlockToSave(chunkCoordinate, MyMath.GetBlockCoordinate(blockCoordinate), blockType);
         }
     }
 

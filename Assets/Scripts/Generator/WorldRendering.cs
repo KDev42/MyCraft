@@ -5,15 +5,18 @@ using Zenject;
 
 public class WorldRendering : MonoBehaviour
 {
+    private int renderDistance;
     private bool canUpdate;
     private Vector2Int currentPlayerChunk;
     private Transform player;
+    private GameData gameData;
     private GameWorld gameWorld;
     private WorldGenerator worldGenerator;
 
     [Inject]
-    private void Construct(GameWorld gameWorld)
+    private void Construct(GameWorld gameWorld, GameData gameData)
     {
+        this.gameData = gameData;
         this.gameWorld = gameWorld;
     }
 
@@ -50,6 +53,7 @@ public class WorldRendering : MonoBehaviour
 
     public void ActivateRender(WorldGenerator worldGenerator, Transform player)
     {
+        renderDistance = gameData.gameSettings.renderDistance;
         this.worldGenerator = worldGenerator;
         this.player = player;
         currentPlayerChunk = gameWorld.GetChunckCoordinate(player.position);
@@ -75,11 +79,11 @@ public class WorldRendering : MonoBehaviour
 
         chunkPosition = BorderPosition(chunkPosition);
 
-        int distance = GameSettings.renderDistance + extraLength;
+        int distance = renderDistance + extraLength;
 
         if (direction.y != 0)
         {
-            for (int x = chunkPosition.x - GameSettings.renderDistance; x <= chunkPosition.x + GameSettings.renderDistance; x++)
+            for (int x = chunkPosition.x - renderDistance; x <= chunkPosition.x + renderDistance; x++)
             {
                 Vector2Int checkCnunk = new Vector2Int(x, chunkPosition.y+ distance * direction.y );
                 if (gameWorld.IsChunkInWorld(checkCnunk) && !checkDictionary.ContainsKey(checkCnunk))
@@ -91,7 +95,7 @@ public class WorldRendering : MonoBehaviour
 
         if (direction.x != 0)
         {
-            for (int z = chunkPosition.y - GameSettings.renderDistance; z <= chunkPosition.y + GameSettings.renderDistance; z++)
+            for (int z = chunkPosition.y - renderDistance; z <= chunkPosition.y + renderDistance; z++)
             {
                 Vector2Int checkCnunk = new Vector2Int(chunkPosition.x + distance * direction.x, z);
                 if (gameWorld.IsChunkInWorld(checkCnunk) && !checkDictionary.ContainsKey(checkCnunk))
@@ -117,27 +121,27 @@ public class WorldRendering : MonoBehaviour
     {
         Vector2Int border = chunkPosition;
 
-        int borderRight = chunkPosition.x + GameSettings.renderDistance;
-        int borderLeft = chunkPosition.x - GameSettings.renderDistance;
+        int borderRight = chunkPosition.x + renderDistance;
+        int borderLeft = chunkPosition.x - renderDistance;
 
-        int borderUp= chunkPosition.y  +GameSettings.renderDistance;
-        int borderDown = chunkPosition.y -GameSettings.renderDistance;
+        int borderUp= chunkPosition.y  +renderDistance;
+        int borderDown = chunkPosition.y -renderDistance;
 
         if ( borderRight >= WorldConstants.maxSizeWorld)
         {
-            border.x = WorldConstants.maxSizeWorld - GameSettings.renderDistance;
+            border.x = WorldConstants.maxSizeWorld - renderDistance;
         }
         if(borderLeft< 0 )
         {
-            border.x =  GameSettings.renderDistance;
+            border.x =  renderDistance;
         }
         if (borderDown<0)
         {
-            border.y = GameSettings.renderDistance;
+            border.y = renderDistance;
         }
         if (borderUp >= WorldConstants.maxSizeWorld)
         {
-            border.y = WorldConstants.maxSizeWorld - GameSettings.renderDistance;
+            border.y = WorldConstants.maxSizeWorld - renderDistance;
         }
 
         return border;

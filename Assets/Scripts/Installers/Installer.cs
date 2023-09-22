@@ -10,6 +10,8 @@ public class Installer : MonoInstaller
     [SerializeField] Database database;
     [SerializeField] ParticlesFactory particlesFactory;
     [SerializeField] UIFactory uIFactory;
+    [SerializeField] GameData gameData;
+    [SerializeField] SaveLoad saveLoad;
 
     public override void InstallBindings()
     {
@@ -27,6 +29,12 @@ public class Installer : MonoInstaller
 
         Container.Bind<UIFactory>().FromInstance(uIFactory).AsSingle();
         Container.QueueForInject(uIFactory);
+
+        Container.Bind<GameData>().FromInstance(gameData).AsSingle();
+        Container.QueueForInject(gameData);
+
+        Container.Bind<SaveLoad>().FromInstance(saveLoad).AsSingle();
+        Container.QueueForInject(saveLoad);
         //Container.Bind<GameWorld>().FromNew().AsSingle();
     }
 }

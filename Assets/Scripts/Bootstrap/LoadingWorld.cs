@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StartGame : MonoBehaviour
+public class LoadingWorld : MonoBehaviour
 {
     [SerializeField] WorldGenerator worldGenerator;
 
-    private void Awake()
+    public void StartGeneration()
     {
         PlayerData.Initialize();
         worldGenerator.GenerateMap();

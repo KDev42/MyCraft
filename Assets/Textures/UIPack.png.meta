@@ -531,8 +531,8 @@ TextureImporter:
       name: UIPack_19
       rect:
         serializedVersion: 2
-        x: 429
-        y: 171
+        x: 269
+        y: 140
         width: 29
         height: 32
       alignment: 0
@@ -611,6 +611,48 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: UIPack_23
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 256
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 071e4722713c50b4fb1186467d8cfac6
+      internalID: -2082320477
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UIPack_24
+      rect:
+        serializedVersion: 2
+        x: 432
+        y: 192
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 203fcd19467521348b1b6bb8a10dafc7
+      internalID: 742506844
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -623,6 +665,7 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       UIPack_15: -531789023
+      UIPack_24: 742506844
       UIPack_2: -1943603016
       UIPack_11: 190230308
       UIPack_19: -504470435
@@ -630,6 +673,7 @@ TextureImporter:
       UIPack_8: -244293928
       UIPack_9: 323082235
       UIPack_20: -1160334991
+      UIPack_23: -2082320477
       UIPack_7: -1284028183
       UIPack_1: -545047663
       UIPack_3: -1483144747

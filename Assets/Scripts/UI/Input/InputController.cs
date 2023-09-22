@@ -9,7 +9,7 @@ public class InputController : MonoBehaviour
 
 	private PlayerInput playerInput;
 	private int slotIndex;
-	private bool inUI;
+	private bool inUI =  true;
 	private bool inventoryIsOpen;
 	private bool craftIsOpen;
 
@@ -93,20 +93,27 @@ public class InputController : MonoBehaviour
 
 			if (playerInput.Jump())
 				EventsHolder.Jump();
+
+			if (playerInput.SaveWord())
+				EventsHolder.SaveWorld();
 		}
         else
-        {
+		{
 			Cursor.lockState = CursorLockMode.None;
 			Cursor.visible = true;
 		}
 	}
+
+	public void StartGame()
+    {
+		inUI = false;
+    }
 
 	private void CloseInvenoty()
 	{
 		inventoryIsOpen = false;
 		EventsHolder.CloseInventory();
 	}
-
 
 	private void CloseCraft()
 	{

@@ -36,6 +36,8 @@ public abstract class PlayerInput : MonoBehaviour
 
     public abstract bool OpenCraft();
 
+    public abstract bool SaveWord();
+
     protected abstract void Press();
 
     protected abstract void Unpress();

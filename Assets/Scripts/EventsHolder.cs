@@ -19,6 +19,7 @@ public static class EventsHolder
     public static Action closeInventory;
     public static Action closeCraft;
     public static Action updateCraftInfo;
+    public static Action saveWorld;
 
     public static void BrokenBlock(BlockType blockType, Vector3Int coordinate)
     {
@@ -90,5 +91,10 @@ public static class EventsHolder
     public static void UpdateCraftInfo()
     {
         updateCraftInfo?.Invoke();
+    }
+
+    public static void SaveWorld()
+    {
+        saveWorld?.Invoke();
     }
 }

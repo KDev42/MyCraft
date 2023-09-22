@@ -91,4 +91,9 @@ public class PCInput : PlayerInput
     {
         return Input.GetKeyDown(KeyCode.C);
     }
+
+    public override bool SaveWord()
+    {
+        return Input.GetKeyDown(KeyCode.H);
+    }
 }

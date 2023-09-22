@@ -15,7 +15,7 @@ MonoBehaviour:
   Path: ../../Desktop/MiniGames/MyCraft/Sounds/Fmod/Build/Desktop/Mine.bank
   Name: Mine
   StudioPath: bank:/Mine
-  lastModified: 638302001114342203
+  lastModified: 638309275786814223
   FileSizes:
   - Name: Desktop
     Value: 51872
@@ -62,10 +62,10 @@ MonoBehaviour:
   Path: ../../Desktop/MiniGames/MyCraft/Sounds/Fmod/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638302001114089302
+  lastModified: 638309275786462264
   FileSizes:
   - Name: Desktop
-    Value: 1088
+    Value: 1126
   Exists: 1
 --- !u!114 &-3648811371041843894
 MonoBehaviour:
@@ -150,7 +150,7 @@ MonoBehaviour:
   - {fileID: 1485159084905032786}
   StringsBanks:
   - {fileID: -5497729823847188353}
-  cacheTime: 638302001114342203
+  cacheTime: 638309275786814223
   cacheVersion: 131607
 --- !u!114 &804516479087406077
 MonoBehaviour:
@@ -194,10 +194,10 @@ MonoBehaviour:
   Path: ../../Desktop/MiniGames/MyCraft/Sounds/Fmod/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638302001114069285
+  lastModified: 638309275786452253
   FileSizes:
   - Name: Desktop
-    Value: 1036
+    Value: 1194
   Exists: 1
 --- !u!114 &3749737418063662557
 MonoBehaviour:

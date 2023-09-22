@@ -17,6 +17,9 @@ public class WorldGenerator : MonoBehaviour
     private bool chunkIsFill;
     private bool generationCompleted = true;
 
+    private int renderDistance;
+    private SaveLoad saveLoad;
+    private GameData gameData;
     private GameWorld gameWorld;
     private List<Vector2Int> renderingChunk = new List<Vector2Int>();
     private List<ChunkData> rendetingChunkDatas = new List<ChunkData>();
@@ -24,9 +27,11 @@ public class WorldGenerator : MonoBehaviour
     private static ProfilerMarker marker = new ProfilerMarker(ProfilerCategory.Loading, "LoadingWorld");
 
     [Inject]
-    private void Construct(GameWorld gameWorld)
+    private void Construct(GameWorld gameWorld, GameData gameData, SaveLoad saveLoad)
     {
+        this.gameData = gameData;
         this.gameWorld = gameWorld;
+        this.saveLoad = saveLoad;
     }
 
     private void Update()
@@ -65,12 +70,13 @@ public class WorldGenerator : MonoBehaviour
     public void GenerateMap()
     {
         //marker.Begin();
+        renderDistance = gameData.gameSettings.renderDistance;
         GenerateMainStructures();
         List<Vector2Int> chunkPositions = new List<Vector2Int>();
 
-        for (int x = 0; x < GameSettings.renderDistance * 2 + 1; x++)
+        for (int x = 0; x < renderDistance * 2 + 1; x++)
         {
-            for (int z = 0; z < GameSettings.renderDistance * 2 + 1; z++)
+            for (int z = 0; z < renderDistance * 2 + 1; z++)
             {
                 chunkPositions.Add(new Vector2Int(x, z));
                 //GenerateChunk(x, z);
@@ -143,7 +149,7 @@ public class WorldGenerator : MonoBehaviour
     {
         // marker.End();
 
-        float xzCoord = (GameSettings.renderDistance + 0.5f) * WorldConstants.chunkWidth;
+        float xzCoord = (renderDistance + 0.5f) * WorldConstants.chunkWidth;
         int y = GrassCoordinate((int)xzCoord, (int)xzCoord);
 
         Vector3Int spawnCoordinate = new Vector3Int((int)xzCoord, y, (int)xzCoord);
@@ -173,7 +179,7 @@ public class WorldGenerator : MonoBehaviour
 
     private void GenerateMainStructures()
     {
-        float xzCoord = (GameSettings.renderDistance + 0.5f) * WorldConstants.chunkWidth;
+        float xzCoord = (renderDistance + 0.5f) * WorldConstants.chunkWidth;
         mineCoordinate = new Vector3Int((int)xzCoord, 0, (int)xzCoord);
         mineChunkCoordinate = gameWorld.GetChunckCoordinate(mineCoordinate);
 
@@ -215,7 +221,22 @@ public class WorldGenerator : MonoBehaviour
             StructureGenerator.AddStructure(houseCoordinate, chunkData, BlockStructureType.House, gameWorld);
         }
 
+        AddSavedBlocks(chunkData);
+
         rendetingChunkDatas.Add(chunkData);
+    }
+
+    private void AddSavedBlocks( ChunkData chunkData)
+    {
+        SaveChunk saveChunk;
+
+        if(saveLoad.HasSavedChunk(chunkData.chunkPosition, out saveChunk))
+        {
+            foreach (var block in saveChunk.blocks)
+            {
+                chunkData.bloks[block.coordinate] = block.blockType;
+            }
+        }
     }
 
     private void RenderChunk( ChunkData chunkData)
