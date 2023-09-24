@@ -42,6 +42,7 @@ public class SaveLoad : MonoBehaviour
         if (PlayerPrefs.HasKey(path))
         {
             savedChunk = JsonUtility.FromJson<SaveChunk>(PlayerPrefs.GetString(path));
+            Debug.Log(JsonUtility.ToJson(savedChunk));
             return true;
         }
 

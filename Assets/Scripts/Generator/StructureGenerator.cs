@@ -11,7 +11,7 @@ public static class StructureGenerator
         Vector3Int blockCoordinate;
 
         Vector2Int chunkCoordinate = gameWorld.GetChunckCoordinate(spawnCoordinate);
-        Vector3Int localCoordinate = gameWorld.GetBlockLocalCoordinate(chunkCoordinate, spawnCoordinate);
+        //Vector3Int localCoordinate = gameWorld.GetBlockLocalCoordinate(chunkCoordinate, spawnCoordinate);
 
         if(blockStructure.configurationData.type != ConfigurationType.none)
             ClearTerrain(spawnCoordinate, blockStructure.configurationData, chunkData, gameWorld);

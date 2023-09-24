@@ -122,7 +122,7 @@ public class GameWorld : MonoBehaviour
 
             EventsHolder.BrokenBlock(blockType, GetBlockCoordinate(position));
 
-            saveLoad.AddBlockToSave(chunkCoordinate, MyMath.GetBlockCoordinate(blockCoordinate), blockType);
+            saveLoad.AddBlockToSave(chunkCoordinate, MyMath.GetBlockCoordinate(blockCoordinate), BlockType.air);
         }
     }
 

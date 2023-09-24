@@ -4,14 +4,16 @@ using UnityEngine;
 using Unity.Profiling;
 using Zenject;
 using System;
-using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
+[RequireComponent(typeof(ChunkGenerator))]
 public class WorldGenerator : MonoBehaviour
 {
-    [SerializeField] ChunkRenderer chunkPrefab;
+    [SerializeField] ChunkGenerator chunkGenerator;
     [SerializeField] GameObject player;
     [SerializeField] WorldRendering worldRendering;
-    [SerializeField] BiomeAttributes[] biomes;
+    //[SerializeField] BiomeAttributes[] biomes;
 
     private bool heroIsSpawn;
     private bool chunkIsFill;
@@ -21,8 +23,9 @@ public class WorldGenerator : MonoBehaviour
     private SaveLoad saveLoad;
     private GameData gameData;
     private GameWorld gameWorld;
-    private List<Vector2Int> renderingChunk = new List<Vector2Int>();
-    private List<ChunkData> rendetingChunkDatas = new List<ChunkData>();
+    private List<Vector2Int> toCreate = new List<Vector2Int>();
+    //private List<Vector2Int> toRender = new List<Vector2Int>();
+    private Dictionary<Vector2Int, ChunkData> toGenerate = new Dictionary<Vector2Int, ChunkData>();
 
     private static ProfilerMarker marker = new ProfilerMarker(ProfilerCategory.Loading, "LoadingWorld");
 
@@ -34,37 +37,16 @@ public class WorldGenerator : MonoBehaviour
         this.saveLoad = saveLoad;
     }
 
-    private void Update()
+    private void OnValidate()
     {
-        if (!generationCompleted)
-        {
-            if (renderingChunk.Count > 0)
-            {
-                int index = renderingChunk.Count - 1;
+        chunkGenerator ??= GetComponent<ChunkGenerator>();
+    }
 
-                ActivateChunk(renderingChunk[index]);
-                //GenerateChunk(renderingChunk[index].x, renderingChunk[index].y);
-
-                renderingChunk.RemoveAt(index);
-            }
-            else if (!chunkIsFill)
-            {
-                ChunkToFill();
-            }
-            else if (rendetingChunkDatas.Count > 0)
-            {
-                int index = rendetingChunkDatas.Count - 1;
-                ChunkData chunkData = rendetingChunkDatas[index];
-                RenderChunk(chunkData);
-
-                rendetingChunkDatas.RemoveAt(index);
-            }
-            else
-            {
-                generationCompleted = true;
-                CompleteGeneration();
-            }
-        }
+    private void Awake()
+    {
+        LoadBlockStructure.LoadStructure(BlockStructureType.Tree1);
+        LoadBlockStructure.LoadStructure(BlockStructureType.House);
+        LoadBlockStructure.LoadStructure(BlockStructureType.Mine);
     }
 
     public void GenerateMap()
@@ -91,34 +73,108 @@ public class WorldGenerator : MonoBehaviour
     {
         foreach (Vector2Int position in positions)
         {
-            if (renderingChunk.Contains(position))
+            if (toCreate.Contains(position))
             {
-                renderingChunk.Remove(position);
+                toCreate.Remove(position);
             }
         }
     }
 
-    public void AddQueue(List<Vector2Int> positions)
+    public async void AddQueue(List<Vector2Int> positions)
     {
         foreach (Vector2Int position in positions)
         {
-            if (!renderingChunk.Contains(position))
+            if (!toCreate.Contains(position))
             {
-                renderingChunk.Add(position);
+                toCreate.Add(position);
             }
         }
 
-        generationCompleted = false;
-        chunkIsFill = false;
+        await GenerationChunks();
+
+        CompleteGeneration();
     }
 
-    //public void SpawnQueue(List<Vector2Int> positions, Action callback)
-    //{
-    //    StartCoroutine(GenerateChunk(positions, (chunkData) => {
-    //        ChunkToFill();
-    //        StartCoroutine(RenderChunk(chunkData, callback));
-    //    }));
-    //}
+
+    private async Task GenerationChunks()
+    {
+        await Task.Run(() =>
+        {
+            while (toCreate.Count > 0)
+            {
+                int index = toCreate.Count - 1;
+
+                toGenerate.Add(toCreate[index] , ActivateChunk(toCreate[index]));
+                //toRender.Add(toCreate[index]);
+
+                toCreate.RemoveAt(index);
+            }
+        });
+
+
+        GenerationStructures();
+    }
+
+    private void GenerationStructures()
+    {
+        foreach(var cnunk in toGenerate)
+        {
+            if (cnunk.Key.x == mineChunkCoordinate.x && cnunk.Key.y == mineChunkCoordinate.y)
+            {
+                mineCoordinate.y = 50;
+                chunkGenerator.AddStructure(mineCoordinate, cnunk.Value, BlockStructureType.Mine);
+            }
+
+            if (cnunk.Key.x == houseChunkCoordinate.x && cnunk.Key.y == houseChunkCoordinate.y)
+            {
+                houseCoordinate.y = GrassCoordinate(houseCoordinate.x, houseCoordinate.z);
+                chunkGenerator.AddStructure(houseCoordinate, cnunk.Value, BlockStructureType.House);
+            }
+        }
+
+        FillChunks();
+    }
+
+    private void FillChunks()
+    {
+        foreach (var chunk in gameWorld.needToFillChunk)
+        {
+            if (gameWorld.activeChunkDatas.ContainsKey(chunk.Key) && !toGenerate.ContainsKey(chunk.Key))
+            {
+                toGenerate.Add(chunk.Key, gameWorld.activeChunkDatas[chunk.Key]);
+            }
+        }
+
+        foreach (var chunk in toGenerate)
+        {
+            if (gameWorld.needToFillChunk.ContainsKey(chunk.Key))
+            {
+                chunkGenerator.FillStructure(chunk.Key,chunk.Value);
+            }
+        }
+
+        AddSaveBlocks();
+    }
+
+    private void AddSaveBlocks()
+    {
+        foreach (var chunk in toGenerate)
+        {
+            chunkGenerator.AddSavedBlocks(chunk.Value);
+        }
+
+        RenderChunks();
+    }
+
+    private void RenderChunks()
+    {
+        foreach (var chunk in toGenerate)
+        {
+            chunkGenerator.RenderChunk(chunk.Value);
+        }
+
+        toGenerate.Clear();
+    }
 
     private void CompleteGeneration()
     {
@@ -129,11 +185,12 @@ public class WorldGenerator : MonoBehaviour
         }
     }
 
-    private void ActivateChunk(Vector2Int chunkPosition)
+    private ChunkData ActivateChunk(Vector2Int chunkPosition)
     {
+        ChunkData activatedChunk;
         if (gameWorld.disableChunkDatas.ContainsKey(chunkPosition))
         {
-            ChunkData activatedChunk = gameWorld.disableChunkDatas[chunkPosition];
+            activatedChunk = gameWorld.disableChunkDatas[chunkPosition];
             activatedChunk.chunkRenderer.gameObject.SetActive(true);
 
             gameWorld.activeChunkDatas.Add(chunkPosition, activatedChunk);
@@ -141,8 +198,10 @@ public class WorldGenerator : MonoBehaviour
         }
         else
         {
-            GenerateChunk(chunkPosition.x, chunkPosition.y);
+            activatedChunk = chunkGenerator.Generate(new Vector2Int(chunkPosition.x, chunkPosition.y));
         }
+
+        return activatedChunk;
     }
 
     private void SpawnPlayer()
@@ -188,141 +247,92 @@ public class WorldGenerator : MonoBehaviour
         houseChunkCoordinate = gameWorld.GetChunckCoordinate(houseCoordinate);
     }
 
-    private void GenerateChunk(int posChunkX, int posChunkZ)
-    {
-        ChunkData chunkData = new ChunkData();
 
-        int xPos = posChunkX * WorldConstants.chunkWidth;
-        int zPos = posChunkZ * WorldConstants.chunkWidth;
-
-        List<Vector3Int> treePositions = new List<Vector3Int>();
-
-        chunkData.bloks = TerrainGenerator.GenerateTerrain(WorldConstants.chunkWidth, WorldConstants.chunkHeight, xPos, zPos, biomes, ref treePositions);
-
-        foreach (Vector3Int treePos in treePositions)
-        {
-            StructureGenerator.AddStructure(treePos, chunkData, BlockStructureType.Tree1, gameWorld);
-        }
-
-        chunkData.chunkPosition = new Vector2Int(posChunkX, posChunkZ);
-
-        chunkData.parentWorld = gameWorld;
-        gameWorld.activeChunkDatas.Add(new Vector2Int(posChunkX, posChunkZ), chunkData);
-
-        if (posChunkX == mineChunkCoordinate.x && posChunkZ == mineChunkCoordinate.y)
-        {
-            mineCoordinate.y = 50;
-            StructureGenerator.AddStructure(mineCoordinate, chunkData, BlockStructureType.Mine, gameWorld);
-        }
-
-        if (posChunkX == houseChunkCoordinate.x && posChunkZ == houseChunkCoordinate.y)
-        {
-            houseCoordinate.y = GrassCoordinate(houseCoordinate.x, houseCoordinate.z);
-            StructureGenerator.AddStructure(houseCoordinate, chunkData, BlockStructureType.House, gameWorld);
-        }
-
-        AddSavedBlocks(chunkData);
-
-        rendetingChunkDatas.Add(chunkData);
-    }
-
-    private void AddSavedBlocks( ChunkData chunkData)
-    {
-        SaveChunk saveChunk;
-
-        if(saveLoad.HasSavedChunk(chunkData.chunkPosition, out saveChunk))
-        {
-            foreach (var block in saveChunk.blocks)
-            {
-                chunkData.bloks[block.coordinate] = block.blockType;
-            }
-        }
-    }
-
-    private void RenderChunk( ChunkData chunkData)
-    {
-        int xPos = chunkData.chunkPosition.x * WorldConstants.chunkWidth;
-        int zPos = chunkData.chunkPosition.y * WorldConstants.chunkWidth;
-        ChunkRenderer chunk = Instantiate(chunkPrefab, new Vector3(xPos, 0, zPos), Quaternion.identity, transform);
-        chunk.GenerateChunk(WorldConstants.chunkWidth, WorldConstants.chunkHeight, chunkData);
-
-        chunkData.chunkRenderer = chunk;
-    }
-
-    private void ChunkToFill()
-    {
-        foreach (var chunkData in gameWorld.activeChunkDatas)
-        {
-            FiilChunk(chunkData.Key, chunkData.Value);
-        }
-    }
-
-    private void FiilChunk(Vector2Int chunkCoordinate, ChunkData chunkData)
-    {
-        if (gameWorld.needToFillChunk.ContainsKey(chunkCoordinate))
-        {
-            foreach(PositionType coordinateType in gameWorld.needToFillChunk[chunkCoordinate])
-            {
-                chunkData.bloks[MyMath.GetBlockCoordinate(coordinateType.position)] = coordinateType.blockType;
-            }
-
-            gameWorld.needToFillChunk.Remove(chunkCoordinate);
-        }
-
-        chunkIsFill = true;
-    }
-
-    //private IEnumerator GenerateChunk(List<Vector2Int> positions, Action<List<ChunkData>> callback)
+    //public void SpawnQueue(List<Vector2Int> positions, Action callback)
     //{
-    //    List<ChunkData> chunkDatas = new List<ChunkData>();
-    //    for (int i = 0; i < positions.Count; i++)
-    //    {
-    //        ChunkData chunkData = new ChunkData();
-    //        Vector2Int currentPos = positions[i];
-
-    //        int posChunkX = currentPos.x;
-    //        int posChunkZ = currentPos.y;
-    //        int xPos = posChunkX * WorldConstants.chunkWidth;
-    //        int zPos = posChunkZ * WorldConstants.chunkWidth;
-
-    //        List<Vector3Int> treePositions = new List<Vector3Int>();
-
-    //        chunkData.bloks = TerrainGenerator.GenerateTerrain(WorldConstants.chunkWidth, WorldConstants.chunkHeight, xPos, zPos, biomes, ref treePositions);
-
-    //        foreach (Vector3Int treePos in treePositions)
-    //        {
-    //            StructureGenerator.AddStructure(treePos, chunkData, BlockStructureType.Tree1, gameWorld);
-    //        }
-
-    //        chunkData.chunkPosition = new Vector2Int(posChunkX, posChunkZ);
-
-
-    //        chunkData.parentWorld = gameWorld;
-    //        gameWorld.activeChunkDatas.Add(new Vector2Int(posChunkX, posChunkZ), chunkData);
-
-    //        chunkDatas.Add(chunkData);
-
-    //        yield return new WaitForSeconds(0.001f);
-    //    }
-    //    callback?.Invoke(chunkDatas);
+    //    StartCoroutine(GenerateChunk(positions, (chunkData) => {
+    //        ChunkToFill();
+    //        StartCoroutine(RenderChunk(chunkData, callback));
+    //    }));
     //}
 
-    //private IEnumerator RenderChunk(List<ChunkData> chunkDatas, Action callback)
+    //private void RenderChunk( ChunkData chunkData)
     //{
-    //    for (int i = 0; i < chunkDatas.Count; i++)
+    //    int xPos = chunkData.chunkPosition.x * WorldConstants.chunkWidth;
+    //    int zPos = chunkData.chunkPosition.y * WorldConstants.chunkWidth;
+    //    ChunkRenderer chunk = Instantiate(chunkPrefab, new Vector3(xPos, 0, zPos), Quaternion.identity, transform);
+    //    chunk.GenerateChunk(WorldConstants.chunkWidth, WorldConstants.chunkHeight, chunkData);
+
+    //    chunkData.chunkRenderer = chunk;
+    //}
+
+
+    //private void GenerateChunk(int posChunkX, int posChunkZ)
+    //{
+    //    ChunkData chunkData = new ChunkData();
+
+    //    int xPos = posChunkX * WorldConstants.chunkWidth;
+    //    int zPos = posChunkZ * WorldConstants.chunkWidth;
+
+    //    List<Vector3Int> treePositions = new List<Vector3Int>();
+
+    //    chunkData.bloks = TerrainGenerator.GenerateTerrain(WorldConstants.chunkWidth, WorldConstants.chunkHeight, xPos, zPos, biomes, ref treePositions);
+
+    //    foreach (Vector3Int treePos in treePositions)
     //    {
-    //        ChunkData chunkData = chunkDatas[i];
-    //        int xPos = chunkData.chunkPosition.x * WorldConstants.chunkWidth;
-    //        int zPos = chunkData.chunkPosition.y * WorldConstants.chunkWidth;
-
-    //        ChunkRenderer chunk = Instantiate(chunkPrefab, new Vector3(xPos, 0, zPos), Quaternion.identity, transform);
-    //        chunk.GenerateChunk(WorldConstants.chunkWidth, WorldConstants.chunkHeight, chunkData);
-
-    //        chunkData.chunkRenderer = chunk;
-
-    //        yield return new WaitForEndOfFrame();
+    //        StructureGenerator.AddStructure(treePos, chunkData, BlockStructureType.Tree1, gameWorld);
     //    }
 
-    //    callback?.Invoke();
+    //    chunkData.chunkPosition = new Vector2Int(posChunkX, posChunkZ);
+
+    //    chunkData.parentWorld = gameWorld;
+    //    gameWorld.activeChunkDatas.Add(new Vector2Int(posChunkX, posChunkZ), chunkData);
+
+    //    if (posChunkX == mineChunkCoordinate.x && posChunkZ == mineChunkCoordinate.y)
+    //    {
+    //        mineCoordinate.y = 50;
+    //        StructureGenerator.AddStructure(mineCoordinate, chunkData, BlockStructureType.Mine, gameWorld);
+    //    }
+
+    //    if (posChunkX == houseChunkCoordinate.x && posChunkZ == houseChunkCoordinate.y)
+    //    {
+    //        houseCoordinate.y = GrassCoordinate(houseCoordinate.x, houseCoordinate.z);
+    //        StructureGenerator.AddStructure(houseCoordinate, chunkData, BlockStructureType.House, gameWorld);
+    //    }
+
+    //    rendetingChunkDatas.Add(chunkData);
+    //}
+
+    //private void AddSavedBlocks( ChunkData chunkData)
+    //{
+    //    SaveChunk saveChunk;
+
+    //    if(saveLoad.HasSavedChunk(chunkData.chunkPosition, out saveChunk))
+    //    {
+    //        foreach (var block in saveChunk.blocks)
+    //        {
+    //            chunkData.bloks[block.coordinate] = block.blockType;
+    //        }
+    //    }
+    //}
+
+    //private void FiilChunk(Vector2Int chunkCoordinate, ChunkData chunkData)
+    //{
+    //    if (gameWorld.needToFillChunk.ContainsKey(chunkCoordinate))
+    //    {
+    //        foreach(PositionType coordinateType in gameWorld.needToFillChunk[chunkCoordinate])
+    //        {
+    //            chunkData.bloks[MyMath.GetBlockCoordinate(coordinateType.position)] = coordinateType.blockType;
+    //        }
+
+    //        gameWorld.needToFillChunk.Remove(chunkCoordinate);
+    //    }
+
+    //    chunkIsFill = true;
+    //}
+
+    //private bool ContaineCoordinate(List<Vector2Int> coordinates, Vector2Int coordinate)
+    //{
+    //    return coordinates.Any(s => s == coordinate);
     //}
 }

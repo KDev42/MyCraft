@@ -59806,6 +59806,7 @@ GameObject:
   - component: {fileID: 1658908107}
   - component: {fileID: 1658908110}
   - component: {fileID: 1658908109}
+  - component: {fileID: 1658908111}
   m_Layer: 0
   m_Name: WorldGenerator
   m_TagString: Untagged
@@ -59870,11 +59871,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c550513af8caa614ea27cc463371c58f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chunkPrefab: {fileID: 7449875347703114467, guid: 08196516c2667c34c87cb1f51c8e741d, type: 3}
+  chunkGenerator: {fileID: 1658908111}
   player: {fileID: 515239026}
   worldRendering: {fileID: 1658908109}
+--- !u!114 &1658908111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1658908106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8abea93e06a314a44a493d16c18b8b98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   biomes:
   - {fileID: 11400000, guid: d6c0daacbdabca544a6bad0597279837, type: 2}
+  chunkPrefab: {fileID: 7449875347703114467, guid: 08196516c2667c34c87cb1f51c8e741d, type: 3}
 --- !u!1001 &1659891119
 PrefabInstance:
   m_ObjectHideFlags: 0

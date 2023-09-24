@@ -8,21 +8,22 @@ public static class LoadBlockStructure
 
     public static SavedStructure GetStructure(BlockStructureType blockStructureType)
     {
-        if (blockStructures.ContainsKey(blockStructureType))
+        if (!blockStructures.ContainsKey(blockStructureType))
         {
-            return blockStructures[blockStructureType];
+            LoadStructure(blockStructureType);
         }
-        else
-        {
-            string folder = "BlockStructure/";
-            string path = folder + blockStructureType.ToString();
-            string blockStructureStr = Resources.Load<TextAsset>(path).ToString();
 
-            SavedStructure blockStructure = JsonUtility.FromJson<SavedStructure>(blockStructureStr);
+        return blockStructures[blockStructureType];
+    }
 
-            blockStructures.Add(blockStructureType, blockStructure);
+    public static void LoadStructure(BlockStructureType blockStructureType)
+    {
+        string folder = "BlockStructure/";
+        string path = folder + blockStructureType.ToString();
+        string blockStructureStr = Resources.Load<TextAsset>(path).ToString();
 
-            return blockStructure;
-        }
+        SavedStructure blockStructure = JsonUtility.FromJson<SavedStructure>(blockStructureStr);
+
+        blockStructures.Add(blockStructureType, blockStructure);
     }
 }
