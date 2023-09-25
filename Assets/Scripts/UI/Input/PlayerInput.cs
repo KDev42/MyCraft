@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public abstract class PlayerInput : MonoBehaviour
 {
@@ -37,6 +38,12 @@ public abstract class PlayerInput : MonoBehaviour
     public abstract bool OpenCraft();
 
     public abstract bool SaveWord();
+
+    public abstract bool GetReward();
+
+    public abstract bool OpenSettings();
+
+    public abstract void CloseSettings(Action callback);
 
     protected abstract void Press();
 

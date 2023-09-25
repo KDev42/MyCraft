@@ -75,9 +75,22 @@ public class ChunkGenerator : MonoBehaviour
     {
         int xPos = chunkData.chunkPosition.x * WorldConstants.chunkWidth;
         int zPos = chunkData.chunkPosition.y * WorldConstants.chunkWidth;
-        ChunkRenderer chunk = Instantiate(chunkPrefab, new Vector3(xPos, 0, zPos), Quaternion.identity, transform);
+
+        ChunkRenderer chunk;
+
+        if (chunkData.isSpawned)
+        {
+            chunk = gameWorld.activeChunkDatas[chunkData.chunkPosition].chunkRenderer;
+        }
+        else
+        {
+            chunk = Instantiate(chunkPrefab, new Vector3(xPos, 0, zPos), Quaternion.identity, transform);
+            chunkData.isSpawned = true;
+        }
+
         chunk.GenerateChunk(WorldConstants.chunkWidth, WorldConstants.chunkHeight, chunkData);
 
+        chunk.gameObject.SetActive(true);
         chunkData.chunkRenderer = chunk;
     }
 }

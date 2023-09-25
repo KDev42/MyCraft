@@ -24,7 +24,7 @@ public class WorldGenerator : MonoBehaviour
     private GameData gameData;
     private GameWorld gameWorld;
     private List<Vector2Int> toCreate = new List<Vector2Int>();
-    //private List<Vector2Int> toRender = new List<Vector2Int>();
+    private Queue< ChunkData> toRender = new Queue< ChunkData>();
     private Dictionary<Vector2Int, ChunkData> toGenerate = new Dictionary<Vector2Int, ChunkData>();
 
     private static ProfilerMarker marker = new ProfilerMarker(ProfilerCategory.Loading, "LoadingWorld");
@@ -49,7 +49,7 @@ public class WorldGenerator : MonoBehaviour
         LoadBlockStructure.LoadStructure(BlockStructureType.Mine);
     }
 
-    public void GenerateMap()
+    public void GenerateMap(Action callback)
     {
         //marker.Begin();
         renderDistance = gameData.gameSettings.renderDistance;
@@ -65,8 +65,16 @@ public class WorldGenerator : MonoBehaviour
             }
         }
 
-        AddQueue(chunkPositions);
+        AddQueue(chunkPositions, callback);
         //SpawnQueue(chunkPositions, SpawnPlayer);
+    }
+
+    public void Update()
+    {
+        if (toRender.Count > 0)
+        {
+            chunkGenerator.RenderChunk(toRender.Dequeue());
+        }
     }
 
     public void DeleteQueue(List<Vector2Int> positions)
@@ -80,7 +88,7 @@ public class WorldGenerator : MonoBehaviour
         }
     }
 
-    public async void AddQueue(List<Vector2Int> positions)
+    public async void AddQueue(List<Vector2Int> positions, Action callback = null)
     {
         foreach (Vector2Int position in positions)
         {
@@ -92,6 +100,7 @@ public class WorldGenerator : MonoBehaviour
 
         await GenerationChunks();
 
+        callback?.Invoke();
         CompleteGeneration();
     }
 
@@ -111,7 +120,6 @@ public class WorldGenerator : MonoBehaviour
             }
         });
 
-
         GenerationStructures();
     }
 
@@ -127,7 +135,7 @@ public class WorldGenerator : MonoBehaviour
 
             if (cnunk.Key.x == houseChunkCoordinate.x && cnunk.Key.y == houseChunkCoordinate.y)
             {
-                houseCoordinate.y = GrassCoordinate(houseCoordinate.x, houseCoordinate.z);
+                houseCoordinate.y =  GrassCoordinate(houseCoordinate.x, houseCoordinate.z);
                 chunkGenerator.AddStructure(houseCoordinate, cnunk.Value, BlockStructureType.House);
             }
         }
@@ -161,20 +169,21 @@ public class WorldGenerator : MonoBehaviour
         foreach (var chunk in toGenerate)
         {
             chunkGenerator.AddSavedBlocks(chunk.Value);
-        }
-
-        RenderChunks();
-    }
-
-    private void RenderChunks()
-    {
-        foreach (var chunk in toGenerate)
-        {
-            chunkGenerator.RenderChunk(chunk.Value);
+            toRender.Enqueue( chunk.Value);
         }
 
         toGenerate.Clear();
     }
+
+    //private void RenderChunks()
+    //{
+    //    foreach (var chunk in toGenerate)
+    //    {
+    //        chunkGenerator.RenderChunk(chunk.Value);
+    //    }
+
+    //    toGenerate.Clear();
+    //}
 
     private void CompleteGeneration()
     {
@@ -191,7 +200,7 @@ public class WorldGenerator : MonoBehaviour
         if (gameWorld.disableChunkDatas.ContainsKey(chunkPosition))
         {
             activatedChunk = gameWorld.disableChunkDatas[chunkPosition];
-            activatedChunk.chunkRenderer.gameObject.SetActive(true);
+            //activatedChunk.chunkRenderer.gameObject.SetActive(true);
 
             gameWorld.activeChunkDatas.Add(chunkPosition, activatedChunk);
             gameWorld.disableChunkDatas.Remove(chunkPosition);

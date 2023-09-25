@@ -1,38 +1,70 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using System;
 
-public class PCInput : PlayerInput
+public class PCInput : InputController
 {
-
-    public override bool Jump()
+    private void Update()
     {
-        return Input.GetButtonDown("Jump");
+        MoveInput(new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")));
+        ViewDirectionInput(new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")));
+
+        if (Input.GetButtonDown("Jump"))
+        {
+            Jump();
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            OpenInventory();
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            OpenCraft();
+        }
+
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            SaveWorld();
+        }
+
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            GetReward();
+        }
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            OpenSettings();
+        }
+
+        if (SlotIsChanged())
+        {
+            ChangeSlot();
+        }
+        CheckInputLKM();
     }
 
-    public override Vector2 LookDirection()
-    {
-        return new Vector2( Input.GetAxis("Mouse X"),Input.GetAxis("Mouse Y")) ;
-    }
 
-    public override Vector2 MotionDirection()
+    private void CheckInputLKM()
     {
-        return new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-    }
-
-    public override void CheckInputLKM()
-    {
-        if(inputLKM == InputLKM.waitDown)
+        if (Input.GetMouseButtonDown(0))
         {
             Press();
         }
-        else if(inputLKM == InputLKM.waitUp)
+        if (Input.GetMouseButtonUp(0))
         {
             Unpress();
         }
+        if (Input.GetMouseButton(0))
+        {
+            HoldDown();
+        }
     }
 
-    public override bool SlotIsChanged(ref int slotIndex)
+    private bool SlotIsChanged()
     {
         float scroll = Input.GetAxis("Mouse ScrollWheel");
 
@@ -50,50 +82,5 @@ public class PCInput : PlayerInput
         }
 
         return scroll != 0;
-    }
-
-    protected override void Press()
-    {
-        if (Input.GetMouseButtonDown(0) && waitClickCoroutine==null)
-        {
-            waitClickCoroutine = StartCoroutine(DelayClick());
-        }
-    }
-
-    protected override void Unpress()
-    {
-        if(Input.GetMouseButtonUp(0))
-        {
-            inputLKM = InputLKM.unpress;
-        }
-    }
-
-    IEnumerator DelayClick()
-    {
-        yield return new WaitForSeconds(0.2f);
-        if (Input.GetMouseButton(0))
-        {
-            inputLKM = InputLKM.press;
-        }
-        else
-        {
-            inputLKM = InputLKM.click;
-        }
-        waitClickCoroutine = null;
-    }
-
-    public override bool OpenInventory()
-    {
-        return Input.GetKeyDown(KeyCode.I);
-    }
-
-    public override bool OpenCraft()
-    {
-        return Input.GetKeyDown(KeyCode.C);
-    }
-
-    public override bool SaveWord()
-    {
-        return Input.GetKeyDown(KeyCode.H);
     }
 }

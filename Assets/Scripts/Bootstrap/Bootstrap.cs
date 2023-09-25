@@ -5,6 +5,8 @@ using Zenject;
 
 public class Bootstrap : MonoBehaviour
 {
+    [SerializeField] StartScreen startScreen;
+
     private SaveLoad saveLoad;
     private GameData gameData;
 
@@ -22,9 +24,12 @@ public class Bootstrap : MonoBehaviour
 
     private void SetSettings()
     {
+        saveLoad.LoadWorldSettings();
         GameSettings gameSettings = saveLoad.LoadPlayerSettings();
         gameData.gameSettings = gameSettings;
         AudioSettings.Initialize();
         AudioSettings.SFXVolumeLevel(gameSettings.soundValue);
+
+        startScreen.Activation();
     }
 }

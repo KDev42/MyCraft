@@ -8,4 +8,5 @@ public class ChunkData
     public ChunkRenderer chunkRenderer;
     public GameWorld parentWorld;
     public BlockType[] bloks;
+    public bool isSpawned;
 }

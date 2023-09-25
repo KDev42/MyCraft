@@ -5,6 +5,7 @@ using System;
 
 public class SaveLoad : MonoBehaviour
 {
+    private WorldSettings worldSettings;
     private GameSettings gameSettings;
     private Dictionary<Vector2Int, SaveChunk> chunkForSave = new Dictionary<Vector2Int, SaveChunk>();
 
@@ -80,20 +81,54 @@ public class SaveLoad : MonoBehaviour
         }
     }
 
+    public void LoadWorldSettings()
+    {
+        if (PlayerPrefs.HasKey("WorldSettings"))
+        {
+            worldSettings = JsonUtility.FromJson<WorldSettings>(PlayerPrefs.GetString("WorldSettings"));
+        }
+        else
+        {
+            worldSettings = new WorldSettings();
+        }
+
+        //ClearWorld();
+    }
+
+    public void SaveWorldSettings()
+    {
+        string js = JsonUtility.ToJson(worldSettings);
+        PlayerPrefs.SetString("WorldSettings", js);
+    }
+
+    public void ClearWorld()
+    {
+        foreach(Vector2Int chunkCoordinate in worldSettings.savedChunks)
+        {
+            string path = GetChunkPath(1, chunkCoordinate);
+            PlayerPrefs.DeleteKey(path);
+        }
+
+        worldSettings.savedChunks.Clear();
+
+        PlayerPrefs.DeleteKey("WorldSettings");
+    }
+
     private void SaveWorld()
     {
-        Debug.Log("dgdgfndfb ");
         foreach (var chunk in chunkForSave)
         {
+            worldSettings.savedChunks.Add(chunk.Key);
             SaveChunk(chunk.Key);
         }
 
+        SaveWorldSettings();
         chunkForSave.Clear();
     }
 
-    private string GetChunkPath(int indexWorld, Vector2Int chunkCoordinate)
+    private string GetChunkPath(int seed, Vector2Int chunkCoordinate)
     {
-        return "Chunk_" + indexWorld + "_" + chunkCoordinate;
+        return "Chunk_" + seed + "_" + chunkCoordinate;
     }
 
     private void SaveChunk(Vector2Int chunkCoordinate)
@@ -117,7 +152,7 @@ public class SaveLoad : MonoBehaviour
         }
         else
         {
-            savedChunk = new SaveChunk();
+            //savedChunk = new SaveChunk();
             savedChunk = addedChunck;
         }
 
@@ -131,6 +166,12 @@ public class SaveLoad : MonoBehaviour
 
 }
 
+[Serializable]
+public class WorldSettings
+{
+    public int seed;
+    public List<Vector2Int> savedChunks = new List<Vector2Int>();
+}
 
 [Serializable]
 public class GameSettings

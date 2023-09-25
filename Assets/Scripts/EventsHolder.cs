@@ -20,6 +20,10 @@ public static class EventsHolder
     public static Action closeCraft;
     public static Action updateCraftInfo;
     public static Action saveWorld;
+    public static Action startDoubleDrop;
+    public static Action stopDoubleDrop;
+    public static Action openSettings;
+    public static Action getReward;
 
     public static void BrokenBlock(BlockType blockType, Vector3Int coordinate)
     {
@@ -96,5 +100,25 @@ public static class EventsHolder
     public static void SaveWorld()
     {
         saveWorld?.Invoke();
+    }
+
+    public static void StartDoubleDrop()
+    {
+        startDoubleDrop?.Invoke();
+    }
+
+    public static void StopDoubleDrop()
+    {
+        stopDoubleDrop?.Invoke();
+    }
+
+    public static void OpenSettings()
+    {
+        openSettings?.Invoke();
+    }
+
+    public static void GetReward()
+    {
+        getReward?.Invoke();
     }
 }

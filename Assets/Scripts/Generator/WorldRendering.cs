@@ -65,6 +65,9 @@ public class WorldRendering : MonoBehaviour
         if (gameWorld.activeChunkDatas.ContainsKey(chunkPosition))
         {
             ChunkData deactivatedChunk = gameWorld.activeChunkDatas[chunkPosition];
+
+            //Debug.Log("RFRFR sdf " + deactivatedChunk);
+            //Debug.Log("RFRFR " + deactivatedChunk.chunkRenderer);
             deactivatedChunk.chunkRenderer.gameObject.SetActive(false);
 
             gameWorld.disableChunkDatas.Add(chunkPosition, deactivatedChunk);

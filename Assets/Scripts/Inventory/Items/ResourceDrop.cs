@@ -7,7 +7,8 @@ using System;
 public class ResourceDrop : MonoBehaviour
 {
     [SerializeField] BlockInfoDataBase blockDataBase;
- 
+
+    private int dropMultiplier =1;
     private ItemFactory itemFactory;
 
     [Inject]
@@ -19,11 +20,25 @@ public class ResourceDrop : MonoBehaviour
     private void OnEnable()
     {
         EventsHolder.brokenBlock += DropFromBlock;
+        EventsHolder.startDoubleDrop += DoubleDropMultiplier;
+        EventsHolder.stopDoubleDrop += RegularDropMultiplier;
     }
 
     private void OnDisable()
     {
         EventsHolder.brokenBlock -= DropFromBlock;
+        EventsHolder.startDoubleDrop -= DoubleDropMultiplier;
+        EventsHolder.stopDoubleDrop -= RegularDropMultiplier;
+    }
+
+    private void DoubleDropMultiplier()
+    {
+        dropMultiplier = 2;
+    }
+
+    private void RegularDropMultiplier()
+    {
+        dropMultiplier = 1;
     }
 
     private void DropFromBlock(BlockType blockType, Vector3Int dropCoordinate)
@@ -55,14 +70,14 @@ public class ResourceDrop : MonoBehaviour
 
     private int NumberDrop( int maxLevel, float value)
     {
-        float startValue = 50f;
-        float maxValue =95f;
+        float startValue = 75f;
+        float maxValue =98f;
 
         if (value <= startValue)
-            return 1;
+            return 1 * dropMultiplier;
 
         double q = Math.Pow((maxValue / startValue), 1.0d / (maxLevel - 1.0d));
 
-        return (int)(Math.Log(value / startValue, q) )+1;
+        return ((int)(Math.Log(value / startValue, q) )+1) * dropMultiplier;
     }
 }

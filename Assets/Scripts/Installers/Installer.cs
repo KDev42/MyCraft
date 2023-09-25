@@ -12,6 +12,7 @@ public class Installer : MonoInstaller
     [SerializeField] UIFactory uIFactory;
     [SerializeField] GameData gameData;
     [SerializeField] SaveLoad saveLoad;
+    [SerializeField] PauseManager pauseManager;
 
     public override void InstallBindings()
     {
@@ -35,6 +36,9 @@ public class Installer : MonoInstaller
 
         Container.Bind<SaveLoad>().FromInstance(saveLoad).AsSingle();
         Container.QueueForInject(saveLoad);
+
+        Container.Bind<PauseManager>().FromInstance(pauseManager).AsSingle();
+        Container.QueueForInject(pauseManager);
         //Container.Bind<GameWorld>().FromNew().AsSingle();
     }
 }
