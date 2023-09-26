@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a35be6491813c941bf592e86c132a2a, type: 3}
+  m_Name: IronShovel
+  m_EditorClassIdentifier: 
+  icon: {fileID: -1683613931, guid: 2541805204bfe5740b3150205aef7e4f, type: 3}
+  ingredientsCraft:
+  - itemType: 100
+    amount: 2
+  - itemType: 1101
+    amount: 3
+  itemForme: 2
+  itemType: 1012
+  maxNumberStacks: 1
+  prefab: {fileID: 7112657605706556677, guid: b8e5ad7380a279a42923d6e78962e1e4, type: 3}
+  toolType: 4
+  accelerationMining: 4
+  baseOffset: {x: 12, y: 10}
+  offset: {x: 14, y: 10}

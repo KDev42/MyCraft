@@ -5,4 +5,5 @@ using UnityEngine;
 public class GameData : MonoBehaviour
 {
     public GameSettings gameSettings;
+    public GameObject player;
 }

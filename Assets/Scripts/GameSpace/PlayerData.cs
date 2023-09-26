@@ -7,10 +7,10 @@ public static class PlayerData
     public static Inventory HandInventory { get; private set; }
     public static Inventory MainInventory { get; private set; }
 
-    public static void Initialize()
+    public static void Initialize(ItemStack[] handInventory, ItemStack[] mainInventory)
     {
-        HandInventory = new Inventory(9);
-        MainInventory = new Inventory(27);
+        HandInventory = new Inventory(handInventory);
+        MainInventory = new Inventory(mainInventory);
     }
 
     public static void RemoveItem(ItemType itemType, int amount)

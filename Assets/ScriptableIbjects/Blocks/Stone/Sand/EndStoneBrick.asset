@@ -17,9 +17,13 @@ MonoBehaviour:
   isTransparent: 0
   isReplaceable: 0
   isDestroyed: 1
-  miningTime: 1
+  miningTime: 4
   acceleratingTool: 8
-  dropDownResources: []
+  dropDownResources:
+  - itemType: 416
+    percent: 100
+    minNumber: 1
+    maxNumber: 1
   mineAudio:
     Guid:
       Data1: 262342827

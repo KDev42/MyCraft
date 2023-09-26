@@ -16,9 +16,10 @@ public class WorldGenerator : MonoBehaviour
     //[SerializeField] BiomeAttributes[] biomes;
 
     private bool heroIsSpawn;
-    private bool chunkIsFill;
-    private bool generationCompleted = true;
+    //private bool chunkIsFill;
+    //private bool generationCompleted = true;
 
+    private Vector3 playerPosition;
     private int renderDistance;
     private SaveLoad saveLoad;
     private GameData gameData;
@@ -49,16 +50,23 @@ public class WorldGenerator : MonoBehaviour
         LoadBlockStructure.LoadStructure(BlockStructureType.Mine);
     }
 
-    public void GenerateMap(Action callback)
+    public void GenerateMap(Action callback, Vector3 playerPosition)
     {
         //marker.Begin();
+        this.playerPosition = playerPosition;
+        Debug.Log("pos " + this.playerPosition);
+
+        Vector2Int startCoordinate = gameWorld.GetChunckCoordinate(playerPosition) ;
+        startCoordinate.x -= gameData.gameSettings.renderDistance;
+        startCoordinate.y -= gameData.gameSettings.renderDistance;
+
         renderDistance = gameData.gameSettings.renderDistance;
         GenerateMainStructures();
         List<Vector2Int> chunkPositions = new List<Vector2Int>();
 
-        for (int x = 0; x < renderDistance * 2 + 1; x++)
+        for (int x = startCoordinate.x; x < startCoordinate.x + renderDistance * 2 + 1; x++)
         {
-            for (int z = 0; z < renderDistance * 2 + 1; z++)
+            for (int z = startCoordinate.y; z < startCoordinate.y + renderDistance * 2 + 1; z++)
             {
                 chunkPositions.Add(new Vector2Int(x, z));
                 //GenerateChunk(x, z);
@@ -216,15 +224,11 @@ public class WorldGenerator : MonoBehaviour
     private void SpawnPlayer()
     {
         // marker.End();
+        playerPosition.y =  GrassCoordinate((int)playerPosition.x, (int)playerPosition.z);
 
-        float xzCoord = (renderDistance + 0.5f) * WorldConstants.chunkWidth;
-        int y = GrassCoordinate((int)xzCoord, (int)xzCoord);
-
-        Vector3Int spawnCoordinate = new Vector3Int((int)xzCoord, y, (int)xzCoord);
-
-
-        player.transform.position = spawnCoordinate;
+        player.transform.position = playerPosition;
         player.SetActive(true);
+        gameData.player = player;
 
         worldRendering.ActivateRender(this, player.transform);
     }
@@ -247,8 +251,11 @@ public class WorldGenerator : MonoBehaviour
 
     private void GenerateMainStructures()
     {
-        float xzCoord = (renderDistance + 0.5f) * WorldConstants.chunkWidth;
-        mineCoordinate = new Vector3Int((int)xzCoord, 0, (int)xzCoord);
+        float coord = (WorldConstants.maxSizeWorld * WorldConstants.chunkWidth) / 2 + 0.5f;
+
+        Vector3 pos = new Vector3(coord,10, coord);
+
+        mineCoordinate = gameWorld.GetBlockCoordinate(pos);
         mineChunkCoordinate = gameWorld.GetChunckCoordinate(mineCoordinate);
 
         houseCoordinate = mineCoordinate;

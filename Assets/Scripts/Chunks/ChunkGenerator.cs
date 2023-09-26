@@ -38,6 +38,8 @@ public class ChunkGenerator : MonoBehaviour
 
         chunkData.parentWorld = gameWorld;
 
+        Debug.Log(chunkData.chunkPosition);
+
         gameWorld.activeChunkDatas.Add(chunkData.chunkPosition, chunkData);
 
         return chunkData;

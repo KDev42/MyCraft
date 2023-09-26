@@ -56,6 +56,8 @@ public enum ItemType
     strippedBambooBlock = 157,
     strippedCrimsonStemBlock = 158,
     strippedWarpedStemBlock = 159,
+    // -- Leaves --
+    leavesOak = 180,
 
     // -- Ore Blocks --
     coalBlock = 508,
@@ -97,6 +99,19 @@ public enum ItemType
     emptyHand =999,
     goldPick =1000,
     stonePick =1001,
+    woodPick =1002,
+    ironPick =1003,
+    diamondPick =1004,
+    woodAxe =1005,
+    stoneAxe = 1006,
+    ironAxe =1007,
+    goldAxe =1008,
+    diamondAxe = 1009,
+    woodShovel = 1010,
+    stoneShovel = 1011,
+    ironShovel = 1012,
+    goldShovel = 1013,
+    diamondShovel = 1014,
 
     coalOre =1100,
     ironOre = 1101,

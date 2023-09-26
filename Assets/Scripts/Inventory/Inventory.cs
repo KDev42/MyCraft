@@ -6,9 +6,9 @@ public class Inventory
 {
     public ItemStack[] Items { get; private set; }
 
-    public Inventory(int lengh)
+    public Inventory(ItemStack[] items)
     {
-        Items = new ItemStack[lengh];
+        Items = items;
     }
 
     public bool HasFreeIndex(ref int freeIndex)
@@ -29,7 +29,7 @@ public class Inventory
     {
         for (int i = 0; i < Items.Length; i++)
         {
-            if (Items[i] != null && Items[i].itemType == item.itemType && Items[i].amount < item.maxNumberStacks)
+            if (Items[i] != null && Items[i].itemType !=0 && Items[i].itemType == item.itemType && Items[i].amount < item.maxNumberStacks)
             {
                 index = i;
                 return true;

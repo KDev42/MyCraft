@@ -8,7 +8,6 @@ public class Player : MonoBehaviour
 {
     [SerializeField] GameWorld world;
     [SerializeField] Transform mainCamera;
-    [SerializeField] Vector2 sens;
     [SerializeField] [Range(0, 90)] float yMaxAngle;
     [SerializeField] [Range(-90, 0)] float yMinAngle;
     [SerializeField] Move move;
@@ -26,6 +25,7 @@ public class Player : MonoBehaviour
     private bool canContinueMine;
     private float xRotation = 0.0f;
     private float yRotation = 0.0f;
+    private Vector2 sens;
     private Vector2 direction;
     private Vector2 lookDirection;
     private Vector3 velocity;
@@ -34,15 +34,17 @@ public class Player : MonoBehaviour
     private Coroutine delayMine;
     private MiningBlock miningBlock = new MiningBlock();
 
-    private  BlockType selectedBlockType = BlockType.grass; //test
+    //private  BlockType selectedBlockType = BlockType.grass; //test
     private DirectionType directionType;
 
     private Database database;
+    private GameData gameData;
 
     [Inject]
-    private void Construct(Database database)
+    private void Construct(Database database, GameData gameData)
     {
         this.database = database;
+        this.gameData = gameData;
     }
 
     private void Awake()
@@ -64,6 +66,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        sens = new Vector2(gameData.gameSettings.sens, gameData.gameSettings.sens);
         // Destroy block.
         //if (Input.GetMouseButtonDown(1))
         //    world.DestroyBlock(highlightBlock.position);

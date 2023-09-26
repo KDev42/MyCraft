@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: SpruceLogBlock
   m_EditorClassIdentifier: 
   icon: {fileID: -1873364094, guid: 2541805204bfe5740b3150205aef7e4f, type: 3}
-  ingredientsCraft: []
+  ingredientsCraft:
+  - itemType: 100
+    amount: 1
   itemForme: 1
   itemType: 102
   maxNumberStacks: 64

@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 using TMPro;
 using UnityEngine.UI;
 using Zenject;
+using System;
 
 public class ItemSlot:MonoBehaviour,IDropHandler
 {
@@ -108,6 +109,7 @@ public class ItemSlot:MonoBehaviour,IDropHandler
     }
 }
 
+[Serializable]
 public class ItemStack
 {
     public ItemType itemType;

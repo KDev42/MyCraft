@@ -18,7 +18,7 @@ MonoBehaviour:
   isReplaceable: 0
   isDestroyed: 1
   miningTime: 4
-  acceleratingTool: 2
+  acceleratingTool: 8
   dropDownResources:
   - itemType: 519
     percent: 100
@@ -26,11 +26,11 @@ MonoBehaviour:
     maxNumber: 1
   mineAudio:
     Guid:
-      Data1: 1038426861
-      Data2: 1225939030
-      Data3: -1686293070
-      Data4: 365327039
-    Path: event:/SoundEvents/MineEvents/MineStone
+      Data1: 262342827
+      Data2: 1121502214
+      Data3: -331018623
+      Data4: 73469007
+    Path: event:/SoundEvents/MineEvents/MineSend
   textureIndex: {x: 3, y: 12}
   textureIndexUp: {x: 2, y: 12}
   textureIndexDown: {x: 2, y: 12}

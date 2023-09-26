@@ -28,7 +28,7 @@ public class InventoryUI : MonoBehaviour
         {
             ItemStack itemStack = stacks[i];
             slots[i].Initialize(inventory, i);
-            if (itemStack != null)
+            if (itemStack != null && stacks[i].itemType !=0)
             {
                 slots[i].AddItem(stacks[i]);
             }

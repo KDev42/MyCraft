@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: QuartzBrick
   m_EditorClassIdentifier: 
   icon: {fileID: -1381441669, guid: 2541805204bfe5740b3150205aef7e4f, type: 3}
-  ingredientsCraft: []
+  ingredientsCraft:
+  - itemType: 3
+    amount: 1
   itemForme: 1
   itemType: 522
   maxNumberStacks: 64

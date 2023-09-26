@@ -8,7 +8,7 @@ public static class WorldConstants
 
     public const int chunkWidth = 16;
     public const int chunkHeight = 128;
-    public const int maxSizeWorld = 20;
+    public const int maxSizeWorld = 2000;
 
     public const int solidGroundHeight = 42;
     public const int subSurfaceBlockHeight = 4;

@@ -5,29 +5,25 @@ using UnityEngine.UI;
 
 public class InputController : MonoBehaviour
 {
-	[SerializeField] StickController stickController;
-	[SerializeField] PCInput pcMoveInput;
 	[SerializeField] protected float minPressingTime = 0.2f;
 	[SerializeField] Button closeSettingsButton;
-
-	protected float timePress;
-	protected int slotIndex;
-
-	private bool isMining;
-	private PlayerInput playerInput;
-	private bool inUI = true;
-	private bool inventoryIsOpen;
-	private bool craftIsOpen;
+	[SerializeField] Button applySettingsButton;
 
 	protected enum Window
-    {
+	{
 		none,
 		inventory,
 		craft,
-    }
+	}
 
+	protected bool isGameUI;
 	protected bool windowIsOpen;
+	protected bool settingsIsOpen;
+	protected int slotIndex;
+	protected float timePress;
 	protected Window openWinow;
+
+	private bool isMining;
 
 	private void Awake()
 	{
@@ -39,23 +35,31 @@ public class InputController : MonoBehaviour
 		//		playerInput = pcMoveInput;
 		//#endif
 		closeSettingsButton.onClick.AddListener(CloseSettings);
+		applySettingsButton.onClick.AddListener(CloseSettings);
 	}
 
 	public void StartGame()
 	{
+		isGameUI = true;
 		LockCursor();
 	}
 
 	protected void LockCursor()
 	{
-		Cursor.lockState = CursorLockMode.Locked;
-		Cursor.visible = false;
+        if (isGameUI)
+		{
+			Cursor.lockState = CursorLockMode.Locked;
+			Cursor.visible = false;
+		}
 	}
 
 	protected void UnlockCursor()
 	{
-		Cursor.lockState = CursorLockMode.None;
-		Cursor.visible = true;
+        if (isGameUI)
+		{
+			Cursor.lockState = CursorLockMode.None;
+			Cursor.visible = true;
+		}
 	}
 
 	protected void Press()
@@ -158,7 +162,6 @@ public class InputController : MonoBehaviour
 
 	protected void Interection()
 	{
-		playerInput.inputLKM = PlayerInput.InputLKM.waitDown;
 		EventsHolder.Attack();
 	}
 
@@ -189,12 +192,14 @@ public class InputController : MonoBehaviour
 
 	protected void OpenSettings()
 	{
+		settingsIsOpen = true;
 		UnlockCursor();
 		EventsHolder.OpenSettings();
 	}
 
 	protected void CloseSettings()
 	{
+		settingsIsOpen = false;
 		LockCursor();
 	}
 

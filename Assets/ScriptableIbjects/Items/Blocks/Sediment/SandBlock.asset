@@ -16,6 +16,6 @@ MonoBehaviour:
   ingredientsCraft: []
   itemForme: 1
   itemType: 3
-  maxNumberStacks: 3
+  maxNumberStacks: 64
   prefab: {fileID: 1218343180336816550, guid: 4f7cd7673bd642241a59bd2173f0a364, type: 3}
   blockType: 32

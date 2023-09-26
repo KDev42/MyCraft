@@ -64,6 +64,8 @@ public enum BlockType : byte
     strippedBamboo =21,
     strippedCrimsonStem =22,
     strippedWarpedStem =23,
+    // -- Leaves -- 
+    leaves = 40,
 
     //33 - last index
 

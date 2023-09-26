@@ -8,47 +8,32 @@ public class PCInput : InputController
 {
     private void Update()
     {
+        if (isGameUI)
+        {
+            if(!settingsIsOpen && !windowIsOpen)
+            {
+                MouseInput();
+            }
+
+            KeyboardInput();
+        }
+    }
+
+
+    private void MouseInput()
+    {
         MoveInput(new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")));
         ViewDirectionInput(new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")));
-
-        if (Input.GetButtonDown("Jump"))
-        {
-            Jump();
-        }
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            OpenInventory();
-        }
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            OpenCraft();
-        }
-
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            SaveWorld();
-        }
-
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            GetReward();
-        }
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            OpenSettings();
-        }
 
         if (SlotIsChanged())
         {
             ChangeSlot();
         }
-        CheckInputLKM();
+
+        LMBInput();
     }
 
-
-    private void CheckInputLKM()
+    private void LMBInput()
     {
         if (Input.GetMouseButtonDown(0))
         {
@@ -61,6 +46,45 @@ public class PCInput : InputController
         if (Input.GetMouseButton(0))
         {
             HoldDown();
+        }
+    }
+
+    private void KeyboardInput()
+    {
+        if (!settingsIsOpen)
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                OpenInventory();
+            }
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                OpenCraft();
+            }
+        }
+
+        if (!windowIsOpen)
+        {
+            if (Input.GetKeyDown(KeyCode.G))
+            {
+                OpenSettings();
+            }
+        }
+
+        if (!settingsIsOpen && !windowIsOpen)
+        {
+            if (Input.GetButtonDown("Jump"))
+            {
+                Jump();
+            }
+            if (Input.GetKeyDown(KeyCode.H))
+            {
+                SaveWorld();
+            }
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                GetReward();
+            }
         }
     }
 

@@ -2,12 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Zenject;
 
 public class SaveLoad : MonoBehaviour
 {
     private WorldSettings worldSettings;
     private GameSettings gameSettings;
     private Dictionary<Vector2Int, SaveChunk> chunkForSave = new Dictionary<Vector2Int, SaveChunk>();
+
+    private GameData gameData;
+
+    [Inject]
+    private void Construct(GameData gameData)
+    {
+        this.gameData = gameData;
+    }
 
     private void Awake()
     {
@@ -81,7 +90,7 @@ public class SaveLoad : MonoBehaviour
         }
     }
 
-    public void LoadWorldSettings()
+    public WorldSettings LoadWorldSettings()
     {
         if (PlayerPrefs.HasKey("WorldSettings"))
         {
@@ -90,13 +99,19 @@ public class SaveLoad : MonoBehaviour
         else
         {
             worldSettings = new WorldSettings();
+#if UNITY_EDITOR
+            StartTool();
+#endif
         }
 
+        return worldSettings;
         //ClearWorld();
     }
 
     public void SaveWorldSettings()
     {
+        worldSettings.handInventory = PlayerData.HandInventory.Items;
+        worldSettings.mainInventory = PlayerData.MainInventory.Items;
         string js = JsonUtility.ToJson(worldSettings);
         PlayerPrefs.SetString("WorldSettings", js);
     }
@@ -122,6 +137,7 @@ public class SaveLoad : MonoBehaviour
             SaveChunk(chunk.Key);
         }
 
+        worldSettings.playerPosition = gameData.player.transform.position;
         SaveWorldSettings();
         chunkForSave.Clear();
     }
@@ -164,13 +180,26 @@ public class SaveLoad : MonoBehaviour
         Debug.Log("dgdgfndfb " + path + "  "  + js);
     }
 
+    private void StartTool()
+    {
+        worldSettings.handInventory[0] = new ItemStack(ItemType.woodPick, 1);
+        worldSettings.handInventory[1] = new ItemStack(ItemType.stonePick, 1);
+        worldSettings.handInventory[2] = new ItemStack(ItemType.ironPick, 1);
+        worldSettings.handInventory[3] = new ItemStack(ItemType.goldPick, 1);
+        worldSettings.handInventory[4] = new ItemStack(ItemType.diamondPick, 1);
+        worldSettings.handInventory[5] = new ItemStack(ItemType.diamondAxe, 1);
+        worldSettings.handInventory[6] = new ItemStack(ItemType.diamondShovel, 1);
+    }
 }
 
 [Serializable]
 public class WorldSettings
 {
     public int seed;
+    public Vector3 playerPosition;
     public List<Vector2Int> savedChunks = new List<Vector2Int>();
+    public ItemStack[] handInventory = new ItemStack[9];
+    public ItemStack[] mainInventory = new ItemStack[27];
 }
 
 [Serializable]

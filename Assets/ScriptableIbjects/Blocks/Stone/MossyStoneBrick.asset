@@ -17,7 +17,7 @@ MonoBehaviour:
   isTransparent: 0
   isReplaceable: 0
   isDestroyed: 1
-  miningTime: 1
+  miningTime: 6
   acceleratingTool: 2
   dropDownResources:
   - itemType: 406

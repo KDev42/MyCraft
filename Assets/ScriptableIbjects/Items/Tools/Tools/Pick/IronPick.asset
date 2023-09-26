@@ -10,15 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6a35be6491813c941bf592e86c132a2a, type: 3}
-  m_Name: StonePick
+  m_Name: IronPick
   m_EditorClassIdentifier: 
-  icon: {fileID: 144875342, guid: 2541805204bfe5740b3150205aef7e4f, type: 3}
-  ingredientsCraft: []
+  icon: {fileID: 1966985061, guid: 2541805204bfe5740b3150205aef7e4f, type: 3}
+  ingredientsCraft:
+  - itemType: 100
+    amount: 2
+  - itemType: 1101
+    amount: 3
   itemForme: 2
-  itemType: 1001
-  maxNumberStacks: 2
+  itemType: 1003
+  maxNumberStacks: 1
   prefab: {fileID: -6248451235004799691, guid: 50dd2443712980943afc7f7cd4008b3f, type: 3}
   toolType: 2
-  accelerationMining: 20
+  accelerationMining: 4
   baseOffset: {x: 0, y: 10}
-  offset: {x: 1, y: 10}
+  offset: {x: 2, y: 10}

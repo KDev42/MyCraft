@@ -69,7 +69,7 @@ Shader "Custom/ItemUnlit" {
                 VertexOutput o;
                 o.position = TransformObjectToHClip(i.position.xyz);
 
-                float2 localOffset = float2(_Offsets.x + _Offsets.z, _Offsets.y  - _Offsets.w);
+                float2 localOffset = float2(_Offsets.z - _Offsets.x, _Offsets.w  - _Offsets.y);
                 float2 localUV = i.uv + float2(localOffset.x*(_TileSize/ _TextureSizeX), localOffset.y * (_TileSize / _TextureSizeY)) ;
 
                 o.uv = localUV;
