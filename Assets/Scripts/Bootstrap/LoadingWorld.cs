@@ -7,8 +7,7 @@ public class LoadingWorld : MonoBehaviour
 {
     [SerializeField] WorldGenerator worldGenerator;
     [SerializeField] StartScreen startScreen;
-    [SerializeField] GameScreen gameScreen;
-    [SerializeField] GameObject player;
+    [SerializeField] SwitcherUI switcherUI;
 
     private SaveLoad saveLoad;
     private GameData gameData;
@@ -33,7 +32,7 @@ public class LoadingWorld : MonoBehaviour
     private void CompledeGeneration()
     {
         startScreen.CloseStartScreen();
-        gameScreen.OpenGameScreen();
+        switcherUI.InitializeGUI();
     }
 
     private Vector3 StartCoordinate(WorldSettings worldSettings)

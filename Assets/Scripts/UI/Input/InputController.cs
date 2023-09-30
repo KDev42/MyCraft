@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class InputController : MonoBehaviour
 {
+	[SerializeField] CloseArea closeArea;
 	[SerializeField] protected float minPressingTime = 0.2f;
 	[SerializeField] Button closeSettingsButton;
 	[SerializeField] Button applySettingsButton;
@@ -14,6 +15,7 @@ public class InputController : MonoBehaviour
 		none,
 		inventory,
 		craft,
+		settings,
 	}
 
 	protected bool isGameUI;
@@ -35,31 +37,27 @@ public class InputController : MonoBehaviour
 		//		playerInput = pcMoveInput;
 		//#endif
 		closeSettingsButton.onClick.AddListener(CloseSettings);
-		applySettingsButton.onClick.AddListener(CloseSettings);
+		applySettingsButton.onClick.AddListener(ApplySettings);
 	}
 
-	public void StartGame()
+	public virtual void StartGame()
 	{
+		closeArea.close += () => { 
+			CloseWindow(); 
+			CloseAllWindow(); 
+		}; 
 		isGameUI = true;
-		LockCursor();
 	}
 
-	protected void LockCursor()
-	{
-        if (isGameUI)
-		{
-			Cursor.lockState = CursorLockMode.Locked;
-			Cursor.visible = false;
-		}
-	}
+	public void InputReset()
+    {
+        if (isMining)
+        {
+			StopMine();
+        }
 
-	protected void UnlockCursor()
-	{
-        if (isGameUI)
-		{
-			Cursor.lockState = CursorLockMode.None;
-			Cursor.visible = true;
-		}
+		MoveInput(new Vector2(0,0));
+		ViewDirectionInput(new Vector2(0,0));
 	}
 
 	protected void Press()
@@ -87,49 +85,23 @@ public class InputController : MonoBehaviour
 		}
 	}
 
-	protected void OpenInventory()
+	protected virtual void OpenInventory()
 	{
-		UnlockCursor();
-		if (windowIsOpen && openWinow != Window.inventory)
-		{
-			CloseWindow();
-		}
-		
-		if (windowIsOpen && openWinow == Window.inventory)
-		{
-			CloseWindow(); 
-			CloseAllWindow();
-		}
-		else
-		{
-			EventsHolder.OpenInventory();
-			windowIsOpen = true;
-			openWinow = Window.inventory;
-		}
+		EventsHolder.OpenInventory();
+		windowIsOpen = true;
+		openWinow = Window.inventory;
+		InputReset();
 	}
 
-	protected void OpenCraft()
+	protected virtual void OpenCraft()
 	{
-		UnlockCursor();
-		if (windowIsOpen && openWinow != Window.craft)
-		{
-			CloseWindow();
-		}
-
-		if (windowIsOpen && openWinow == Window.craft)
-		{
-			CloseWindow();
-			CloseAllWindow();
-		}
-		else
-		{
-			EventsHolder.OpenCraft();
-			windowIsOpen = true;
-			openWinow = Window.craft;
-		}
+		EventsHolder.OpenCraft();
+		windowIsOpen = true;
+		openWinow = Window.craft;
+		InputReset();
 	}
 
-	protected void CloseWindow()
+	protected virtual void CloseWindow()
     {
         switch (openWinow)
         {
@@ -140,12 +112,15 @@ public class InputController : MonoBehaviour
 			case Window.craft:
 				EventsHolder.CloseCraft();
 				break;
+
+			case Window.settings:
+				CloseSettings();
+				break;
 		}
 	}
 
-	private void CloseAllWindow()
+	protected virtual void CloseAllWindow()
 	{
-		LockCursor();
 		windowIsOpen = false;
 		openWinow = Window.none;
 	}
@@ -167,11 +142,13 @@ public class InputController : MonoBehaviour
 
 	protected void StartMine()
 	{
+		isMining = true;
 		EventsHolder.StartMine();
 	}
 
 	protected void StopMine()
 	{
+		isMining = false;
 		EventsHolder.StopMine();
 	}
 
@@ -190,87 +167,31 @@ public class InputController : MonoBehaviour
 		EventsHolder.SaveWorld();
 	}
 
-	protected void OpenSettings()
+	protected virtual void OpenSettings()
 	{
+		openWinow = Window.settings;
+		windowIsOpen = true;
 		settingsIsOpen = true;
-		UnlockCursor();
 		EventsHolder.OpenSettings();
+		InputReset();
 	}
 
-	protected void CloseSettings()
+	protected virtual void CloseSettings()
 	{
 		settingsIsOpen = false;
-		LockCursor();
+		openWinow = Window.none;
+		windowIsOpen = false;
+		EventsHolder.CloseSettings(isGameUI);
+	}
+
+	protected virtual void ApplySettings()
+	{
+		EventsHolder.ApplySettings();
+		CloseSettings();
 	}
 
 	protected void GetReward()
 	{
 		EventsHolder.GetReward();
 	}
-
-	//private void Update()
-	//{
- //       if (playerInput.OpenInventory())
-	//	{
-	//		OpenInventory();
-	//	}
-
-	//	if (playerInput.OpenCraft())
-	//	{
-	//		OpenCraft();
-	//	}
-
-	//	if (!inUI)
-	//	{
-	//		Cursor.lockState = CursorLockMode.Locked;
-	//		Cursor.visible = false;
-
-	//		EventsHolder.MoveInput(playerInput.MotionDirection());
-	//		EventsHolder.AttackDirectionInput(playerInput.LookDirection());
-
-	//		playerInput.CheckInputLKM();
-
-	//		if (playerInput.SlotIsChanged(ref slotIndex))
-	//		{
-	//			EventsHolder.ChangeActiveSlot(slotIndex);
-	//		}
-
-	//		if (playerInput.inputLKM == PlayerInput.InputLKM.click)
-	//		{
-	//			playerInput.inputLKM = PlayerInput.InputLKM.waitDown;
-	//			EventsHolder.Attack();
-	//		}
-	//		else if (playerInput.inputLKM == PlayerInput.InputLKM.press)
-	//		{
-	//			playerInput.inputLKM = PlayerInput.InputLKM.waitUp;
-	//			EventsHolder.StartMine();
-	//		}
-	//		else if (playerInput.inputLKM == PlayerInput.InputLKM.unpress)
-	//		{
-	//			playerInput.inputLKM = PlayerInput.InputLKM.waitDown;
-	//			EventsHolder.StopMine();
-	//		}
-
-	//		if (playerInput.Jump())
-	//			EventsHolder.Jump();
-
-	//		if (playerInput.SaveWord())
-	//			EventsHolder.SaveWorld();
-
-	//		if (playerInput.OpenSettings())
-	//		{
-	//			inUI = false;
-	//			EventsHolder.OpenSettings();
-	//		}
-
-	//		if (playerInput.GetReward())
-	//			EventsHolder.GetReward();
-	//	}
- //       else
-	//	{
-	//		Cursor.lockState = CursorLockMode.None;
-	//		Cursor.visible = true;
-	//	}
-	//}
-
 }

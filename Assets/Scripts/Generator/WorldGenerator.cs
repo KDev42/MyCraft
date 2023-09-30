@@ -13,9 +13,10 @@ public class WorldGenerator : MonoBehaviour
     [SerializeField] ChunkGenerator chunkGenerator;
     [SerializeField] GameObject player;
     [SerializeField] WorldRendering worldRendering;
-    //[SerializeField] BiomeAttributes[] biomes;
+    //[SerializeField] BiomeAttributes[] biome
 
     private bool heroIsSpawn;
+    private Action endGenetation;
     //private bool chunkIsFill;
     //private bool generationCompleted = true;
 
@@ -96,7 +97,7 @@ public class WorldGenerator : MonoBehaviour
         }
     }
 
-    public async void AddQueue(List<Vector2Int> positions, Action callback = null)
+    public void AddQueue(List<Vector2Int> positions, Action callback = null)
     {
         foreach (Vector2Int position in positions)
         {
@@ -106,28 +107,44 @@ public class WorldGenerator : MonoBehaviour
             }
         }
 
-        await GenerationChunks();
-
-        callback?.Invoke();
-        CompleteGeneration();
+        endGenetation = callback;
+        StartCoroutine( GenerationChunks());
     }
 
 
-    private async Task GenerationChunks()
+    //private async Task GenerationChunks()
+    //{
+    //    await Task.Run(() =>
+    //    {
+    //        while (toCreate.Count > 0)
+    //        {
+    //            int index = toCreate.Count - 1;
+
+    //            toGenerate.Add(toCreate[index] , ActivateChunk(toCreate[index]));
+    //            //toRender.Add(toCreate[index]);
+
+    //            toCreate.RemoveAt(index);
+    //        }
+    //    });
+
+    //    GenerationStructures();
+    //}
+
+    IEnumerator GenerationChunks()
     {
-        await Task.Run(() =>
+        while (toCreate.Count > 0)
         {
-            while (toCreate.Count > 0)
-            {
-                int index = toCreate.Count - 1;
+            int index = toCreate.Count - 1;
 
-                toGenerate.Add(toCreate[index] , ActivateChunk(toCreate[index]));
-                //toRender.Add(toCreate[index]);
+            toGenerate.Add(toCreate[index], ActivateChunk(toCreate[index]));
+            //toRender.Add(toCreate[index]);
 
-                toCreate.RemoveAt(index);
-            }
-        });
+            toCreate.RemoveAt(index);
 
+            yield return new WaitForEndOfFrame();
+        }
+
+        Debug.Log("created");
         GenerationStructures();
     }
 
@@ -181,6 +198,9 @@ public class WorldGenerator : MonoBehaviour
         }
 
         toGenerate.Clear();
+
+        endGenetation?.Invoke();
+        CompleteGeneration();
     }
 
     //private void RenderChunks()
@@ -197,6 +217,7 @@ public class WorldGenerator : MonoBehaviour
     {
         if (!heroIsSpawn)
         {
+            Debug.Log("Spawn");
             heroIsSpawn = true;
             SpawnPlayer();
         }

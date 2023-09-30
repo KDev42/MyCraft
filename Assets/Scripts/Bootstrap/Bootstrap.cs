@@ -27,7 +27,6 @@ public class Bootstrap : MonoBehaviour
         saveLoad.LoadWorldSettings();
         GameSettings gameSettings = saveLoad.LoadPlayerSettings();
         gameData.gameSettings = gameSettings;
-        AudioSettings.Initialize();
         AudioSettings.SFXVolumeLevel(gameSettings.soundValue);
 
         startScreen.Activation();

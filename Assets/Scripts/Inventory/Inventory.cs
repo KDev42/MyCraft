@@ -15,7 +15,7 @@ public class Inventory
     {
         for(int i=0; i < Items.Length; i++)
         {
-            if(Items[i] == null)
+            if(Items[i] == null || Items[i].itemType ==0)
             {
                 freeIndex = i;
                 return true;
@@ -29,7 +29,7 @@ public class Inventory
     {
         for (int i = 0; i < Items.Length; i++)
         {
-            if (Items[i] != null && Items[i].itemType !=0 && Items[i].itemType == item.itemType && Items[i].amount < item.maxNumberStacks)
+            if (Items[i] != null  && Items[i].itemType == item.itemType && Items[i].amount < item.maxNumberStacks)
             {
                 index = i;
                 return true;
@@ -41,7 +41,7 @@ public class Inventory
 
     public void AddItem(int index, Item item, int amount)
     {
-        if (Items[index] == null)
+        if (Items[index] == null || Items[index].itemType == 0)
         {
             ItemStack itemStack = new ItemStack(item.itemType, amount);
             Items[index] = itemStack;

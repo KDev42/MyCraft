@@ -19,6 +19,100 @@ public class PCInput : InputController
         }
     }
 
+    public override void StartGame()
+    {
+        base.StartGame();
+        LockCursor();
+    }
+
+    protected override void OpenInventory()
+    {
+        if (windowIsOpen && openWinow != Window.inventory)
+        {
+            CloseWindow();
+        }
+
+        if (windowIsOpen && openWinow == Window.inventory)
+        {
+            CloseWindow();
+            CloseAllWindow();
+        }
+        else
+        {
+            base.OpenInventory();
+            UnlockCursor();
+        }
+    }
+
+    protected override void OpenCraft()
+    {
+        if (windowIsOpen && openWinow != Window.craft)
+        {
+            CloseWindow();
+        }
+
+        if (windowIsOpen && openWinow == Window.craft)
+        {
+            CloseWindow();
+            CloseAllWindow();
+        }
+        else
+        {
+            base.OpenCraft();
+            UnlockCursor();
+        }
+    }
+
+    protected override void OpenSettings()
+    {
+        base.OpenSettings();
+        UnlockCursor();
+    }
+
+    protected override void CloseAllWindow()
+    {
+        base.CloseAllWindow();
+        LockCursor();
+    }
+
+    protected override void CloseSettings()
+    {
+        base.CloseSettings();
+        LockCursor();
+    }
+
+    protected override void CloseWindow()
+    {
+        base.CloseWindow();
+        LockCursor();
+    }
+
+    protected override void ApplySettings()
+    {
+        base.ApplySettings();
+        LockCursor();
+    }
+
+
+    private void LockCursor()
+    {
+        Debug.Log("lock");
+        if (isGameUI)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+    }
+
+    private void UnlockCursor()
+    {
+        Debug.Log("unlock");
+        if (isGameUI)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+    }
 
     private void MouseInput()
     {

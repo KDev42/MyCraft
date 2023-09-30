@@ -3,21 +3,37 @@ using UnityEngine.EventSystems;
 
 public class FixedTouchField : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
-    private Vector2 touchDirection;
+    public bool Pressed;
+    public bool touchDown;
+    public bool touchUp;
+    public bool holdDown;
+    public Vector2 touchDirection;
     private Vector2 PointerOld;
     private int PointerId;
-    private bool Pressed;
 
     public void OnPointerDown(PointerEventData eventData)
     {
         Pressed = true;
         PointerId = eventData.pointerId;
         PointerOld = eventData.position;
+
+#if UNITY_ANDROID
+        if (Input.touches[PointerId].phase !=TouchPhase.Moved)
+        {
+            touchDown = true;
+            holdDown = true;
+        }
+#endif
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
         Pressed = false;
+
+        if (holdDown)
+        {
+            touchUp = true;
+        }
     }
 
     public Vector2 Direction()
@@ -34,6 +50,13 @@ public class FixedTouchField : MonoBehaviour, IPointerDownHandler, IPointerUpHan
                 touchDirection = new Vector2(Input.mousePosition.x, Input.mousePosition.y) - PointerOld;
                 PointerOld = Input.mousePosition;
             }
+
+#if UNITY_ANDROID
+            if (Input.touches[PointerId].phase == TouchPhase.Moved)
+            {
+                holdDown = false;
+            }
+#endif
         }
         else
         {

@@ -14,7 +14,7 @@ public static class EventsHolder
     public static Action jump;
     public static Action<int> changeActiveSlot;
     public static Action<int> changeToolbar;
-    public static Action openInventory;
+    public static Action openInventory { get; set; }
     public static Action openCraft;
     public static Action closeInventory;
     public static Action closeCraft;
@@ -23,6 +23,8 @@ public static class EventsHolder
     public static Action startDoubleDrop;
     public static Action stopDoubleDrop;
     public static Action openSettings;
+    public static Action applySettings;
+    public static Action<bool> closeSettings { get; set; }
     public static Action getReward;
 
     public static void BrokenBlock(BlockType blockType, Vector3Int coordinate)
@@ -115,6 +117,16 @@ public static class EventsHolder
     public static void OpenSettings()
     {
         openSettings?.Invoke();
+    }
+
+    public static void CloseSettings(bool isGameUI)
+    {
+        closeSettings?.Invoke(isGameUI);
+    }
+
+    public static void ApplySettings()
+    {
+        applySettings?.Invoke();
     }
 
     public static void GetReward()

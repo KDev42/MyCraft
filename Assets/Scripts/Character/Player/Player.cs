@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     [SerializeField] Move move;
     [SerializeField] Vector3 cameraOffset;
     [SerializeField] LayerMask itemLayer;
+    [SerializeField] Transform body;
     [SerializeField] Hand hand;
     [SerializeField] Transform rightHand;
 
@@ -59,6 +60,8 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        //QualitySettings.vSyncCount = 0;
+        //Application.targetFrameRate = 30;
         mainCamera.parent = transform;
         mainCamera.localPosition = cameraOffset;
         mainCamera.rotation = new Quaternion(0, 0, 0, 0);
@@ -79,11 +82,13 @@ public class Player : MonoBehaviour
         PlaceCursorBlocks();
         CheckMinigBlock();
 
-        yRotation += lookDirection.x * sens.x * Time.deltaTime;
-
-        transform.rotation = Quaternion.Euler(0, yRotation, 0);
-
         CameraRotation();
+
+        yRotation = lookDirection.x * sens.x ;
+        body.Rotate(Vector3.up * yRotation);
+        //yRotation += lookDirection.x * sens.x * Time.deltaTime;
+        //transform.rotation = Quaternion.Euler(0, yRotation, 0);
+
     }
 
     private void FixedUpdate()
@@ -97,7 +102,7 @@ public class Player : MonoBehaviour
 
     private void GetAttackDirectionInput(Vector2 direction)
     {
-        lookDirection = new Vector3(direction.x, direction.y);
+        lookDirection = new Vector3(direction.x, direction.y) /100;
     }
 
     private void Attack()
@@ -177,11 +182,17 @@ public class Player : MonoBehaviour
 
     private void CameraRotation()
     {
-        xRotation -= lookDirection.y *sens.y * Time.deltaTime;
+        xRotation -= lookDirection.y *sens.y;
         xRotation = Mathf.Clamp(xRotation, yMinAngle, yMaxAngle);
 
-        mainCamera.rotation = Quaternion.Euler(xRotation, yRotation, 0);
-        rightHand.rotation = Quaternion.Euler(xRotation, yRotation, -90);
+        mainCamera.localRotation = Quaternion.Euler(xRotation, 0, 0);
+        rightHand.localRotation = Quaternion.Euler(xRotation, 0, -90);
+
+        //mainCamera.Rotate(Vector3.up * yRotation);
+        //rightHand.Rotate(Vector3.up * yRotation);
+        //yRotation = lookDirection.x * sens.x * Time.deltaTime;
+        //mainCamera.Rotate(Vector3.up * yRotation);
+        //rightHand.Rotate(Vector3.up * yRotation);
     }
 
     private void PlaceCursorBlocks()

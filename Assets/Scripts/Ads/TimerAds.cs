@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Runtime.InteropServices;
 using TMPro;
 using DG.Tweening;
+using Zenject;
 
 public class TimerAds : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class TimerAds : MonoBehaviour
     private static extern void ShowAdsExtern();
 
     private Coroutine callerAds;
+    [Inject] PauseManager pauseManager;
 
     private void Awake()
     {
@@ -39,6 +41,7 @@ public class TimerAds : MonoBehaviour
         try
         {
             ShowAdsExtern();
+            pauseManager.PauseGame();
         }
         catch (System.Exception) { Debug.Log("Error ---------- Ads"); }
     }

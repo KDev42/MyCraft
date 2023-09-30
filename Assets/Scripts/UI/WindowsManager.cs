@@ -4,17 +4,34 @@ using UnityEngine;
 
 public class WindowsManager : MonoBehaviour
 {
-    [SerializeField] GameObject inventoryWindow;
-    [SerializeField] GameObject craftWindow;
-    [SerializeField] GameObject toolbar;
+    [SerializeField] PCGUI pcGui;
+    [SerializeField] MobileGUI mobileGui;
+
+    private CommonGUI commonGUI;
 
     private void Start()
     {
+        if (Application.isMobilePlatform)
+        {
+            commonGUI = mobileGui;
+        }
+        else if (SystemInfo.deviceType == DeviceType.Desktop)
+        {
+            commonGUI = pcGui;
+        }
+
+#if UNITY_EDITOR
+        //commonGUI = mobileGui;
+#endif
+
         EventsHolder.openInventory += OpenInventory;
         EventsHolder.closeInventory += CloseInventory;
 
         EventsHolder.openCraft += OpenCraft;
         EventsHolder.closeCraft += CloseCraft;
+
+        EventsHolder.openSettings += OpenSettings;
+        EventsHolder.closeSettings += CloseSettings;
     }
 
     private void OnDestroy()
@@ -24,29 +41,42 @@ public class WindowsManager : MonoBehaviour
 
         EventsHolder.openCraft -= OpenCraft;
         EventsHolder.closeCraft -= CloseCraft;
+
+        EventsHolder.openSettings -= OpenSettings;
+        EventsHolder.closeSettings -= CloseSettings;
     }
 
     private void OpenInventory()
     {
-        inventoryWindow.SetActive(true);
-        toolbar.SetActive(false);
+        commonGUI.OpenInventory();
     }
 
     private void CloseInventory()
     {
-        inventoryWindow.SetActive(false);
-        toolbar.SetActive(true);
+        commonGUI.CloseInventory();
     }
 
     private void OpenCraft()
     {
-        craftWindow.SetActive(true);
-        toolbar.SetActive(false);
+        commonGUI.OpenCraft();
     }
 
     private void CloseCraft()
     {
-        craftWindow.SetActive(false);
-        toolbar.SetActive(true);
+        commonGUI.CloseCraft();
+    }
+
+
+    private void OpenSettings()
+    {
+        commonGUI.OpenSettings();
+    }
+
+    private void CloseSettings(bool isGameUI)
+    {
+        if (isGameUI)
+        {
+            commonGUI.CloseSettings();
+        }
     }
 }

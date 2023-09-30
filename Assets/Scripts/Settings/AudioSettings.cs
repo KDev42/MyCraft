@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using FMODUnity;
 using FMOD.Studio;
+using System;
 
 public static class AudioSettings 
 {
@@ -10,15 +11,38 @@ public static class AudioSettings
 
     private static Bus Music;
     private static Bus SFX;
+    private static Bus Master;
     //private Bus Master;
     //private float MasterVolume = 1f;
+
+    private  static bool audioResumed = false;
 
     public static void Initialize()
     {
         //Music = RuntimeManager.GetBus("bus:/Master/Music");
-        SFX = RuntimeManager.GetBus("bus:/Sounds");
+
+        if (false)
+        {
+            var result = FMODUnity.RuntimeManager.CoreSystem.mixerSuspend();
+            Debug.Log(result);
+            result = FMODUnity.RuntimeManager.CoreSystem.mixerResume();
+            Debug.Log(result);
+            audioResumed = true;
+
+            try
+            {
+                Master = RuntimeManager.GetBus("bus:/");
+            }
+            catch (Exception) { Debug.Log("mb"); }
+
+            try
+            {
+                SFX = RuntimeManager.GetBus("bus:/Sounds");
+            }
+            catch (Exception) { Debug.Log("m b/s"); }
+        }
         //Master = RuntimeManager.GetBus("bus:/Master");
-        SFXVolumeTestEvent = RuntimeManager.CreateInstance("event:/SoundEvents/MineEvents/DropOrb");
+        //SFXVolumeTestEvent = RuntimeManager.CreateInstance("event:/SoundEvents/MineEvents/DropOrb");
     }
 
     //public void MasterVolumeLevel(float newMasterVolume)
@@ -34,13 +58,17 @@ public static class AudioSettings
 
     public static void SFXVolumeLevel(float newSFXVolume)
     {
-        SFX.setVolume(newSFXVolume);
-
-        PLAYBACK_STATE PbState;
-        SFXVolumeTestEvent.getPlaybackState(out PbState);
-        if (PbState != PLAYBACK_STATE.PLAYING)
+        try
         {
-            SFXVolumeTestEvent.start();
+            SFX.setVolume(newSFXVolume);
         }
+        catch (Exception) { }
+
+        //PLAYBACK_STATE PbState;
+        //SFXVolumeTestEvent.getPlaybackState(out PbState);
+        //if (PbState != PLAYBACK_STATE.PLAYING)
+        //{
+        //    SFXVolumeTestEvent.start();
+        //}
     }
 }

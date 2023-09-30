@@ -13,7 +13,7 @@ public class StartScreen : MonoBehaviour
     [SerializeField] LoadingWorld loadingWorld;
     [SerializeField] GameObject startScreen;
     [SerializeField] GameObject lobbyUI;
-    [SerializeField] InputController inputController;
+    //[SerializeField] InputController inputController;
     [SerializeField] GameObject buttonsContainer;
     [SerializeField] GameObject loaderContainer;
     [SerializeField] GameObject warningPanel;
@@ -35,7 +35,7 @@ public class StartScreen : MonoBehaviour
 
     public void CloseStartScreen()
     {
-        inputController.StartGame();
+        //inputController.StartGame();
         startScreen.SetActive(false);
         lobbyUI.SetActive(false);
     }
@@ -47,6 +47,7 @@ public class StartScreen : MonoBehaviour
 
     public void NewGame()
     {
+        AudioSettings.Initialize();
         CloseWarning();
         saveLoad.ClearWorld();
         loadingWorld.StartGeneration();
@@ -55,6 +56,7 @@ public class StartScreen : MonoBehaviour
 
     private void OpenSetting()
     {
+        AudioSettings.Initialize();
         settingPanel.SetActive(true);
     }
 
@@ -72,6 +74,7 @@ public class StartScreen : MonoBehaviour
 
     private void ContinueGame()
     {
+        AudioSettings.Initialize();
         loadingWorld.StartGeneration();
         Loadin();
     }

@@ -23,8 +23,11 @@ public class SettingsUI : MonoBehaviour
 
     private void Awake()
     {
-        closeBtn.onClick.AddListener(DropSettings);
-        applyBtn.onClick.AddListener(ApplySettings);
+        //closeBtn.onClick.AddListener(DropSettings);
+        //applyBtn.onClick.AddListener(ApplySettings);
+
+        EventsHolder.applySettings += ApplySettings;
+        EventsHolder.closeSettings += DropSettings;
     }
 
     private void OnEnable()
@@ -45,10 +48,9 @@ public class SettingsUI : MonoBehaviour
         gameData.gameSettings.soundValue = soundSlider.value;
         gameData.gameSettings.sens = sensSlider.value;
         saveLoad.SavePlayerSettings();
-        Close();
     }
 
-    private void DropSettings()
+    private void DropSettings(bool isGUI)
     {
         ChangeSoundValue(gameData.gameSettings.soundValue);
         Close();

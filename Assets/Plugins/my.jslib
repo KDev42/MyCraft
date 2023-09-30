@@ -53,10 +53,11 @@ mergeInto(LibraryManager.library, {
       callbacks: {
         onClose: function (wasShown) {
           console.log("------------- closed --------------");
-          // some action after close
+          myGameInstance.SendMessage("Ads", "ResumeGame");
         },
         onError: function (error) {
-          // some action on error
+          console.log("------------- error --------------");
+          myGameInstance.SendMessage("Ads", "ResumeGame");
         },
       },
     });
