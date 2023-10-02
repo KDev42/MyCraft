@@ -75,47 +75,13 @@ Shader "Custom/MyLit"
             [HideInInspector][NoScaleOffset]unity_ShadowMasks("unity_ShadowMasks", 2DArray) = "" {}
     }
 
-        SubShader
+    SubShader
     {
         // Universal Pipeline tag is required. If Universal render pipeline is not set in the graphics settings
         // this Subshader will fail. One can add a subshader below or fallback to Standard built-in to make this
         // material work with both Universal Render Pipeline and Builtin Unity Pipeline
         Tags{"RenderType" = "Opaque" "RenderPipeline" = "UniversalPipeline" "UniversalMaterialType" = "Lit" "IgnoreProjector" = "True" "ShaderModel" = "4.5"}
         LOD 300
-
-          HLSLINCLUDE
-            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-            //#include "UnityCG.cginc"
-            //#include "UnityShaderVariables.cginc"
-
-            CBUFFER_START(UnityPerMaterial)
-
-            float _TileSize;
-            float _CracksIndex;
-            float4 _CracksPosition;
-
-            CBUFFER_END
-
-            TEXTURE2D(_CracksTexture);
-            SAMPLER(sampler_CracksTexture);
-
-            float4 _CracksTexture_ST;
-
-            struct VertexInput {
-                float4 position : POSITION;
-                float2 uv : TEXCOORD0;
-                //float3 worldPos;
-                //float3 worldPos : TEXCOORD1;
-            };
-
-            struct VertexOutput
-            {
-                float4 position : SV_POSITION;
-                float2 uv : TEXCOORD0;
-            };
-
-        ENDHLSL
-
         // ------------------------------------------------------------------
         //  Forward pass. Shades all light in a single pass. GI + emission + Fog
         Pass
@@ -201,6 +167,9 @@ Shader "Custom/MyLit"
 
     // keep this file in sync with LitGBufferPass.hlsl
 
+    sampler2D _CracksTexture;
+        float4 _CracksTexture_ST;
+
     struct Attributes
     {
         float4 positionOS   : POSITION;
@@ -246,6 +215,7 @@ Shader "Custom/MyLit"
     #endif
 
         float4 positionCS               : SV_POSITION;
+        float4 worldPosition : POSITION1;
         UNITY_VERTEX_INPUT_INSTANCE_ID
         UNITY_VERTEX_OUTPUT_STEREO
     };
@@ -375,6 +345,7 @@ Shader "Custom/MyLit"
     #endif
 
     output.positionCS = vertexInput.positionCS;
+    output.worldPosition = mul(unity_ObjectToWorld, input.positionOS).xyzw;
 
     return output;
 }
@@ -411,7 +382,42 @@ half4 LitPassFragment(Varyings input) : SV_Target
     color.rgb = MixFog(color.rgb, inputData.fogCoord);
     color.a = OutputAlpha(color.a, _Surface);
 
-    return color * half4(1,0,0,1);
+    half4 _CracksPosition = half4(15988.0, 58.0, 15996.0, 0.0);
+    
+    half x = (_CracksPosition.x + 1.005 - input.worldPosition.x) * sign(input.worldPosition.x - _CracksPosition.x + 0.005);
+    half y = (_CracksPosition.y + 1.005 - input.worldPosition.y) * sign(input.worldPosition.y - _CracksPosition.y + 0.005);
+    half z = (_CracksPosition.z + 1.005 - input.worldPosition.z) * sign(input.worldPosition.z - _CracksPosition.z + 0.005);
+    half sx = step(0.0, x);
+    half sy = step(0.0, y);
+    half sz = step(0.0, z);
+    half s = sx*sy*sz;
+
+    half _CracksTileSize = 16.0;
+    half _CracksLengthTexture = 128.0;
+    half _CracksIndex = 1.0;
+
+    /*half xCracksColor = x * step(1.0, abs(input.normalWS.z))  + x * step(1.0, abs(input.normalWS.y)) + z * step(1.0, abs(input.normalWS.x));
+    half yCracksColor = z * step(1.0, abs(input.normalWS.y)) + y * step(1.0, abs(input.normalWS.x)) + y * step(1.0, abs(input.normalWS.z));*/
+
+
+    half xCracksColor = x *  abs(input.normalWS.z) + x *  abs(input.normalWS.y) + z *  abs(input.normalWS.x);
+    half yCracksColor = z *  abs(input.normalWS.y) + y *  abs(input.normalWS.x) + y *  abs(input.normalWS.z);
+
+    half4 cracksColor = tex2D(_CracksTexture, half2((xCracksColor + _CracksIndex) * _CracksTileSize / _CracksLengthTexture, yCracksColor));
+    half4 addColor = color + cracksColor * s;
+    /*addColor = lerp(color, red, step(0.0, (_CracksPosition.y + 1.0 - input.worldPosition.y) * sign(input.worldPosition.y - _CracksPosition.y)));
+    addColor = lerp(color, red, step(0.0, (_CracksPosition.z +1.0 - input.worldPosition.z) * sign(input.worldPosition.z - _CracksPosition.z)));*/
+
+    /*float4 cracksLT = _CracksPosition + float4(0, 1, 0, 0);
+    addColor = lerp(color, red, step(float4(0.50, 0.50, 0.50, 0.00), (cracksLT - input.worldPosition) * sign(input.worldPosition - cracksLT)));
+
+    float4 cracksRB = _CracksPosition + float4(1,0,0,0);
+    addColor = lerp(color, red, step(float4(0.50, 0.50, 0.50, 0.00), (cracksRB - input.worldPosition) * sign(input.worldPosition - cracksRB)));
+
+    float4 cracksRT = _CracksPosition + float4(1, 1, 0, 0);
+    addColor = lerp(color, red, step(float4(0.50, 0.50, 0.50, 0.00), (cracksRT - input.worldPosition) * sign(input.worldPosition - cracksRT)));*/
+
+    return addColor;
 }
 
 #endif
@@ -877,5 +883,5 @@ half4 LitPassFragment(Varyings input) : SV_Target
     }
 
         FallBack "Hidden/Universal Render Pipeline/FallbackError"
-        CustomEditor "UnityEditor.Rendering.Universal.ShaderGUI.LitShader"
+        //CustomEditor "UnityEditor.Rendering.Universal.ShaderGUI.LitShader"
 }

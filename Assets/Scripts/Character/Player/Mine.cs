@@ -22,11 +22,13 @@ public class Mine : MonoBehaviour
     private MiningBlock miningBlock;
 
     private ParticlesFactory particlesFactory;
+    private GameWorld gameWorld;
 
     [Inject]
-    private void Construct(ParticlesFactory particlesFactory)
+    private void Construct(ParticlesFactory particlesFactory, GameWorld gameWorld)
     {
         this.particlesFactory = particlesFactory;
+        this.gameWorld = gameWorld;
     }
 
     public bool CanMine(BlockInfo blockInfo, Item item)
@@ -133,9 +135,23 @@ public class Mine : MonoBehaviour
 
     private void ActivateCracks()
     {
-        cracks.transform.position = minedBlockPosition + new Vector3(0.5f, 0.5f, 0.5f);
-        cracks.gameObject.SetActive(true);
-        cracks.ChangeTexture(Time.time - startMinedBlock, blockMiningTime);
+        Cracks();
+        //cracks.transform.position = minedBlockPosition + new Vector3(0.5f, 0.5f, 0.5f);
+        //cracks.gameObject.SetActive(true);
+        //cracks.ChangeTexture(Time.time - startMinedBlock, blockMiningTime);
+    }
+
+    private void Cracks()
+    {
+        Vector2Int chunkCoordinate = gameWorld.GetChunckCoordinate(minedBlockPosition);
+        //Vector3 lockalBlockPosition = gameWorld.GetBlockLocalCoordinate(chunkCoordinate, minedBlockPosition);
+        Vector4 coordinate = minedBlockPosition;
+        coordinate.w = 0;
+
+        Material chunkMatirial = gameWorld.activeChunkDatas[chunkCoordinate].chunkRenderer.GetComponent<MeshRenderer>().material;
+
+        Debug.Log(coordinate);
+        chunkMatirial.SetVector("_CracksPosition", coordinate);
     }
 }
 
