@@ -15,11 +15,13 @@ public class Mine : MonoBehaviour
     private Vector3 particlePosition;
     private Vector3 minedBlockPosition;
     private Quaternion particleRotation;
-    private float particleIndent = 0.55f;
+    private float particleIndent = 0.6f;
     private float blockMiningTime;
     private float startMinedBlock;
     private Action finishMineBlock;
     private MiningBlock miningBlock;
+    private int maxDamage = 8;
+    private Material miningChunckMaterial;
 
     private ParticlesFactory particlesFactory;
     private GameWorld gameWorld;
@@ -70,6 +72,9 @@ public class Mine : MonoBehaviour
     public void StopMine()
     {
         cracks.gameObject.SetActive(false);
+
+        miningChunckMaterial.SetFloat("_CracksIndex", 0);
+        miningChunckMaterial.SetVector("_CracksPosition", new Vector4(-1,-1,-1,-1));
         anim?.SetBool("Mine", false);
     }
 
@@ -148,10 +153,17 @@ public class Mine : MonoBehaviour
         Vector4 coordinate = minedBlockPosition;
         coordinate.w = 0;
 
-        Material chunkMatirial = gameWorld.activeChunkDatas[chunkCoordinate].chunkRenderer.GetComponent<MeshRenderer>().material;
+        miningChunckMaterial = gameWorld.activeChunkDatas[chunkCoordinate].chunkRenderer.GetComponent<MeshRenderer>().material;
 
         Debug.Log(coordinate);
-        chunkMatirial.SetVector("_CracksPosition", coordinate);
+        miningChunckMaterial.SetFloat("_CracksIndex", GetCrakcsIndex(Time.time - startMinedBlock, blockMiningTime));
+        miningChunckMaterial.SetVector("_CracksPosition", coordinate);
+    }
+
+    public int GetCrakcsIndex(float miningTime, float maxTime)
+    {
+        int tileIndex = (int)(miningTime / (maxTime / maxDamage));
+        return tileIndex < maxDamage ? tileIndex : maxDamage - 1;
     }
 }
 

@@ -18,6 +18,8 @@ MonoBehaviour:
     amount: 2
   - itemType: 1101
     amount: 3
+  - itemType: 1100
+    amount: 3
   itemForme: 2
   itemType: 1012
   maxNumberStacks: 1

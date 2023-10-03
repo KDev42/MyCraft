@@ -276,12 +276,12 @@ public class WorldGenerator : MonoBehaviour
 
         Vector3 pos = new Vector3(coord,10, coord);
 
-        mineCoordinate = gameWorld.GetBlockCoordinate(pos);
-        mineChunkCoordinate = gameWorld.GetChunckCoordinate(mineCoordinate);
-
-        houseCoordinate = mineCoordinate;
-        houseCoordinate.x -= 30;
+        houseCoordinate = gameWorld.GetBlockCoordinate(pos); 
         houseChunkCoordinate = gameWorld.GetChunckCoordinate(houseCoordinate);
+
+        mineCoordinate = houseCoordinate;
+        mineCoordinate.x -= 30;
+        mineChunkCoordinate = gameWorld.GetChunckCoordinate(mineCoordinate);
     }
 
 

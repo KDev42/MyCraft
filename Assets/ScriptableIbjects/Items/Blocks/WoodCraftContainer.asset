@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: WoodCraftContainer
   m_EditorClassIdentifier: 
   items:
+  - {fileID: 11400000, guid: a81907c0e90e1a84a8fe5dbc48cf8b82, type: 2}
   - {fileID: 11400000, guid: b2f3d800fedd4a54ca125e0ee1853563, type: 2}
   - {fileID: 11400000, guid: b988ec21ceb4ea543a35713a17e4b2f0, type: 2}
   - {fileID: 11400000, guid: 4d2be192d9498884dbe17efc720c0695, type: 2}

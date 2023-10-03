@@ -17,13 +17,14 @@ public class FixedTouchField : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         PointerId = eventData.pointerId;
         PointerOld = eventData.position;
 
-#if UNITY_ANDROID
-        if (Input.touches[PointerId].phase !=TouchPhase.Moved)
+        if (Application.isMobilePlatform)
         {
-            touchDown = true;
-            holdDown = true;
+            if (Input.touches[PointerId].phase != TouchPhase.Moved)
+            {
+                touchDown = true;
+                holdDown = true;
+            }
         }
-#endif
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -51,12 +52,13 @@ public class FixedTouchField : MonoBehaviour, IPointerDownHandler, IPointerUpHan
                 PointerOld = Input.mousePosition;
             }
 
-#if UNITY_ANDROID
+        if (Application.isMobilePlatform)
+        {
             if (Input.touches[PointerId].phase == TouchPhase.Moved)
             {
                 holdDown = false;
             }
-#endif
+            }
         }
         else
         {

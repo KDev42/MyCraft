@@ -39,7 +39,6 @@ public class ParticlesFactory : MonoBehaviour
     {
         Texture2D tileTexture = new Texture2D(particleTextureSize, particleTextureSize);
         Color[] colorArray = blocksTexture.GetColorArray(x, y, tileSize, particleTextureSize);
-
         tileTexture.GetTileTexture(colorArray, particleTextureSize);
 
         particleSystem.material.mainTexture = tileTexture;
