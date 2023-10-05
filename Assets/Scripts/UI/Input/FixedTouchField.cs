@@ -4,12 +4,23 @@ using UnityEngine.EventSystems;
 public class FixedTouchField : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     public bool Pressed;
-    public bool touchDown;
-    public bool touchUp;
-    public bool holdDown;
+    //public bool touchDown;
+    //public bool touchUp;
+    //public bool holdDown;
     public Vector2 touchDirection;
     private Vector2 PointerOld;
     private int PointerId;
+    private float distanceMove = 0.5f;
+
+    public enum TouchState
+    {
+        none,
+        touchDown,
+        touchUp,
+        holdDown,
+    }
+
+    public TouchState touchState;
 
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -19,11 +30,7 @@ public class FixedTouchField : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
         if (Application.isMobilePlatform)
         {
-            if (Input.touches[PointerId].phase != TouchPhase.Moved)
-            {
-                touchDown = true;
-                holdDown = true;
-            }
+            touchState = TouchState.touchDown; 
         }
     }
 
@@ -31,9 +38,9 @@ public class FixedTouchField : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     {
         Pressed = false;
 
-        if (holdDown)
+        if (touchState != TouchState.touchUp)
         {
-            touchUp = true;
+            touchState = TouchState.touchUp;
         }
     }
 
@@ -45,19 +52,16 @@ public class FixedTouchField : MonoBehaviour, IPointerDownHandler, IPointerUpHan
             {
                 touchDirection = Input.touches[PointerId].position - PointerOld;
                 PointerOld = Input.touches[PointerId].position;
+
+                if (touchDirection.magnitude> distanceMove && Input.touches[PointerId].phase == TouchPhase.Moved)
+                {
+                    touchState = TouchState.touchUp;
+                }
             }
             else
             {
                 touchDirection = new Vector2(Input.mousePosition.x, Input.mousePosition.y) - PointerOld;
                 PointerOld = Input.mousePosition;
-            }
-
-        if (Application.isMobilePlatform)
-        {
-            if (Input.touches[PointerId].phase == TouchPhase.Moved)
-            {
-                holdDown = false;
-            }
             }
         }
         else
@@ -65,6 +69,6 @@ public class FixedTouchField : MonoBehaviour, IPointerDownHandler, IPointerUpHan
             touchDirection = new Vector2();
         }
 
-        return touchDirection;
+        return touchDirection.normalized;
     }
 }

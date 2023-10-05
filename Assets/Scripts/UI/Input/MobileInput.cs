@@ -57,17 +57,17 @@ public class MobileInput : InputController
 
     private void TouckInput()
     {
-        if (touchField.touchDown)
+        if (touchField.touchState == FixedTouchField.TouchState.touchDown)
         {
             Press();
-            touchField.touchDown = false;
+            touchField.touchState = FixedTouchField.TouchState.holdDown;
         }
-        if (touchField.touchUp)
+        if (touchField.touchState == FixedTouchField.TouchState.touchUp)
         {
             Unpress();
-            touchField.touchUp = false;
+            touchField.touchState = FixedTouchField.TouchState.none;
         }
-        if (touchField.holdDown)
+        if (touchField.touchState == FixedTouchField.TouchState.holdDown)
         {
             HoldDown();
         }

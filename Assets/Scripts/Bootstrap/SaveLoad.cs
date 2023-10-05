@@ -207,11 +207,11 @@ public class GameSettings
 {
     public int renderDistance = 3;
 
-    [Range(200, 2000)]
-    public float sens  = 600;
+    [Range(20, 600)]
+    public float sens  = 80;
 
     [Range(0f, 1f)]
-    public float soundValue = 0.7f;
+    public float soundValue = 0.6f;
 }
 
 [Serializable]

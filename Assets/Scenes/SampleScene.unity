@@ -1599,7 +1599,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -3068,8 +3068,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 62.8737}
-  m_SizeDelta: {x: 0, y: -125.7473}
+  m_AnchoredPosition: {x: 98.18558, y: 62.873688}
+  m_SizeDelta: {x: -216.482, y: -125.7473}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &385016039
 CanvasRenderer:
@@ -3092,10 +3092,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Pressed: 0
-  touchDown: 0
-  touchUp: 0
-  holdDown: 0
   touchDirection: {x: 0, y: 0}
+  touchState: 0
 --- !u!114 &385016041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8862,8 +8860,8 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.1
-  far clip plane: 100
+  near clip plane: 0.05
+  far clip plane: 80
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -9937,7 +9935,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.5566038, g: 0.18640977, b: 0.18640977, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -11134,15 +11132,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5375876622709217952, guid: 956c65e33196ad8429d0918888d1025b, type: 3}
       propertyPath: m_Value
-      value: 200
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 5375876622709217952, guid: 956c65e33196ad8429d0918888d1025b, type: 3}
       propertyPath: m_MaxValue
-      value: 2000
+      value: 600
       objectReference: {fileID: 0}
     - target: {fileID: 5375876622709217952, guid: 956c65e33196ad8429d0918888d1025b, type: 3}
       propertyPath: m_MinValue
-      value: 200
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5599318968488641649, guid: 956c65e33196ad8429d0918888d1025b, type: 3}
       propertyPath: m_Name
@@ -17583,7 +17581,7 @@ PrefabInstance:
       objectReference: {fileID: 2209093555315710499}
     - target: {fileID: 1024370285367091025, guid: ff0c17223ca9b024b8dce3ceb60603f6, type: 3}
       propertyPath: yMaxAngle
-      value: 80
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 1024370285367091025, guid: ff0c17223ca9b024b8dce3ceb60603f6, type: 3}
       propertyPath: yMinAngle
@@ -17607,7 +17605,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1024370285367091025, guid: ff0c17223ca9b024b8dce3ceb60603f6, type: 3}
       propertyPath: cameraOffset.z
-      value: 0.15
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 1024370285367091025, guid: ff0c17223ca9b024b8dce3ceb60603f6, type: 3}
       propertyPath: highlightBlock

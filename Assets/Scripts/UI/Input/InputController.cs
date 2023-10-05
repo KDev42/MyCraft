@@ -64,6 +64,7 @@ public class InputController : MonoBehaviour
 	{
 		timePress = Time.time;
 	}
+
 	protected void HoldDown()
 	{
 		if (!isMining && Time.time - timePress >= minPressingTime)

@@ -63,32 +63,35 @@ public class ItemSlot:MonoBehaviour,IDropHandler
     public void OnDrop(PointerEventData eventData)
     {
         Debug.Log("GGGGGG 2");
-        DraggableItem draggableItem = eventData.pointerDrag.GetComponent<DraggableItem>();
-        ItemSlot dropItemSlot = draggableItem.ParentSlot;
-        ItemStack dropItemStack = dropItemSlot.ItemStack;
+        if (eventData.pointerDrag.GetComponent<DraggableItem>())
+        {
+            DraggableItem draggableItem = eventData.pointerDrag.GetComponent<DraggableItem>();
+            ItemSlot dropItemSlot = draggableItem.ParentSlot;
+            ItemStack dropItemStack = dropItemSlot.ItemStack;
 
-        ItemStack cloneDropItemStack = new ItemStack(dropItemStack.itemType, dropItemStack.amount);
-        if (IsEmpty)
-        {
-            ChangeItem(cloneDropItemStack);
-            dropItemSlot.DeleteItem();
-        }
-        else
-        {
-            ItemStack cloneItemStack = new ItemStack(ItemStack.itemType, ItemStack.amount);
-            ChangeItem(cloneDropItemStack);
-            dropItemSlot.ChangeItem(cloneItemStack);
-        }
+            ItemStack cloneDropItemStack = new ItemStack(dropItemStack.itemType, dropItemStack.amount);
+            if (IsEmpty)
+            {
+                ChangeItem(cloneDropItemStack);
+                dropItemSlot.DeleteItem();
+            }
+            else
+            {
+                ItemStack cloneItemStack = new ItemStack(ItemStack.itemType, ItemStack.amount);
+                ChangeItem(cloneDropItemStack);
+                dropItemSlot.ChangeItem(cloneItemStack);
+            }
 
-        draggableItem.BackToParent();
+            draggableItem.BackToParent();
 
-        if (isToolbarSlot)
-        {
-            EventsHolder.ChangeToolbar(IndexSlot);
-        }
-        if (dropItemSlot.isToolbarSlot)
-        {
-            EventsHolder.ChangeToolbar(dropItemSlot.IndexSlot);
+            if (isToolbarSlot)
+            {
+                EventsHolder.ChangeToolbar(IndexSlot);
+            }
+            if (dropItemSlot.isToolbarSlot)
+            {
+                EventsHolder.ChangeToolbar(dropItemSlot.IndexSlot);
+            }
         }
     }
 
