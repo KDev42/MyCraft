@@ -8,7 +8,7 @@ public class PCInput : InputController
 {
     private void Update()
     {
-        if (isGameUI)
+        if (isGameUI && !isBlock)
         {
             if(!settingsIsOpen && !windowIsOpen)
             {
@@ -96,7 +96,7 @@ public class PCInput : InputController
 
     private void LockCursor()
     {
-        Debug.Log("lock");
+        //Debug.Log("lock");
         if (isGameUI)
         {
             Cursor.lockState = CursorLockMode.Locked;
@@ -106,7 +106,7 @@ public class PCInput : InputController
 
     private void UnlockCursor()
     {
-        Debug.Log("unlock");
+        //Debug.Log("unlock");
         if (isGameUI)
         {
             Cursor.lockState = CursorLockMode.None;
@@ -145,17 +145,17 @@ public class PCInput : InputController
 
     private void KeyboardInput()
     {
-        if (!settingsIsOpen)
-        {
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                OpenInventory();
-            }
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                OpenCraft();
-            }
-        }
+        //if (!settingsIsOpen)
+        //{
+        //    if (Input.GetKeyDown(KeyCode.E))
+        //    {
+        //        OpenInventory();
+        //    }
+        //    if (Input.GetKeyDown(KeyCode.R))
+        //    {
+        //        OpenCraft();
+        //    }
+        //}
 
         if (!windowIsOpen)
         {
@@ -175,10 +175,10 @@ public class PCInput : InputController
             {
                 SaveWorld();
             }
-            if (Input.GetKeyDown(KeyCode.T))
-            {
-                GetReward();
-            }
+            //if (Input.GetKeyDown(KeyCode.T))
+            //{
+            //    GetReward();
+            //}
         }
     }
 

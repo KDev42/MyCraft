@@ -29,7 +29,7 @@ public class Player : MonoBehaviour
     private Vector2 sens;
     private Vector2 direction;
     private Vector2 lookDirection;
-    private Vector3 velocity;
+    //private Vector3 velocity;
     private Vector3 impactPoint;
     private Vector3Int minedBlockCoordinate;
     private Coroutine delayMine;
@@ -52,7 +52,7 @@ public class Player : MonoBehaviour
     {
         EventsHolder.moveInput += GetMotionInput;
         EventsHolder.attackDirectionInput += GetAttackDirectionInput;
-        EventsHolder.jump = Jump;
+        EventsHolder.jump += Jump;
         EventsHolder.attack += Attack;
         EventsHolder.startMine += StartMine;
         EventsHolder.stopMine += StopMine;
@@ -60,8 +60,6 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        //QualitySettings.vSyncCount = 0;
-        //Application.targetFrameRate = 30;
         mainCamera.parent = transform;
         mainCamera.localPosition = cameraOffset;
         mainCamera.rotation = new Quaternion(0, 0, 0, 0);
@@ -74,11 +72,11 @@ public class Player : MonoBehaviour
         //if (Input.GetMouseButtonDown(1))
         //    world.DestroyBlock(highlightBlock.position);
 
-        velocity = move.CalculateVelocity(direction, lookDirection, world);
+        //move.CalculateVelocity(direction, lookDirection, world);
 
-        transform.Translate(velocity, Space.World);
+        //transform.Translate(velocity, Space.World);
 
-        move.CheckPosition();
+        //move.CheckPosition();
         PlaceCursorBlocks();
         CheckMinigBlock();
 
@@ -93,11 +91,12 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
+        move.CalculateVelocity(direction, lookDirection, world);
     }
 
     private void GetMotionInput(Vector2 direction)
     {
-        this.direction = new Vector3(direction.x,  direction.y,0);
+        this.direction = new Vector3(direction.x,  direction.y,0).normalized;
     }
 
     private void GetAttackDirectionInput(Vector2 direction)
@@ -123,7 +122,7 @@ public class Player : MonoBehaviour
             ItemBlock itemBlock = item as ItemBlock;
             world.AddBlock(placeBlock.position, itemBlock.blockType);
 
-            PlayerData.RemoveItem(hand.itemType, 1);
+            //PlayerData.RemoveItem(hand.itemType, 1);
         }
     }
 

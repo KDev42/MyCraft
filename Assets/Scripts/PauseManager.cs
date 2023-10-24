@@ -8,12 +8,13 @@ public class PauseManager : MonoBehaviour
 
     public void PauseGame()
     {
-        inputController.InputReset();
+        inputController.LockInput();
         Time.timeScale = 0;
     }
 
     public void ResumeGame()
     {
         Time.timeScale = 1;
+        inputController.UnlockInput();
     }
 }

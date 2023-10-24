@@ -2,13 +2,12 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class BoxCollision 
+public class BoxCollision :MonoBehaviour
 {
-    //https://habr.com/ru/articles/509568/
     //поворот вектора кватернионом
 
     //главный метод
-    public static Vector3 Collision(Box box1, Box box2)
+    public Vector3 Collision(Box box1, Box box2)
     {
         //получаем позицию центра кубов
         var point = GetPoint(box1);
@@ -19,7 +18,7 @@ public static class BoxCollision
         return IntersectionOfProj(point, point2, axis);
     }
 
-    private static Vector3 QuanRotation(Vector3 v, Quaternion q)
+    private Vector3 QuanRotation(Vector3 v, Quaternion q)
     {
         float u0 = v.x * q.x + v.y * q.y + v.z * q.z;
         float u1 = v.x * q.w - v.y * q.z + v.z * q.y;
@@ -35,17 +34,20 @@ public static class BoxCollision
         return resultVector;
     }
     //проекция точки v на ветор a
-    private static float ProjVector3(Vector3 v, Vector3 a)
+    private float ProjVector3(Vector3 v, Vector3 a)
     {
         a = a.normalized;
+        //Debug.Log( "v " + v + " a " + a + " DDDDDDDDDDDDDDDD " + Vector3.Dot(v, a) / a.magnitude);
         return Vector3.Dot(v, a) / a.magnitude;
 
     }
-    private static Vector3[] GetPoint(Box box)
+    private Vector3[] GetPoint(Box box)
     {
         //Vector3 center = box.Center;
         //Quaternion q = box.Quaternion;
         //Vector3 size = box.Size;
+
+        //Debug.Log("Box size " + box.Size + " Box center " + box.Center) ;
 
         Vector3[] point = new Vector3[8];
 
@@ -64,11 +66,14 @@ public static class BoxCollision
         //поворачиваем вершины кватернионом
         for (int i = 0; i < 8; i++)
         {
+            //Debug.Log("point in = " + point[i] + " i = " + i);
             point[i] -= box.Center;//перенос центра в начало координат
 
             point[i] = QuanRotation(point[i], box.Quaternion);//поворот
 
             point[i] += box.Center;//обратный перенос
+
+            //Debug.Log("point out = " + point[i] + " i = " + i);
         }
 
         return point;
@@ -76,7 +81,7 @@ public static class BoxCollision
 
 
     //получение возможных разделяющих осей 
-    private static List<Vector3> GetAxis(Vector3[] a, Vector3[] b)
+    private List<Vector3> GetAxis(Vector3[] a, Vector3[] b)
     {
         //ребра
         Vector3 A;
@@ -115,7 +120,7 @@ public static class BoxCollision
         return Axis;
     }
     //проекция на оси
-    private static void ProjAxis(out float min, out float max, Vector3[] points, Vector3 Axis)
+    private void ProjAxis(out float min, out float max, Vector3[] points, Vector3 Axis)
     {
         max = ProjVector3(points[0], Axis);
         min = ProjVector3(points[0], Axis);
@@ -134,9 +139,9 @@ public static class BoxCollision
         }
     }
     //определение пересечений
-    private static Vector3 IntersectionOfProj(Vector3[] a, Vector3[] b, List<Vector3> Axis)
+    private Vector3 IntersectionOfProj(Vector3[] a, Vector3[] b, List<Vector3> Axis)
     {
-        Vector3 norm = new Vector3(1000, 1000, 1000);
+        Vector3 norm = new Vector3(10, 10, 10);
         //простым нахождение мин. и макс. точек куба по заданной оси
         for (int j = 0; j < Axis.Count; j++)
         {
@@ -154,15 +159,16 @@ public static class BoxCollision
             Array.Sort(points);
 
             float sum = (max_b - min_b) + (max_a - min_a);
-            float len = Math.Abs(points[3] - points[0]);
+            float len = (float)Math.Abs(points[3] - points[0]);
 
+            //Debug.Log("mxb " + max_b + " mb "+ min_b + " mxa "+ max_a + " ma" + min_a + " s " + sum + " l " + len);
             if (sum <= len)
             {
                 //разделяющая ось существует
                 // объекты не пересекаются
                 return new Vector3(0, 0, 0);
             }
-            float dl = Math.Abs(points[2] - points[1]);
+            float dl = (float)Math.Abs(points[2] - points[1]);
             if (dl < norm.magnitude)
             {
                 norm = Axis[j] * dl;
@@ -176,6 +182,7 @@ public static class BoxCollision
     }
 }
 
+[Serializable]
 public class Box
 {
     public Vector3 Center;

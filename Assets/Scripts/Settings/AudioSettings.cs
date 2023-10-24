@@ -21,7 +21,7 @@ public static class AudioSettings
     {
         //Music = RuntimeManager.GetBus("bus:/Master/Music");
 
-        if (false)
+        //if (false)
         {
             var result = FMODUnity.RuntimeManager.CoreSystem.mixerSuspend();
             Debug.Log(result);
@@ -58,6 +58,7 @@ public static class AudioSettings
 
     public static void SFXVolumeLevel(float newSFXVolume)
     {
+        //Debug.Log("audio = " + newSFXVolume);
         try
         {
             SFX.setVolume(newSFXVolume);

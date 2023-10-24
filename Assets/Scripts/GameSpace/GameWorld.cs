@@ -120,7 +120,7 @@ public class GameWorld : MonoBehaviour
             Vector3Int blockCoordinate = GetBlockLocalCoordinate(chunkCoordinate, position);
             activeChunkDatas[chunkCoordinate].chunkRenderer.SpawnBlock(blockCoordinate, BlockType.air);
 
-            EventsHolder.BrokenBlock(blockType, GetBlockCoordinate(position));
+            //EventsHolder.BrokenBlock(blockType, GetBlockCoordinate(position));
 
             saveLoad.AddBlockToSave(chunkCoordinate, MyMath.GetBlockCoordinate(blockCoordinate), BlockType.air);
         }

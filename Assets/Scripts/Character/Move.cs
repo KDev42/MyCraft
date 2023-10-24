@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(HitBox))]
 public class Move : MonoBehaviour
 {
     [SerializeField] float walkSpeed = 3f;
@@ -11,7 +10,8 @@ public class Move : MonoBehaviour
     //[SerializeField] float boundsTolerance = 0.1f;
     [SerializeField] float characterWidth = 0.25f;
     [SerializeField] float characterHeight = 2;
-    [SerializeField] HitBox hitBox;
+    [SerializeField] PhysicalBody physicalBody;
+    //[SerializeField] HitBox hitBox;
 
     private bool isGrounded;
     private bool isSprinting;
@@ -21,34 +21,26 @@ public class Move : MonoBehaviour
     private GameWorld gameWorld;
 
     private float gravity => WorldConstants.gravity;
-    private bool isFly;
 
-    private void Update()
-    {
-        if (Input.GetKeyDown("f"))
-        {
-            isFly = !isFly;
-        }
-    }
-
-    public Vector3 CalculateVelocity(Vector2 directionMove, Vector2 directionLook, GameWorld gameWorld)
+    public void CalculateVelocity(Vector2 directionMove, Vector2 directionLook, GameWorld gameWorld)
     {
         //hitBox.BoxVertices();
         this.gameWorld = gameWorld;
         // Affect vertical momentum with gravity.
         if (verticalMomentum > gravity)
-            verticalMomentum += Time.deltaTime * gravity;
+        {
+            verticalMomentum += Time.fixedDeltaTime * gravity;
+        }
 
         // if we're sprinting, use the sprint multiplier.
         if (isSprinting)
-            velocity = ((transform.forward * directionMove.y) + (transform.right * directionMove.x)) * Time.deltaTime * sprintSpeed;
+            velocity = ((transform.forward * directionMove.y) + (transform.right * directionMove.x)) * sprintSpeed * Time.fixedDeltaTime;
         else
-            velocity = ((transform.forward * directionMove.y) + (transform.right * directionMove.x)) * Time.deltaTime * walkSpeed;
+            velocity = ((transform.forward * directionMove.y) + (transform.right * directionMove.x)) * walkSpeed * Time.fixedDeltaTime;
 
         // Apply vertical momentum (falling/jumping).
-
-        if (!isFly)
-            velocity += Vector3.up * verticalMomentum * Time.deltaTime;
+        velocity += Vector3.up * verticalMomentum * Time.fixedDeltaTime;
+        physicalBody.Move(velocity, gameWorld, ref isGrounded);
 
         //if ((velocity.z > 0 && Front) 
         //    || (velocity.z < 0 && Back))
@@ -63,14 +55,14 @@ public class Move : MonoBehaviour
         //    velocity.y = CheckUpSpeed(velocity.y);
 
         //Vector3 vel = hitBox.MoveHitBox(new Vector3(directionMove.x, velocity.y, directionMove.y), ref isGrounded);
-        Vector3 vel;
+        //Vector3 vel;
 
         //if (directionMove.x != 0 || directionMove.y != 0)
-        vel = hitBox.GetHitSides(velocity, ref isGrounded);
+        //vel = hitBox.GetHitSides(velocity, ref isGrounded);
         //else
         //    vel = new Vector3(0, 0, 0);
-        AutoJump(velocity, vel);
-        return MultiplayVectors(velocity, vel);
+        //AutoJump(velocity, vel);
+        //return MultiplayVectors(velocity, vel);
     }
 
     private Vector3 MultiplayVectors(Vector3 v1, Vector3 v2)
@@ -88,27 +80,27 @@ public class Move : MonoBehaviour
         }
     }
 
-    private void AutoJump(Vector3 velocity, Vector3 direction)
-    {
-        if (isGrounded && (
-            (velocity.x != 0 && direction.x == 0)||
-            (velocity.z != 0 && direction.z == 0)))
-        {
-            velocity.y = 1.1f;
-            //if (directionMove.x != 0 || directionMove.y != 0)
+    //private void AutoJump(Vector3 velocity, Vector3 direction)
+    //{
+    //    if (isGrounded && (
+    //        (velocity.x != 0 && direction.x == 0)||
+    //        (velocity.z != 0 && direction.z == 0)))
+    //    {
+    //        velocity.y = 1.1f;
+    //        //if (directionMove.x != 0 || directionMove.y != 0)
            
-            if (hitBox.CanPlacePosition(velocity))
-                Jump();
-        }
-    }
+    //        if (hitBox.CanPlacePosition(velocity))
+    //            Jump();
+    //    }
+    //}
 
-    public void CheckPosition()
-    {
-        if (gameWorld.IsSolidBlock(transform.position))
-        {
-            PushUp();
-        }
-    }
+    //public void CheckPosition()
+    //{
+    //    if (gameWorld.IsSolidBlock(transform.position))
+    //    {
+    //        PushUp();
+    //    }
+    //}
 
     private Vector3Int CurrentCoordinate( Vector3 position)
     {
@@ -118,39 +110,5 @@ public class Move : MonoBehaviour
     private void PushUp()
     {
         //Jump();
-    }
-
-    private float CheckDownSpeed(float downSpeed)
-    {
-        if ((gameWorld.IsSolidBlock(new Vector3(transform.position.x - characterWidth, transform.position.y + downSpeed, transform.position.z - characterWidth)) ||
-            gameWorld.IsSolidBlock(new Vector3(transform.position.x + characterWidth, transform.position.y + downSpeed, transform.position.z - characterWidth)) ||
-            gameWorld.IsSolidBlock(new Vector3(transform.position.x + characterWidth, transform.position.y + downSpeed, transform.position.z + characterWidth)) ||
-            gameWorld.IsSolidBlock(new Vector3(transform.position.x - characterWidth, transform.position.y + downSpeed, transform.position.z + characterWidth))) &&
-            gameWorld.HasObstacles(transform.position, DirectionType.down, 2, 1))
-        {
-            isGrounded = true;
-            return 0;
-        }
-        else
-        {
-            isGrounded = false;
-            return downSpeed;
-        }
-    }
-
-    private float CheckUpSpeed(float upSpeed)
-    {
-        if ((gameWorld.IsSolidBlock(new Vector3(transform.position.x - characterWidth, transform.position.y + characterHeight + upSpeed, transform.position.z - characterWidth)) ||
-            gameWorld.IsSolidBlock(new Vector3(transform.position.x + characterWidth, transform.position.y + characterHeight + upSpeed, transform.position.z - characterWidth)) ||
-            gameWorld.IsSolidBlock(new Vector3(transform.position.x + characterWidth, transform.position.y + characterHeight + upSpeed, transform.position.z + characterWidth)) ||
-            gameWorld.IsSolidBlock(new Vector3(transform.position.x - characterWidth, transform.position.y + characterHeight + upSpeed, transform.position.z + characterWidth))) ||
-            gameWorld.HasObstacles(transform.position, DirectionType.up, 2, 1))
-        {
-            return 0;
-        }
-        else
-        {
-            return upSpeed;
-        }
     }
 }

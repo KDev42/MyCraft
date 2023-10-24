@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class WorldConstants 
 {
-    public const float gravity = -9.81f;
+    public const float gravity = -9.8f;
 
     public const int chunkWidth = 16;
     public const int chunkHeight = 128;

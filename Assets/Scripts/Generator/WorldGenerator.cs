@@ -99,8 +99,10 @@ public class WorldGenerator : MonoBehaviour
 
     public void AddQueue(List<Vector2Int> positions, Action callback = null)
     {
+        //Debug.Log("add chunk count" + positions.Count);
         foreach (Vector2Int position in positions)
         {
+            //Debug.Log("add chunk " + position);
             if (!toCreate.Contains(position))
             {
                 toCreate.Add(position);
@@ -144,7 +146,6 @@ public class WorldGenerator : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
 
-        Debug.Log("created");
         GenerationStructures();
     }
 
@@ -152,11 +153,11 @@ public class WorldGenerator : MonoBehaviour
     {
         foreach(var cnunk in toGenerate)
         {
-            if (cnunk.Key.x == mineChunkCoordinate.x && cnunk.Key.y == mineChunkCoordinate.y)
-            {
-                mineCoordinate.y = 50;
-                chunkGenerator.AddStructure(mineCoordinate, cnunk.Value, BlockStructureType.Mine);
-            }
+            //if (cnunk.Key.x == mineChunkCoordinate.x && cnunk.Key.y == mineChunkCoordinate.y)
+            //{
+            //    mineCoordinate.y = 50;
+            //    chunkGenerator.AddStructure(mineCoordinate, cnunk.Value, BlockStructureType.Mine);
+            //}
 
             if (cnunk.Key.x == houseChunkCoordinate.x && cnunk.Key.y == houseChunkCoordinate.y)
             {
@@ -217,7 +218,6 @@ public class WorldGenerator : MonoBehaviour
     {
         if (!heroIsSpawn)
         {
-            Debug.Log("Spawn");
             heroIsSpawn = true;
             SpawnPlayer();
         }
@@ -245,8 +245,9 @@ public class WorldGenerator : MonoBehaviour
     private void SpawnPlayer()
     {
         // marker.End();
-        playerPosition.y =  GrassCoordinate((int)playerPosition.x, (int)playerPosition.z);
+        playerPosition.y = GrassCoordinate((int)playerPosition.x, (int)playerPosition.z) + 5;
 
+        Debug.Log("Spawn" + playerPosition);
         player.transform.position = playerPosition;
         player.SetActive(true);
         gameData.player = player;

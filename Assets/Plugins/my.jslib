@@ -72,11 +72,10 @@ mergeInto(LibraryManager.library, {
         },
         onRewarded: () => {
           console.log("Rewarded!");
-          myGameInstance.SendMessage("Ads", "SetReward");
         },
         onClose: () => {
           console.log("Video ad closed.");
-          myGameInstance.SendMessage("Ads", "ResumeGame");
+          myGameInstance.SendMessage("Ads", "SetReward");
         },
         onError: (e) => {
           console.log("Error while open video ad:", e);

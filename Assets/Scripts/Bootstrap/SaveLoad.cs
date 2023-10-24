@@ -100,9 +100,11 @@ public class SaveLoad : MonoBehaviour
         {
             worldSettings = new WorldSettings();
 #if UNITY_EDITOR
-            StartTool();
+            //StartTool();
 #endif
         }
+
+        StartTool();
 
         return worldSettings;
         //ClearWorld();
@@ -182,13 +184,43 @@ public class SaveLoad : MonoBehaviour
 
     private void StartTool()
     {
-        worldSettings.handInventory[0] = new ItemStack(ItemType.woodPick, 1);
-        worldSettings.handInventory[1] = new ItemStack(ItemType.stonePick, 1);
-        worldSettings.handInventory[2] = new ItemStack(ItemType.ironPick, 1);
-        worldSettings.handInventory[3] = new ItemStack(ItemType.goldPick, 1);
-        worldSettings.handInventory[4] = new ItemStack(ItemType.diamondPick, 1);
-        worldSettings.handInventory[5] = new ItemStack(ItemType.diamondAxe, 1);
-        worldSettings.handInventory[6] = new ItemStack(ItemType.diamondShovel, 1);
+        worldSettings.handInventory[0] = new ItemStack(ItemType.grassBlock, 1);
+        worldSettings.handInventory[1] = new ItemStack(ItemType.dirtBlock, 1);
+        worldSettings.handInventory[2] = new ItemStack(ItemType.oakLogBlock, 1);
+        worldSettings.handInventory[3] = new ItemStack(ItemType.oakPlanksBlock, 1);
+        worldSettings.handInventory[4] = new ItemStack(ItemType.strippedOakLogBlock, 1);
+        worldSettings.handInventory[5] = new ItemStack(ItemType.stoneBrickBlock, 1);
+        worldSettings.handInventory[6] = new ItemStack(ItemType.brickBlock, 1);
+        worldSettings.handInventory[7] = new ItemStack(ItemType.strippedBirckLogBlock, 1);
+        worldSettings.handInventory[8] = new ItemStack(ItemType.cobblestoneBlock, 1);
+
+        //worldSettings.mainInventory[0] = new ItemStack(ItemType.diamondBlock, 1);
+        //worldSettings.mainInventory[1] = new ItemStack(ItemType.goldBlock, 1);
+        //worldSettings.mainInventory[2] = new ItemStack(ItemType.ironBlock, 1);
+        //worldSettings.mainInventory[3] = new ItemStack(ItemType.lapisLazuliBlock, 1);
+        //worldSettings.mainInventory[4] = new ItemStack(ItemType.redstoneBlock, 1);
+        //worldSettings.mainInventory[5] = new ItemStack(ItemType.copperBlock, 1);
+        //worldSettings.mainInventory[6] = new ItemStack(ItemType.cutCopperBlock, 1);
+        //worldSettings.mainInventory[7] = new ItemStack(ItemType.oxidezedCopperBlock, 1);
+        //worldSettings.mainInventory[8] = new ItemStack(ItemType.oxizedCutCopperBlock, 1);
+        //worldSettings.mainInventory[9] = new ItemStack(ItemType.emeraldBlock, 1);
+        //worldSettings.mainInventory[10] = new ItemStack(ItemType.sandBlock, 64);
+        //worldSettings.mainInventory[11] = new ItemStack(ItemType.redSandBlock, 64);
+        //worldSettings.mainInventory[12] = new ItemStack(ItemType.oakLogBlock, 64);
+        //worldSettings.mainInventory[13] = new ItemStack(ItemType.stoneBlock, 64);
+        //worldSettings.mainInventory[14] = new ItemStack(ItemType.diamondBlock, 1);
+        //worldSettings.mainInventory[15] = new ItemStack(ItemType.diamondBlock, 1);
+        //worldSettings.mainInventory[16] = new ItemStack(ItemType.diamondBlock, 1);
+        //worldSettings.mainInventory[17] = new ItemStack(ItemType.diamondBlock, 1);
+        //worldSettings.mainInventory[18] = new ItemStack(ItemType.diamondBlock, 1);
+        //worldSettings.mainInventory[19] = new ItemStack(ItemType.diamondBlock, 1);
+        //worldSettings.mainInventory[20] = new ItemStack(ItemType.diamondBlock, 1);
+        //worldSettings.mainInventory[21] = new ItemStack(ItemType.diamondBlock, 1);
+        //worldSettings.mainInventory[22] = new ItemStack(ItemType.diamondBlock, 1);
+        //worldSettings.mainInventory[23] = new ItemStack(ItemType.diamondBlock, 1);
+        //worldSettings.mainInventory[24] = new ItemStack(ItemType.diamondBlock, 1);
+        //worldSettings.mainInventory[25] = new ItemStack(ItemType.diamondBlock, 1);
+        //worldSettings.mainInventory[26] = new ItemStack(ItemType.diamondBlock, 1);
     }
 }
 

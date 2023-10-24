@@ -49,13 +49,13 @@ public static class EventsHolder
 
     public static void StartMine()
     {
-        Debug.Log("Start Mine");
+        //Debug.Log("Start Mine");
         startMine?.Invoke();
     }
 
     public static void StopMine()
     {
-        Debug.Log("Stop Mine");
+        //Debug.Log("Stop Mine");
         stopMine?.Invoke();
     }
 

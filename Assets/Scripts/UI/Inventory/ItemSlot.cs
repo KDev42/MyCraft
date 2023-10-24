@@ -39,7 +39,7 @@ public class ItemSlot:MonoBehaviour,IDropHandler
         Item item = itemDatabase.GetItem(ItemStack.itemType);
 
         itemIcon.gameObject.SetActive(true);
-        amountTxt.gameObject.SetActive(true);
+        OnTxt();
         itemIcon.sprite = item.icon;
         amountTxt.text = "" + ItemStack.amount;
         IsEmpty = false;
@@ -49,7 +49,7 @@ public class ItemSlot:MonoBehaviour,IDropHandler
     {
         Inventory.RemoveAllItem(IndexSlot);
         itemIcon.gameObject.SetActive(false);
-        amountTxt.gameObject.SetActive(false);
+        OffTxt();
         itemIcon.sprite = null;
         amountTxt.text = "";
         IsEmpty = true;
@@ -103,12 +103,12 @@ public class ItemSlot:MonoBehaviour,IDropHandler
 
     public void OffTxt()
     {
-        amountTxt.gameObject.SetActive(false);
+        //amountTxt.gameObject.SetActive(false);
     }
 
     public void OnTxt()
     {
-        amountTxt.gameObject.SetActive(true);
+        //amountTxt.gameObject.SetActive(true);
     }
 }
 

@@ -18,6 +18,7 @@ public class InputController : MonoBehaviour
 		settings,
 	}
 
+	protected bool isBlock;
 	protected bool isGameUI;
 	protected bool windowIsOpen;
 	protected bool settingsIsOpen;
@@ -58,6 +59,17 @@ public class InputController : MonoBehaviour
 
 		MoveInput(new Vector2(0,0));
 		ViewDirectionInput(new Vector2(0,0));
+	}
+
+	public void LockInput()
+	{
+		InputReset();
+		isBlock = true;
+	}
+
+	public void UnlockInput()
+    {
+		isBlock = false;
 	}
 
 	protected void Press()

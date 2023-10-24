@@ -47,7 +47,7 @@ public class Mine : MonoBehaviour
         minedBlockPosition = miningBlock.blocPosition;
 
         startMinedBlock = Time.time;
-        blockMiningTime = miningBlock.blockInfo.miningTime;
+        blockMiningTime = 0;// miningBlock.blockInfo.miningTime;
         finishMineBlock = callback;
 
         if (item.itemForme == ItemForme.tool)
@@ -74,7 +74,7 @@ public class Mine : MonoBehaviour
         cracks.gameObject.SetActive(false);
 
         miningChunckMaterial.SetFloat("_CracksIndex", 0);
-        miningChunckMaterial.SetVector("_CracksPosition", new Vector4(-1,-1,-1,-1));
+        miningChunckMaterial.SetVector("_CracksPosition", new Vector4(-1, -1, -1, -1));
         anim?.SetBool("Mine", false);
     }
 
@@ -155,7 +155,7 @@ public class Mine : MonoBehaviour
 
         miningChunckMaterial = gameWorld.activeChunkDatas[chunkCoordinate].chunkRenderer.GetComponent<MeshRenderer>().material;
 
-        Debug.Log(coordinate);
+        //Debug.Log(coordinate);
         miningChunckMaterial.SetFloat("_CracksIndex", GetCrakcsIndex(Time.time - startMinedBlock, blockMiningTime));
         miningChunckMaterial.SetVector("_CracksPosition", coordinate);
     }
